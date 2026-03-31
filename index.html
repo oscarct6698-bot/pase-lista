@@ -5,16 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <title>Pase de Lista — Obra</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0a;font-family:system-ui,-apple-system,sans-serif}
-
-/* ── LOGIN ── */
 #screen-login{position:fixed;inset:0;background:#0f1a14;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;z-index:200}
-.login-logo{width:72px;height:72px;background:#1a3a2a;border-radius:20px;display:flex;align-items:center;justify-content:center;margin-bottom:20px}
-.login-logo svg{width:40px;height:40px;fill:#02C39A}
+.login-logo{width:72px;height:72px;background:#1a3a2a;border-radius:20px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-size:36px}
 .login-title{color:#fff;font-size:22px;font-weight:600;margin-bottom:4px;text-align:center}
 .login-sub{color:#666;font-size:13px;margin-bottom:32px;text-align:center}
 .login-card{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:16px;padding:24px;width:100%;max-width:340px}
@@ -22,12 +18,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0a;font-family:
 .login-field label{display:block;font-size:12px;color:#888;margin-bottom:6px;letter-spacing:.3px}
 .login-field input{width:100%;padding:12px 14px;background:#0f0f0f;border:1px solid #333;border-radius:10px;color:#fff;font-size:15px;outline:none}
 .login-field input:focus{border-color:#02C39A}
-.login-field select{width:100%;padding:12px 14px;background:#0f0f0f;border:1px solid #333;border-radius:10px;color:#fff;font-size:15px;outline:none;appearance:none}
 .login-err{color:#f87171;font-size:12px;margin-bottom:12px;text-align:center;display:none}
-.btn-login{width:100%;padding:14px;background:#02C39A;color:#003d2e;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.3px}
-.btn-login:active{opacity:.9}
-
-/* ── ADMIN PANEL ── */
+.btn-login{width:100%;padding:14px;background:#02C39A;color:#003d2e;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer}
 #screen-admin{position:fixed;inset:0;background:#0a0a0a;display:none;flex-direction:column;overflow:hidden}
 .admin-header{background:#1a3a2a;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
 .admin-header h1{color:#fff;font-size:15px;font-weight:500}
@@ -35,21 +27,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0a;font-family:
 .admin-tab{flex:1;padding:11px;font-size:12px;color:#666;text-align:center;cursor:pointer;border-bottom:2px solid transparent}
 .admin-tab.active{color:#02C39A;border-bottom-color:#02C39A}
 .admin-content{flex:1;overflow-y:auto;padding:16px}
-
-/* Admin — Checadores */
 .checker-card{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px}
 .checker-av{width:42px;height:42px;border-radius:50%;background:#1a3a2a;color:#02C39A;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;flex-shrink:0}
 .checker-info{flex:1}
 .checker-info strong{color:#fff;font-size:14px;display:block}
 .checker-info span{color:#666;font-size:12px}
 .btn-del{background:#2a1010;border:1px solid #4a2020;color:#f87171;padding:7px 12px;border-radius:8px;font-size:12px;cursor:pointer}
-.btn-add-checker{width:100%;padding:13px;background:#1a3a2a;border:1px solid #2a4a3a;color:#02C39A;border-radius:12px;font-size:14px;font-weight:500;cursor:pointer;margin-top:6px}
+.btn-add{width:100%;padding:13px;background:#1a3a2a;border:1px solid #2a4a3a;color:#02C39A;border-radius:12px;font-size:14px;font-weight:500;cursor:pointer;margin-top:6px}
 .add-form{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:16px;margin-top:10px;display:none}
 .add-form input{width:100%;padding:10px 12px;background:#0f0f0f;border:1px solid #333;border-radius:8px;color:#fff;font-size:14px;margin-bottom:10px;outline:none}
 .add-form input:focus{border-color:#02C39A}
 .btn-save{width:100%;padding:11px;background:#02C39A;color:#003d2e;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer}
-
-/* Admin — Registros */
 .reg-stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
 .reg-stat{background:#1a1a1a;border-radius:8px;padding:10px;text-align:center}
 .reg-stat-n{font-size:22px;font-weight:600;color:#fff}
@@ -67,83 +55,68 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0a;font-family:
 .b-ext{background:#451a03;color:#fed7aa}
 .dl-btn{width:100%;padding:13px;background:#1a3a2a;border:1px solid #2a4a3a;color:#02C39A;border-radius:12px;font-size:14px;font-weight:500;cursor:pointer;margin-top:14px}
 .empty-msg{color:#444;text-align:center;padding:32px 0;font-size:14px}
-
-/* ── CHECKER APP ── */
 #screen-checker{position:fixed;inset:0;background:#000;display:none;flex-direction:column}
 #cam-wrap{position:relative;width:100%;flex:1;min-height:0;background:#000;overflow:hidden}
 #video{width:100%;height:100%;object-fit:cover;display:block}
-#canvas-qr{display:none}
 .cam-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
-.qr-frame{width:210px;height:210px;position:relative}
+.qr-frame{width:220px;height:220px;position:relative}
 .qr-frame::before,.qr-frame::after{content:'';position:absolute;width:44px;height:44px;border-color:#02C39A;border-style:solid}
 .qr-frame::before{top:0;left:0;border-width:3px 0 0 3px;border-radius:5px 0 0 0}
 .qr-frame::after{bottom:0;right:0;border-width:0 3px 3px 0;border-radius:0 0 5px 0}
 .qr-corner{position:absolute;width:44px;height:44px;border-color:#02C39A;border-style:solid}
 .qr-corner.tr{top:0;right:0;border-width:3px 3px 0 0;border-radius:0 5px 0 0}
 .qr-corner.bl{bottom:0;left:0;border-width:0 0 3px 3px;border-radius:0 0 0 5px}
-.scan-line{position:absolute;left:4px;right:4px;height:2px;background:linear-gradient(90deg,transparent,#02C39A,transparent);animation:scan 2s linear infinite}
+.scan-line{position:absolute;left:4px;right:4px;height:2px;background:#02C39A;opacity:.8;animation:scan 2s linear infinite}
 @keyframes scan{0%{top:4px}100%{top:calc(100% - 6px)}}
-.cam-top{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:linear-gradient(#000a,transparent)}
-.cam-top-title{color:#fff;font-size:13px;font-weight:500;letter-spacing:.3px}
-.btn-logout-small{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;padding:5px 10px;border-radius:6px;font-size:11px;cursor:pointer}
-.status-pill{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.7);border:1px solid #333;border-radius:20px;padding:6px 16px;font-size:12px;color:#aaa;white-space:nowrap}
+.cam-top{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:linear-gradient(rgba(0,0,0,.7),transparent)}
+.cam-top-title{color:#fff;font-size:13px;font-weight:500}
+.btn-sm{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);color:#fff;padding:5px 10px;border-radius:6px;font-size:11px;cursor:pointer}
+.status-pill{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.75);border:1px solid #333;border-radius:20px;padding:6px 16px;font-size:12px;color:#ccc;white-space:nowrap;max-width:90%;text-align:center}
 #bottom-panel{background:#111;padding:14px;flex-shrink:0}
 .turno-row{display:flex;gap:8px;margin-bottom:12px}
 .turno-btn{flex:1;padding:9px;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid #2a2a2a;background:#1a1a1a;color:#666;text-align:center}
 .turno-btn.active{background:#c8a84b;color:#1a0f00;border-color:#c8a84b}
 #worker-card{display:none;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:14px;padding:14px;margin-bottom:12px}
-.wc-inner{display:flex;gap:12px;align-items:center;margin-bottom:12px}
-.wc-foto{width:68px;height:68px;border-radius:50%;object-fit:cover;border:3px solid #02C39A;flex-shrink:0;background:#222}
-.wc-initials{width:68px;height:68px;border-radius:50%;background:#1a3a2a;border:3px solid #555;flex-shrink:0;display:none;align-items:center;justify-content:center;font-size:24px;font-weight:600;color:#02C39A}
+.wc-inner{display:flex;gap:12px;align-items:center;margin-bottom:14px}
+.wc-foto{width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid #02C39A;flex-shrink:0;background:#222}
+.wc-ini{width:72px;height:72px;border-radius:50%;background:#1a3a2a;border:3px solid #555;flex-shrink:0;display:none;align-items:center;justify-content:center;font-size:26px;font-weight:600;color:#02C39A}
 .wc-info{flex:1;min-width:0}
-.wc-nombre{font-size:17px;font-weight:600;color:#fff;text-transform:capitalize;margin-bottom:2px;line-height:1.2}
+.wc-nombre{font-size:18px;font-weight:600;color:#fff;text-transform:capitalize;margin-bottom:3px;line-height:1.2}
 .wc-sub{font-size:13px;margin-bottom:2px}
 .wc-num{font-size:11px;color:#555}
 .btn-row{display:flex;gap:10px}
-.btn-confirm{flex:1;padding:15px;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer}
-.btn-confirm:active{opacity:.85}
+.btn-c{flex:1;padding:16px;border:none;border-radius:12px;font-size:17px;font-weight:700;cursor:pointer}
+.btn-c:active{opacity:.85;transform:scale(.98)}
 .btn-ok{background:#16a34a;color:#fff}
 .btn-bad{background:#dc2626;color:#fff}
 #extra-row{display:none;align-items:center;gap:10px;background:#1a1200;border:1px solid #c8a84b33;border-radius:9px;padding:10px 14px;margin-bottom:10px}
 #extra-row label{font-size:13px;color:#c8a84b;flex:1}
 #extra-row input[type=checkbox]{width:20px;height:20px;cursor:pointer;accent-color:#c8a84b}
-.btn-ver-lista{width:100%;padding:10px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:9px;color:#666;font-size:13px;cursor:pointer;margin-top:4px}
-#estado-txt{text-align:center;font-size:13px;color:#555;padding:4px 0 10px}
-
-/* Modal lista */
-#modal-lista{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:300;flex-direction:column}
+.btn-lista{width:100%;padding:10px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:9px;color:#666;font-size:13px;cursor:pointer;margin-top:4px}
+#estado-txt{text-align:center;font-size:13px;color:#555;padding:2px 0 10px}
+#modal-lista{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:300;flex-direction:column}
 #modal-lista.open{display:flex}
 .modal-head{background:#1a3a2a;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
 .modal-head h2{color:#fff;font-size:15px;font-weight:500}
-.modal-close{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1}
+.modal-close{background:none;border:none;color:#fff;font-size:22px;cursor:pointer}
 .modal-body{flex:1;overflow-y:auto;padding:14px}
 .modal-foot{padding:14px;flex-shrink:0}
 </style>
 </head>
 <body>
 
-<!-- ══ LOGIN ══ -->
 <div id="screen-login">
-  <div class="login-logo">
-    <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-  </div>
+  <div class="login-logo">📋</div>
   <div class="login-title">Pase de Lista</div>
   <div class="login-sub">Proyectos Ferroviarios · SEDENA</div>
   <div class="login-card">
-    <div class="login-field">
-      <label>USUARIO</label>
-      <input type="text" id="inp-user" placeholder="Usuario" autocomplete="username" autocapitalize="none">
-    </div>
-    <div class="login-field">
-      <label>CONTRASEÑA</label>
-      <input type="password" id="inp-pass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
-    </div>
+    <div class="login-field"><label>USUARIO</label><input type="text" id="inp-user" placeholder="Usuario" autocapitalize="none"></div>
+    <div class="login-field"><label>CONTRASEÑA</label><input type="password" id="inp-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
     <div class="login-err" id="login-err">Usuario o contraseña incorrectos</div>
     <button class="btn-login" onclick="doLogin()">Entrar</button>
   </div>
 </div>
 
-<!-- ══ ADMIN ══ -->
 <div id="screen-admin">
   <div class="admin-header">
     <h1>Panel Administrador</h1>
@@ -157,11 +130,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0a;font-family:
   <div class="admin-content" id="admin-content"></div>
 </div>
 
-<!-- ══ CHECKER ══ -->
 <div id="screen-checker">
   <div id="cam-wrap">
     <video id="video" autoplay playsinline muted></video>
-    <canvas id="canvas-qr"></canvas>
     <div class="cam-overlay">
       <div class="qr-frame">
         <div class="qr-corner tr"></div>
@@ -171,9 +142,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0a;font-family:
     </div>
     <div class="cam-top">
       <span class="cam-top-title">PASE DE LISTA — OBRA</span>
-      <button class="btn-logout-small" onclick="logout()">Salir</button>
+      <button class="btn-sm" onclick="logout()">Salir</button>
     </div>
-    <div class="status-pill" id="status-pill">Apunta al QR de la credencial</div>
+    <div class="status-pill" id="status-pill">Iniciando cámara...</div>
   </div>
   <div id="bottom-panel">
     <div class="turno-row">
@@ -181,14 +152,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0a;font-family:
       <div class="turno-btn" id="t-salida" onclick="setTurno('salida')">Salida</div>
     </div>
     <div id="estado-txt">Escaneando...</div>
-    <div id="extra-row">
-      <label>Registrar hora extra</label>
-      <input type="checkbox" id="chk-extra">
-    </div>
+    <div id="extra-row"><label>Registrar hora extra</label><input type="checkbox" id="chk-extra"></div>
     <div id="worker-card">
       <div class="wc-inner">
         <img id="wc-foto" class="wc-foto" src="" onerror="this.style.display='none';document.getElementById('wc-ini').style.display='flex'">
-        <div id="wc-ini" class="wc-initials"></div>
+        <div id="wc-ini" class="wc-ini"></div>
         <div class="wc-info">
           <div class="wc-nombre" id="wc-nombre"></div>
           <div class="wc-sub" id="wc-sub"></div>
@@ -196,376 +164,264 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0a;font-family:
         </div>
       </div>
       <div class="btn-row">
-        <button class="btn-confirm btn-bad" onclick="rechazar()">✕ Incorrecto</button>
-        <button class="btn-confirm btn-ok" id="btn-ok" onclick="confirmar()">✓ Correcto</button>
+        <button class="btn-c btn-bad" onclick="rechazar()">✕ Incorrecto</button>
+        <button class="btn-c btn-ok" id="btn-ok" onclick="confirmar()">✓ Correcto</button>
       </div>
     </div>
-    <button class="btn-ver-lista" onclick="abrirModal()">Ver registros del día ▸</button>
+    <button class="btn-lista" onclick="abrirModal()">Ver registros del día ▸</button>
   </div>
 </div>
 
-<!-- Modal lista checador -->
 <div id="modal-lista">
-  <div class="modal-head">
-    <h2>Registros del día</h2>
-    <button class="modal-close" onclick="cerrarModal()">✕</button>
-  </div>
-  <div class="modal-body">
-    <div class="reg-stat-row" id="m-stats"></div>
-    <div id="m-lista"></div>
-  </div>
-  <div class="modal-foot">
-    <button class="dl-btn" onclick="exportar()">Descargar .xlsx</button>
-  </div>
+  <div class="modal-head"><h2>Registros del día</h2><button class="modal-close" onclick="cerrarModal()">✕</button></div>
+  <div class="modal-body"><div class="reg-stat-row" id="m-stats"></div><div id="m-lista"></div></div>
+  <div class="modal-foot"><button class="dl-btn" onclick="exportar()">Descargar .xlsx</button></div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.19.1/umd/index.min.js"></script>
 <script>
-// ══════════════════════════════════════════════
-//  CONFIGURACIÓN — edita aquí
-// ══════════════════════════════════════════════
+// ══ CONFIG ══
 const CONFIG = {
   adminUser: 'admin',
   adminPass: 'Admin2025!',
   checadores: [
-    { user: 'checador1', pass: 'Check01!', nombre: 'Checador Zona 1' },
-    { user: 'checador2', pass: 'Check02!', nombre: 'Checador Zona 2' },
-  ],
-  apiBase: 'https://rh-2025.aifamx.com/consulta&',
-  apiSuffix: '&45584',
-  imgBase: 'https://rh-2025.aifamx.com/storage/',
+    {user:'checador1', pass:'Check01!', nombre:'Checador Zona 1'},
+    {user:'checador2', pass:'Check02!', nombre:'Checador Zona 2'},
+  ]
 };
 
-// ══════════════════════════════════════════════
-//  ESTADO
-// ══════════════════════════════════════════════
-let sesion = null;
-let turno = 'entrada';
-let registros = {};
-let trabajadorActual = null;
-let cooldown = false;
-let ultimoQR = '';
-let checadoresLocal = [...CONFIG.checadores];
+let sesion=null, turno='entrada', registros={}, trabajadorActual=null;
+let cooldown=false, ultimoQR='', codeReader=null;
+let checadoresLocal=[...CONFIG.checadores];
 
-// ══════════════════════════════════════════════
-//  LOGIN
-// ══════════════════════════════════════════════
+// ══ LOGIN ══
 function doLogin(){
-  const u = document.getElementById('inp-user').value.trim().toLowerCase();
-  const p = document.getElementById('inp-pass').value;
-  const err = document.getElementById('login-err');
-  err.style.display = 'none';
-
-  if(u === CONFIG.adminUser.toLowerCase() && p === CONFIG.adminPass){
-    sesion = { rol: 'admin', nombre: 'Administrador' };
-    mostrar('admin');
-    adminTab('checadores');
-    return;
+  const u=document.getElementById('inp-user').value.trim().toLowerCase();
+  const p=document.getElementById('inp-pass').value;
+  const err=document.getElementById('login-err');
+  err.style.display='none';
+  if(u===CONFIG.adminUser.toLowerCase()&&p===CONFIG.adminPass){
+    sesion={rol:'admin'}; mostrar('admin'); adminTab('checadores'); return;
   }
-  const checker = checadoresLocal.find(c => c.user.toLowerCase()===u && c.pass===p);
-  if(checker){
-    sesion = { rol: 'checker', nombre: checker.nombre, user: checker.user };
-    mostrar('checker');
-    iniciarCamara();
-    return;
-  }
-  err.style.display = 'block';
+  const ch=checadoresLocal.find(c=>c.user.toLowerCase()===u&&c.pass===p);
+  if(ch){ sesion={rol:'checker',nombre:ch.nombre}; mostrar('checker'); iniciarCamara(); return; }
+  err.style.display='block';
 }
+function logout(){ sesion=null; pararCamara(); document.getElementById('inp-user').value=''; document.getElementById('inp-pass').value=''; mostrar('login'); }
+function mostrar(p){ document.getElementById('screen-login').style.display=p==='login'?'flex':'none'; document.getElementById('screen-admin').style.display=p==='admin'?'flex':'none'; document.getElementById('screen-checker').style.display=p==='checker'?'flex':'none'; }
 
-function logout(){
-  sesion = null;
-  pararCamara();
-  document.getElementById('inp-user').value = '';
-  document.getElementById('inp-pass').value = '';
-  mostrar('login');
-}
-
-function mostrar(pantalla){
-  document.getElementById('screen-login').style.display = pantalla==='login' ? 'flex' : 'none';
-  document.getElementById('screen-admin').style.display = pantalla==='admin' ? 'flex' : 'none';
-  document.getElementById('screen-checker').style.display = pantalla==='checker' ? 'flex' : 'none';
-}
-
-// ══════════════════════════════════════════════
-//  ADMIN
-// ══════════════════════════════════════════════
+// ══ ADMIN ══
 function adminTab(tab){
-  document.querySelectorAll('.admin-tab').forEach((el,i)=>{
-    el.className = 'admin-tab' + (['checadores','registros','contrasena'][i]===tab?' active':'');
-  });
-  const c = document.getElementById('admin-content');
+  document.querySelectorAll('.admin-tab').forEach((el,i)=>{ el.className='admin-tab'+(['checadores','registros','contrasena'][i]===tab?' active':''); });
+  const c=document.getElementById('admin-content');
   if(tab==='checadores') renderChecadores(c);
   if(tab==='registros') renderRegistrosAdmin(c);
   if(tab==='contrasena') renderCambiarPass(c);
 }
-
 function renderChecadores(c){
-  const lista = checadoresLocal.map((ch,i)=>`
-    <div class="checker-card">
-      <div class="checker-av">${ch.nombre.charAt(0).toUpperCase()}</div>
-      <div class="checker-info">
-        <strong>${ch.nombre}</strong>
-        <span>Usuario: ${ch.user} · Pass: ${'•'.repeat(ch.pass.length)}</span>
-      </div>
-      <button class="btn-del" onclick="eliminarChecador(${i})">Eliminar</button>
-    </div>`).join('');
-  c.innerHTML = `
-    <h3 style="color:#888;font-size:11px;letter-spacing:.5px;margin-bottom:12px">CHECADORES ACTIVOS (${checadoresLocal.length})</h3>
-    ${lista||'<div class="empty-msg">Sin checadores registrados</div>'}
-    <button class="btn-add-checker" onclick="toggleAddForm()">+ Agregar checador</button>
-    <div class="add-form" id="add-form">
-      <input type="text" id="new-nombre" placeholder="Nombre del checador">
-      <input type="text" id="new-user" placeholder="Usuario (ej: checador3)" autocapitalize="none">
-      <input type="password" id="new-pass" placeholder="Contraseña">
-      <button class="btn-save" onclick="agregarChecador()">Guardar</button>
-    </div>`;
+  const lista=checadoresLocal.map((ch,i)=>`<div class="checker-card"><div class="checker-av">${ch.nombre[0]}</div><div class="checker-info"><strong>${ch.nombre}</strong><span>${ch.user}</span></div><button class="btn-del" onclick="eliminarChecador(${i})">Eliminar</button></div>`).join('');
+  c.innerHTML=`<p style="color:#888;font-size:11px;letter-spacing:.5px;margin-bottom:12px">CHECADORES ACTIVOS (${checadoresLocal.length})</p>${lista||'<div class="empty-msg">Sin checadores</div>'}<button class="btn-add" onclick="toggleAdd()">+ Agregar checador</button><div class="add-form" id="add-form"><input type="text" id="new-nombre" placeholder="Nombre"><input type="text" id="new-user" placeholder="Usuario" autocapitalize="none"><input type="password" id="new-pass" placeholder="Contraseña"><button class="btn-save" onclick="agregarChecador()">Guardar</button></div>`;
 }
-
-function toggleAddForm(){
-  const f = document.getElementById('add-form');
-  f.style.display = f.style.display==='block' ? 'none' : 'block';
-}
-
-function agregarChecador(){
-  const nombre = document.getElementById('new-nombre').value.trim();
-  const user = document.getElementById('new-user').value.trim().toLowerCase();
-  const pass = document.getElementById('new-pass').value.trim();
-  if(!nombre||!user||!pass){ alert('Completa todos los campos'); return; }
-  if(checadoresLocal.find(c=>c.user===user)){ alert('Ese usuario ya existe'); return; }
-  checadoresLocal.push({ user, pass, nombre });
-  adminTab('checadores');
-}
-
-function eliminarChecador(i){
-  if(!confirm(`¿Eliminar a ${checadoresLocal[i].nombre}?`)) return;
-  checadoresLocal.splice(i,1);
-  adminTab('checadores');
-}
-
+function toggleAdd(){ const f=document.getElementById('add-form'); f.style.display=f.style.display==='block'?'none':'block'; }
+function agregarChecador(){ const n=document.getElementById('new-nombre').value.trim(),u=document.getElementById('new-user').value.trim().toLowerCase(),p=document.getElementById('new-pass').value.trim(); if(!n||!u||!p){alert('Completa todos los campos');return;} if(checadoresLocal.find(c=>c.user===u)){alert('Usuario ya existe');return;} checadoresLocal.push({user:u,pass:p,nombre:n}); adminTab('checadores'); }
+function eliminarChecador(i){ if(!confirm(`¿Eliminar a ${checadoresLocal[i].nombre}?`))return; checadoresLocal.splice(i,1); adminTab('checadores'); }
 function renderRegistrosAdmin(c){
-  const vals = Object.values(registros);
-  const ent = vals.filter(r=>r.entrada).length;
-  const sal = vals.filter(r=>r.salida).length;
-  const ext = vals.filter(r=>r.horaExtra).length;
-  const stats = `
-    <div class="reg-stat-row">
-      <div class="reg-stat"><div class="reg-stat-n">${ent}</div><div class="reg-stat-l">Entradas</div></div>
-      <div class="reg-stat"><div class="reg-stat-n">${sal}</div><div class="reg-stat-l">Salidas</div></div>
-      <div class="reg-stat"><div class="reg-stat-n">${ext}</div><div class="reg-stat-l">H. Extra</div></div>
-    </div>`;
-  const lista = vals.length ? vals.map(r=>{
-    const ini = r.nombre.trim().split(/\s+/).slice(0,2).map(n=>n[0]||'').join('').toUpperCase();
-    const badges = [];
-    if(r.entrada) badges.push(`<span class="badge b-ent">Ent ${r.entrada}</span>`);
-    if(r.salida) badges.push(`<span class="badge b-sal">Sal ${r.salida}</span>`);
-    if(r.horaExtra) badges.push(`<span class="badge b-ext">H.Extra</span>`);
-    return `<div class="reg-item">
-      <div class="reg-av">${ini}</div>
-      <div class="reg-info"><strong>${r.nombre}</strong><small>No. ${r.num}</small></div>
-      <div class="reg-badges">${badges.join('<br>')}</div>
-    </div>`;
-  }).join('') : '<div class="empty-msg">Sin registros aún</div>';
-  c.innerHTML = stats + `<div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:14px">${lista}</div>` +
-    `<button class="dl-btn" onclick="exportar()">Descargar .xlsx</button>`;
+  const vals=Object.values(registros);
+  c.innerHTML=`<div class="reg-stat-row"><div class="reg-stat"><div class="reg-stat-n">${vals.filter(r=>r.entrada).length}</div><div class="reg-stat-l">Entradas</div></div><div class="reg-stat"><div class="reg-stat-n">${vals.filter(r=>r.salida).length}</div><div class="reg-stat-l">Salidas</div></div><div class="reg-stat"><div class="reg-stat-n">${vals.filter(r=>r.horaExtra).length}</div><div class="reg-stat-l">H. Extra</div></div></div><div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:14px">${vals.length?vals.map(r=>{const ini=r.nombre.trim().split(/\s+/).slice(0,2).map(n=>n[0]||'').join('').toUpperCase();const b=[];if(r.entrada)b.push(`<span class="badge b-ent">Ent ${r.entrada}</span>`);if(r.salida)b.push(`<span class="badge b-sal">Sal ${r.salida}</span>`);if(r.horaExtra)b.push(`<span class="badge b-ext">H.Extra</span>`);return`<div class="reg-item"><div class="reg-av">${ini}</div><div class="reg-info"><strong>${r.nombre}</strong><small>No. ${r.num}</small></div><div class="reg-badges">${b.join('<br>')}</div></div>`;}).join(''):'<div class="empty-msg">Sin registros aún</div>'}</div><button class="dl-btn" onclick="exportar()">Descargar .xlsx</button>`;
 }
-
 function renderCambiarPass(c){
-  c.innerHTML = `
-    <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:20px">
-      <h3 style="color:#fff;font-size:15px;margin-bottom:16px">Cambiar contraseña de administrador</h3>
-      <input type="password" id="pass-actual" placeholder="Contraseña actual" style="width:100%;padding:11px 13px;background:#0f0f0f;border:1px solid #333;border-radius:9px;color:#fff;font-size:14px;margin-bottom:10px;outline:none">
-      <input type="password" id="pass-nueva" placeholder="Nueva contraseña" style="width:100%;padding:11px 13px;background:#0f0f0f;border:1px solid #333;border-radius:9px;color:#fff;font-size:14px;margin-bottom:10px;outline:none">
-      <input type="password" id="pass-confirm" placeholder="Confirmar nueva contraseña" style="width:100%;padding:11px 13px;background:#0f0f0f;border:1px solid #333;border-radius:9px;color:#fff;font-size:14px;margin-bottom:14px;outline:none">
-      <div id="pass-msg" style="font-size:12px;margin-bottom:10px;display:none"></div>
-      <button class="btn-save" onclick="cambiarPass()">Actualizar contraseña</button>
-    </div>`;
+  c.innerHTML=`<div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:20px"><h3 style="color:#fff;font-size:15px;margin-bottom:16px">Cambiar contraseña</h3><input type="password" id="pa" placeholder="Contraseña actual" style="width:100%;padding:11px;background:#0f0f0f;border:1px solid #333;border-radius:9px;color:#fff;font-size:14px;margin-bottom:10px;outline:none"><input type="password" id="pn" placeholder="Nueva contraseña" style="width:100%;padding:11px;background:#0f0f0f;border:1px solid #333;border-radius:9px;color:#fff;font-size:14px;margin-bottom:10px;outline:none"><input type="password" id="pc" placeholder="Confirmar contraseña" style="width:100%;padding:11px;background:#0f0f0f;border:1px solid #333;border-radius:9px;color:#fff;font-size:14px;margin-bottom:14px;outline:none"><div id="pmsg" style="font-size:12px;margin-bottom:10px;display:none"></div><button class="btn-save" onclick="cambiarPass()">Actualizar</button></div>`;
 }
+function cambiarPass(){ const a=document.getElementById('pa').value,n=document.getElementById('pn').value,c=document.getElementById('pc').value,m=document.getElementById('pmsg'); m.style.display='block'; if(a!==CONFIG.adminPass){m.style.color='#f87171';m.textContent='Contraseña actual incorrecta';return;} if(n.length<6){m.style.color='#f87171';m.textContent='Mínimo 6 caracteres';return;} if(n!==c){m.style.color='#f87171';m.textContent='No coinciden';return;} CONFIG.adminPass=n; m.style.color='#86efac'; m.textContent='¡Actualizada!'; }
 
-function cambiarPass(){
-  const actual = document.getElementById('pass-actual').value;
-  const nueva = document.getElementById('pass-nueva').value;
-  const conf = document.getElementById('pass-confirm').value;
-  const msg = document.getElementById('pass-msg');
-  msg.style.display = 'block';
-  if(actual !== CONFIG.adminPass){ msg.style.color='#f87171'; msg.textContent='Contraseña actual incorrecta'; return; }
-  if(nueva.length < 6){ msg.style.color='#f87171'; msg.textContent='La contraseña debe tener al menos 6 caracteres'; return; }
-  if(nueva !== conf){ msg.style.color='#f87171'; msg.textContent='Las contraseñas no coinciden'; return; }
-  CONFIG.adminPass = nueva;
-  msg.style.color='#86efac'; msg.textContent='¡Contraseña actualizada correctamente!';
-}
-
-// ══════════════════════════════════════════════
-//  CÁMARA Y QR
-// ══════════════════════════════════════════════
-const video = document.getElementById('video');
-let codeReader = null;
+// ══ CÁMARA CON BARCODE DETECTION API (nativa del navegador) ══
+const video=document.getElementById('video');
+let barcodeDetector=null;
+let scanLoop=null;
 
 async function iniciarCamara(){
   try {
-    codeReader = new ZXing.BrowserQRCodeReader();
-    const devices = await ZXing.BrowserCodeReader.listVideoInputDevices();
-    // Prefer back camera
-    const backCam = devices.find(d => /back|rear|environment/i.test(d.label)) || devices[devices.length-1];
-    const deviceId = backCam ? backCam.deviceId : undefined;
+    // Usar BarcodeDetector API nativa del navegador (Chrome Android la soporta)
+    if('BarcodeDetector' in window){
+      barcodeDetector = new BarcodeDetector({formats:['qr_code']});
+      setPill('Escáner QR listo');
+    } else {
+      setPill('Apunta al QR de la credencial');
+    }
     
-    await codeReader.decodeFromVideoDevice(deviceId, 'video', (result, err) => {
-      if(result && !cooldown){
-        const data = result.getText().trim();
-        if(data && data !== ultimoQR){
-          ultimoQR = data;
-          procesarQR(data);
-        }
-      }
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video:{facingMode:{ideal:'environment'}, width:{ideal:1280}, height:{ideal:720}}
     });
+    video.srcObject=stream;
+    await video.play();
+    
+    // Iniciar loop de escaneo
+    scanLoop = setInterval(escanearFrame, 200);
     setPill('Apunta al QR de la credencial');
   } catch(e){
-    console.error('Camera error:', e);
-    setPill('Sin cámara — usa entrada manual');
+    console.error(e);
+    setPill('Error de cámara — usa entrada manual');
     mostrarInputManual();
   }
 }
 
 function pararCamara(){
-  if(codeReader) codeReader.reset();
-  codeReader = null;
+  clearInterval(scanLoop); scanLoop=null;
+  if(video.srcObject) video.srcObject.getTracks().forEach(t=>t.stop());
+  video.srcObject=null;
 }
 
+const cvs=document.createElement('canvas');
+const ctx2=cvs.getContext('2d');
+
+async function escanearFrame(){
+  if(cooldown || video.readyState<2 || !video.videoWidth) return;
+  
+  try {
+    // Método 1: BarcodeDetector API nativa (más rápida y precisa)
+    if(barcodeDetector){
+      const codes = await barcodeDetector.detect(video);
+      if(codes.length>0){
+        const data=codes[0].rawValue.trim();
+        if(data && data!==ultimoQR){ ultimoQR=data; procesarQR(data); }
+        return;
+      }
+    }
+    
+    // Método 2: jsQR como fallback
+    if(typeof jsQR !== 'undefined'){
+      cvs.width=video.videoWidth; cvs.height=video.videoHeight;
+      ctx2.drawImage(video,0,0);
+      const img=ctx2.getImageData(0,0,cvs.width,cvs.height);
+      const code=jsQR(img.data,img.width,img.height,{inversionAttempts:'attemptBoth'});
+      if(code&&code.data&&code.data.trim()!==ultimoQR){ ultimoQR=code.data.trim(); procesarQR(code.data.trim()); }
+    }
+  } catch(e){}
+}
+
+// ══ PROCESAR QR ══
 function procesarQR(data){
-  cooldown = true;
-  setPill('QR detectado...');
-  console.log('QR data:', data);
+  cooldown=true;
+  console.log('QR leído:', data);
+  setPill('QR detectado ✓');
   
-  let numero = null;
-  let sufijo = '45584';
+  // Extraer número y sufijo del formato: https://rh-2025.aifamx.com/consulta&0276403019&45552
+  const match=data.match(/consulta&(\d+)&(\d+)/);
+  let numExacto, sufijo;
   
-  // Formato exacto: https://rh-2025.aifamx.com/consulta&0276403019&45552
-  const matchURL = data.match(/consulta&(\d+)&(\d+)/);
-  if(matchURL){
-    numero = matchURL[1]; // ej: 0276403019
-    sufijo = matchURL[2]; // ej: 45552
+  if(match){
+    numExacto=match[1]; // ej: 0276403019
+    sufijo=match[2];    // ej: 45552
   } else {
-    // Fallback: buscar cualquier número de 7+ dígitos
-    const partes = data.split(/[&,|;\s]+/).map(p=>p.trim()).filter(Boolean);
-    numero = partes.find(p=>/^\d{7,}/.test(p)) || partes[partes.length-1];
+    // Fallback: buscar número de 7+ dígitos
+    const nums=data.match(/\d{7,}/g);
+    numExacto=nums?nums[0]:data.trim();
+    sufijo='45584';
   }
   
-  if(!numero){ setPill('QR no reconocido'); cooldown=false; return; }
-  
-  // Guardar el número exacto como viene (con ceros al inicio)
-  const numExacto = numero;
-  const numSinCero = numero.replace(/^0+/,'');
-  
-  consultarEmpleado(numSinCero, numExacto, sufijo, data);
+  consultarEmpleado(numExacto, sufijo, data);
 }
 
-async function consultarEmpleado(num, numExacto, sufijo, rawData){
-  setEstado('Consultando...');
+async function consultarEmpleado(numExacto, sufijo, rawData){
+  setEstado('Consultando sistema RH...');
   ocultarCard();
   
-  // Construir URL exacta igual que el QR
-  const urlExacta = `https://rh-2025.aifamx.com/consulta&${numExacto}&${sufijo}`;
-  const intentos = [numExacto, num, '0'+num];
-  let datos = null;
+  const urlRH=`https://rh-2025.aifamx.com/consulta&${numExacto}&${sufijo}`;
+  let datos=null;
   
-  // Intentar con la URL exacta del QR primero
-  const proxies = [
-    `https://api.allorigins.win/get?url=${encodeURIComponent(urlExacta)}`,
-    `https://api.allorigins.win/get?url=${encodeURIComponent(CONFIG.apiBase + numExacto + '&' + sufijo)}`,
-    `https://api.allorigins.win/get?url=${encodeURIComponent(CONFIG.apiBase + num + CONFIG.apiSuffix)}`,
+  // Intentar con múltiples proxies CORS
+  const proxies=[
+    `https://api.allorigins.win/get?url=${encodeURIComponent(urlRH)}`,
+    `https://corsproxy.io/?${encodeURIComponent(urlRH)}`,
+    `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(urlRH)}`,
   ];
   
-  for(const proxyUrl of proxies){
-    try {
-      const res = await fetch(proxyUrl, {signal: AbortSignal.timeout(5000)});
-      const json = await res.json();
-      const d = parsearHTML(json.contents, numExacto);
-      if(d){ datos=d; break; }
-    } catch(e){ console.log('Proxy error:', e); }
+  for(const proxy of proxies){
+    try{
+      const ctrl=new AbortController();
+      const tid=setTimeout(()=>ctrl.abort(),5000);
+      const res=await fetch(proxy,{signal:ctrl.signal});
+      clearTimeout(tid);
+      let html='';
+      // allorigins devuelve JSON, otros devuelven texto directo
+      if(proxy.includes('allorigins')){
+        const j=await res.json(); html=j.contents||'';
+      } else {
+        html=await res.text();
+      }
+      const d=parsearHTML(html, numExacto, sufijo);
+      if(d){datos=d; break;}
+    }catch(e){console.log('Proxy falló:',proxy,e.message);}
   }
   
-  if(!datos) datos = parsearQRDirecto(rawData, numExacto);
-  
-  if(datos){ mostrarCard(datos); }
-  else {
-    setEstado('Empleado no encontrado');
-    setPill('No encontrado — intenta de nuevo');
-    setTimeout(()=>{ cooldown=false; ultimoQR=''; setEstado('Escaneando...'); setPill('Apunta al QR de la credencial'); },2500);
+  // Si todos los proxies fallan, mostrar con datos del QR
+  if(!datos){
+    datos={
+      nombre: extraerNombreDeQR(rawData) || 'Empleado ' + numExacto,
+      foto: `https://rh-2025.aifamx.com/storage/${numExacto}-*.jpg`,
+      num: numExacto,
+      frente: '',
+      sinConexion: true
+    };
   }
+  
+  mostrarCard(datos);
 }
 
-function parsearHTML(html, num){
-  if(!html) return null;
-  const tmp = document.createElement('div');
-  tmp.innerHTML = html;
-  const h3 = tmp.querySelector('h3');
-  if(!h3) return null;
-  const nombre = h3.textContent.trim();
-  const imgs = [...tmp.querySelectorAll('img')];
-  const fotoEl = imgs.find(i=>i.src&&i.src.includes('storage'));
-  const foto = fotoEl ? fotoEl.src : (CONFIG.imgBase + num + '.jpg');
-  const txt = tmp.textContent||'';
-  const frente = txt.match(/Frente\s*\d+[^\n,]*/i)?.[0]?.trim() || '';
-  const vigencia = txt.match(/\d{2}\/\d{2}\/\d{4}/)?.[0] || '';
-  return { nombre, foto, num, frente, vigencia };
+function parsearHTML(html, num, sufijo){
+  if(!html||html.length<100) return null;
+  const tmp=document.createElement('div');
+  tmp.innerHTML=html;
+  const h3=tmp.querySelector('h3');
+  if(!h3||!h3.textContent.trim()) return null;
+  const nombre=h3.textContent.trim();
+  const imgs=[...tmp.querySelectorAll('img')];
+  const fotoEl=imgs.find(i=>i.src&&i.src.includes('storage'));
+  // Construir URL de foto con el timestamp que aparece en el HTML
+  let foto=fotoEl?fotoEl.src:`https://rh-2025.aifamx.com/storage/${num}.jpg`;
+  const txt=tmp.textContent||'';
+  const frente=txt.match(/Frente\s*\d+[^\n,]*/i)?.[0]?.trim()||'';
+  const vigencia=txt.match(/\d{2}\/\d{2}\/\d{4}/)?.[0]||'';
+  const activo=txt.includes('ACTIVO');
+  return{nombre,foto,num,frente,vigencia,activo};
 }
 
-function parsearQRDirecto(data, num){
-  const partes = data.split(/[&,|;]+/).map(p=>p.trim()).filter(Boolean);
-  const nombre = partes.find(p=>/[a-zA-ZáéíóúÁÉÍÓÚñÑ]{3,}/.test(p)&&!/^\d+$/.test(p));
-  if(!nombre) return null;
-  return { nombre, foto: CONFIG.imgBase+num+'.jpg', num, frente:'', vigencia:'' };
+function extraerNombreDeQR(data){
+  // Intentar extraer nombre si viene en el QR
+  const partes=data.split(/[&\n]+/);
+  const nombre=partes.find(p=>/[a-záéíóúñ]{3,}/i.test(p)&&!/^https?/.test(p)&&!/^\d+$/.test(p));
+  return nombre?nombre.trim():null;
 }
 
-// ══════════════════════════════════════════════
-//  UI CHECKER
-// ══════════════════════════════════════════════
+// ══ UI CHECKER ══
 function mostrarCard(datos){
-  trabajadorActual = datos;
-  const ini = datos.nombre.trim().split(/\s+/).slice(0,2).map(n=>n[0]?.toUpperCase()||'').join('');
-  const foto = document.getElementById('wc-foto');
-  const iniEl = document.getElementById('wc-ini');
-  foto.style.display='block'; iniEl.style.display='none';
-  iniEl.textContent = ini;
-  foto.src = datos.foto;
-
-  document.getElementById('wc-nombre').textContent = datos.nombre;
-  document.getElementById('wc-num').textContent = 'No. ' + datos.num + (datos.vigencia?' · Vigencia: '+datos.vigencia:'');
-
-  const reg = registros[datos.num];
-  let subTxt='', subColor='#02C39A', bloq=false;
-  if(turno==='entrada'){
-    if(reg?.entrada){ subTxt='⚠ Ya registró entrada ('+reg.entrada+')'; subColor='#f59e0b'; }
-    else subTxt='Registrando entrada';
-  } else {
-    if(!reg?.entrada){ subTxt='✕ Sin entrada — no se puede registrar salida'; subColor='#f87171'; bloq=true; }
-    else if(reg?.salida){ subTxt='⚠ Ya registró salida ('+reg.salida+')'; subColor='#f59e0b'; }
-    else subTxt='Registrando salida';
-  }
-  const subEl = document.getElementById('wc-sub');
-  subEl.textContent=subTxt; subEl.style.color=subColor;
-
-  const btnOk = document.getElementById('btn-ok');
-  btnOk.disabled=bloq; btnOk.style.opacity=bloq?'.35':'1';
-
-  document.getElementById('extra-row').style.display = turno==='salida'&&!bloq?'flex':'none';
+  trabajadorActual=datos;
+  const ini=datos.nombre.trim().split(/\s+/).slice(0,2).map(n=>n[0]?.toUpperCase()||'').join('');
+  const foto=document.getElementById('wc-foto');
+  const iniEl=document.getElementById('wc-ini');
+  foto.style.display='block'; iniEl.style.display='none'; iniEl.textContent=ini;
+  foto.src=datos.foto;
+  document.getElementById('wc-nombre').textContent=datos.nombre;
+  document.getElementById('wc-num').textContent='No. '+datos.num+(datos.sinConexion?' · Sin conexión al RH':'');
+  const reg=registros[datos.num];
+  let sub='',subColor='#02C39A',bloq=false;
+  if(turno==='entrada'){ if(reg?.entrada){sub='⚠ Ya registró entrada ('+reg.entrada+')';subColor='#f59e0b';}else sub='Registrando entrada'; }
+  else{ if(!reg?.entrada){sub='✕ Sin entrada — no puede registrar salida';subColor='#f87171';bloq=true;}else if(reg?.salida){sub='⚠ Ya registró salida ('+reg.salida+')';subColor='#f59e0b';}else sub='Registrando salida'; }
+  const subEl=document.getElementById('wc-sub'); subEl.textContent=sub; subEl.style.color=subColor;
+  const btnOk=document.getElementById('btn-ok'); btnOk.disabled=bloq; btnOk.style.opacity=bloq?'.35':'1';
+  document.getElementById('extra-row').style.display=turno==='salida'&&!bloq?'flex':'none';
   document.getElementById('worker-card').style.display='block';
-  setEstado('');
-  setPill('¿Es correcto?');
+  setEstado(''); setPill('¿Es correcto?');
 }
 
-function ocultarCard(){
-  document.getElementById('worker-card').style.display='none';
-  document.getElementById('extra-row').style.display='none';
-  document.getElementById('chk-extra').checked=false;
-}
+function ocultarCard(){ document.getElementById('worker-card').style.display='none'; document.getElementById('extra-row').style.display='none'; document.getElementById('chk-extra').checked=false; }
 
 function confirmar(){
-  if(!trabajadorActual) return;
+  if(!trabajadorActual)return;
   const id=trabajadorActual.num, hora=getHM(), fecha=getFecha();
   if(!registros[id]) registros[id]={nombre:trabajadorActual.nombre,num:id,fecha};
   if(turno==='entrada') registros[id].entrada=hora;
-  else { registros[id].salida=hora; registros[id].horaExtra=document.getElementById('chk-extra').checked; }
+  else{ registros[id].salida=hora; registros[id].horaExtra=document.getElementById('chk-extra').checked; }
   setPill('✓ '+trabajadorActual.nombre+' — '+hora);
   resetScan();
 }
@@ -573,10 +429,8 @@ function confirmar(){
 function rechazar(){ setPill('Cancelado'); resetScan(); }
 
 function resetScan(){
-  trabajadorActual=null;
-  ocultarCard();
-  setEstado('Escaneando...');
-  setTimeout(()=>{ cooldown=false; ultimoQR=''; setPill('Apunta al QR de la credencial'); },1800);
+  trabajadorActual=null; ocultarCard(); setEstado('Escaneando...');
+  setTimeout(()=>{ cooldown=false; ultimoQR=''; setPill('Apunta al QR de la credencial'); },2000);
 }
 
 function setTurno(t){
@@ -586,40 +440,30 @@ function setTurno(t){
   resetScan();
 }
 
-function setPill(txt){ document.getElementById('status-pill').textContent=txt; }
-function setEstado(txt){ document.getElementById('estado-txt').textContent=txt; }
+function setPill(t){document.getElementById('status-pill').textContent=t;}
+function setEstado(t){document.getElementById('estado-txt').textContent=t;}
 
-// ══════════════════════════════════════════════
-//  MODAL Y EXPORT
-// ══════════════════════════════════════════════
-function abrirModal(){
-  const vals=Object.values(registros);
-  const ent=vals.filter(r=>r.entrada).length;
-  const sal=vals.filter(r=>r.salida).length;
-  const ext=vals.filter(r=>r.horaExtra).length;
-  document.getElementById('m-stats').innerHTML=`
-    <div class="reg-stat"><div class="reg-stat-n">${ent}</div><div class="reg-stat-l">Entradas</div></div>
-    <div class="reg-stat"><div class="reg-stat-n">${sal}</div><div class="reg-stat-l">Salidas</div></div>
-    <div class="reg-stat"><div class="reg-stat-n">${ext}</div><div class="reg-stat-l">H. Extra</div></div>`;
-  document.getElementById('m-lista').innerHTML = vals.length ? vals.map(r=>{
-    const ini=r.nombre.trim().split(/\s+/).slice(0,2).map(n=>n[0]||'').join('').toUpperCase();
-    const b=[];
-    if(r.entrada) b.push(`<span class="badge b-ent">Ent ${r.entrada}</span>`);
-    if(r.salida) b.push(`<span class="badge b-sal">Sal ${r.salida}</span>`);
-    if(r.horaExtra) b.push(`<span class="badge b-ext">H.Extra</span>`);
-    return `<div class="reg-item"><div class="reg-av">${ini}</div><div class="reg-info"><strong>${r.nombre}</strong><small>No. ${r.num}</small></div><div class="reg-badges">${b.join('<br>')}</div></div>`;
-  }).join('') : '<div class="empty-msg">Sin registros aún</div>';
-  document.getElementById('modal-lista').classList.add('open');
+function mostrarInputManual(){
+  const inp=document.createElement('input');
+  inp.type='text'; inp.placeholder='Pega o escribe el contenido del QR...';
+  inp.style.cssText='width:100%;padding:11px;background:#1a1a1a;border:1px solid #333;border-radius:9px;color:#fff;font-size:14px;margin-bottom:10px;outline:none';
+  inp.addEventListener('keydown',e=>{ if(e.key==='Enter'&&inp.value.trim()){ procesarQR(inp.value.trim()); inp.value=''; }});
+  document.getElementById('bottom-panel').insertBefore(inp,document.getElementById('turno-row')?.nextSibling||document.getElementById('bottom-panel').firstChild);
 }
 
-function cerrarModal(){ document.getElementById('modal-lista').classList.remove('open'); }
+// ══ MODAL Y EXPORT ══
+function abrirModal(){
+  const vals=Object.values(registros);
+  document.getElementById('m-stats').innerHTML=`<div class="reg-stat"><div class="reg-stat-n">${vals.filter(r=>r.entrada).length}</div><div class="reg-stat-l">Entradas</div></div><div class="reg-stat"><div class="reg-stat-n">${vals.filter(r=>r.salida).length}</div><div class="reg-stat-l">Salidas</div></div><div class="reg-stat"><div class="reg-stat-n">${vals.filter(r=>r.horaExtra).length}</div><div class="reg-stat-l">H. Extra</div></div>`;
+  document.getElementById('m-lista').innerHTML=vals.length?vals.map(r=>{const ini=r.nombre.trim().split(/\s+/).slice(0,2).map(n=>n[0]||'').join('').toUpperCase();const b=[];if(r.entrada)b.push(`<span class="badge b-ent">Ent ${r.entrada}</span>`);if(r.salida)b.push(`<span class="badge b-sal">Sal ${r.salida}</span>`);if(r.horaExtra)b.push(`<span class="badge b-ext">H.Extra</span>`);return`<div class="reg-item"><div class="reg-av">${ini}</div><div class="reg-info"><strong>${r.nombre}</strong><small>No. ${r.num}</small></div><div class="reg-badges">${b.join('<br>')}</div></div>`;}).join(''):'<div class="empty-msg">Sin registros aún</div>';
+  document.getElementById('modal-lista').classList.add('open');
+}
+function cerrarModal(){document.getElementById('modal-lista').classList.remove('open');}
 
 function exportar(){
   const fecha=getFecha();
   const rows=[['No. Empleado','Nombre','Fecha','Hora Entrada','Hora Salida','Hora Extra','Asistencia']];
-  Object.values(registros).forEach(r=>{
-    rows.push([r.num,r.nombre,r.fecha||fecha,r.entrada||'',r.salida||'',r.horaExtra?'Sí':'No',r.entrada?'✓':'✗']);
-  });
+  Object.values(registros).forEach(r=>{ rows.push([r.num,r.nombre,r.fecha||fecha,r.entrada||'',r.salida||'',r.horaExtra?'Sí':'No',r.entrada?'✓':'✗']); });
   const wb=XLSX.utils.book_new();
   const ws=XLSX.utils.aoa_to_sheet(rows);
   ws['!cols']=[14,30,12,14,14,12,12].map(w=>({wch:w}));
@@ -627,17 +471,10 @@ function exportar(){
   XLSX.writeFile(wb,`Asistencia_${fecha.replace(/\//g,'-')}.xlsx`);
 }
 
-function mostrarInputManual(){
-  const wrap=document.getElementById('bottom-panel');
-  const inp=document.createElement('input');
-  inp.type='text'; inp.placeholder='Número de empleado manual...';
-  inp.style.cssText='width:100%;padding:11px 13px;background:#1a1a1a;border:1px solid #333;border-radius:9px;color:#fff;font-size:14px;margin-bottom:10px;outline:none';
-  inp.addEventListener('keydown',e=>{ if(e.key==='Enter'&&inp.value.trim()){ procesarQR(inp.value.trim()); inp.value=''; }});
-  wrap.insertBefore(inp, wrap.firstChild);
-}
-
-function getHM(){ return new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'}); }
-function getFecha(){ return new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'2-digit',year:'numeric'}); }
+function getHM(){return new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});}
+function getFecha(){return new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'2-digit',year:'numeric'});}
 </script>
+<!-- jsQR como fallback -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsqr/1.4.0/jsQR.min.js"></script>
 </body>
 </html>
