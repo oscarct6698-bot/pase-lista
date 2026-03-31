@@ -220,7 +220,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0a;font-family:
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.19.1/umd/index.min.js"></script>
 <script>
 // ══════════════════════════════════════════════
 //  CONFIGURACIÓN — edita aquí
@@ -246,7 +246,6 @@ let registros = {};
 let trabajadorActual = null;
 let cooldown = false;
 let ultimoQR = '';
-let scanInterval = null;
 let checadoresLocal = [...CONFIG.checadores];
 
 // ══════════════════════════════════════════════
@@ -400,54 +399,36 @@ function cambiarPass(){
 //  CÁMARA Y QR
 // ══════════════════════════════════════════════
 const video = document.getElementById('video');
-const canvasQR = document.getElementById('canvas-qr');
-const ctxQR = canvasQR.getContext('2d');
+let codeReader = null;
 
 async function iniciarCamara(){
   try {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video:{ 
-        facingMode:{exact:'environment'},
-        width:{ideal:1920, min:640},
-        height:{ideal:1080, min:480},
-        focusMode: 'continuous',
-        advanced: [{focusMode:'continuous'}]
+    codeReader = new ZXing.BrowserQRCodeReader();
+    const devices = await ZXing.BrowserCodeReader.listVideoInputDevices();
+    // Prefer back camera
+    const backCam = devices.find(d => /back|rear|environment/i.test(d.label)) || devices[devices.length-1];
+    const deviceId = backCam ? backCam.deviceId : undefined;
+    
+    await codeReader.decodeFromVideoDevice(deviceId, 'video', (result, err) => {
+      if(result && !cooldown){
+        const data = result.getText().trim();
+        if(data && data !== ultimoQR){
+          ultimoQR = data;
+          procesarQR(data);
+        }
       }
     });
-    video.srcObject = stream;
-    await video.play();
-    video.addEventListener('loadedmetadata', ()=>{
-      canvasQR.width = video.videoWidth;
-      canvasQR.height = video.videoHeight;
-      scanInterval = setInterval(escanearFrame, 150);
-    }, {once:true});
+    setPill('Apunta al QR de la credencial');
   } catch(e){
+    console.error('Camera error:', e);
     setPill('Sin cámara — usa entrada manual');
     mostrarInputManual();
   }
 }
 
 function pararCamara(){
-  clearInterval(scanInterval);
-  if(video.srcObject) video.srcObject.getTracks().forEach(t=>t.stop());
-  video.srcObject = null;
-}
-
-function escanearFrame(){
-  if(cooldown || video.readyState !== 4) return;
-  const vw = video.videoWidth, vh = video.videoHeight;
-  if(!vw || !vh) return;
-  canvasQR.width = vw;
-  canvasQR.height = vh;
-  ctxQR.drawImage(video, 0, 0, vw, vh);
-  const img = ctxQR.getImageData(0, 0, vw, vh);
-  let code = jsQR(img.data, img.width, img.height, {inversionAttempts:'dontInvert'});
-  if(!code) code = jsQR(img.data, img.width, img.height, {inversionAttempts:'invertFirst'});
-  if(!code) code = jsQR(img.data, img.width, img.height, {inversionAttempts:'attemptBoth'});
-  if(code && code.data && code.data.trim() !== ultimoQR){
-    ultimoQR = code.data.trim();
-    procesarQR(code.data.trim());
-  }
+  if(codeReader) codeReader.reset();
+  codeReader = null;
 }
 
 function procesarQR(data){
