@@ -453,29 +453,58 @@ function escanearFrame(){
 function procesarQR(data){
   cooldown = true;
   setPill('QR detectado...');
-  const partes = data.split(/[&,|;\s]+/).map(p=>p.trim()).filter(Boolean);
-  let numero = partes.find(p=>/^\d{7,}/.test(p)) || partes[partes.length-1];
+  console.log('QR data:', data);
+  
+  let numero = null;
+  let sufijo = '45584';
+  
+  // Formato exacto: https://rh-2025.aifamx.com/consulta&0276403019&45552
+  const matchURL = data.match(/consulta&(\d+)&(\d+)/);
+  if(matchURL){
+    numero = matchURL[1]; // ej: 0276403019
+    sufijo = matchURL[2]; // ej: 45552
+  } else {
+    // Fallback: buscar cualquier número de 7+ dígitos
+    const partes = data.split(/[&,|;\s]+/).map(p=>p.trim()).filter(Boolean);
+    numero = partes.find(p=>/^\d{7,}/.test(p)) || partes[partes.length-1];
+  }
+  
   if(!numero){ setPill('QR no reconocido'); cooldown=false; return; }
-  numero = numero.replace(/^0+/,'');
-  const numCero = numero.padStart(10,'0');
-  consultarEmpleado(numero, numCero, data);
+  
+  // Guardar el número exacto como viene (con ceros al inicio)
+  const numExacto = numero;
+  const numSinCero = numero.replace(/^0+/,'');
+  
+  consultarEmpleado(numSinCero, numExacto, sufijo, data);
 }
 
-async function consultarEmpleado(num, numCero, rawData){
+async function consultarEmpleado(num, numExacto, sufijo, rawData){
   setEstado('Consultando...');
   ocultarCard();
-  const intentos = [numCero, '0'+num, num];
+  
+  // Construir URL exacta igual que el QR
+  const urlExacta = `https://rh-2025.aifamx.com/consulta&${numExacto}&${sufijo}`;
+  const intentos = [numExacto, num, '0'+num];
   let datos = null;
-  for(const n of intentos){
+  
+  // Intentar con la URL exacta del QR primero
+  const proxies = [
+    `https://api.allorigins.win/get?url=${encodeURIComponent(urlExacta)}`,
+    `https://api.allorigins.win/get?url=${encodeURIComponent(CONFIG.apiBase + numExacto + '&' + sufijo)}`,
+    `https://api.allorigins.win/get?url=${encodeURIComponent(CONFIG.apiBase + num + CONFIG.apiSuffix)}`,
+  ];
+  
+  for(const proxyUrl of proxies){
     try {
-      const url = `https://api.allorigins.win/get?url=${encodeURIComponent(CONFIG.apiBase + n + CONFIG.apiSuffix)}`;
-      const res = await fetch(url);
+      const res = await fetch(proxyUrl, {signal: AbortSignal.timeout(5000)});
       const json = await res.json();
-      const d = parsearHTML(json.contents, n);
+      const d = parsearHTML(json.contents, numExacto);
       if(d){ datos=d; break; }
-    } catch(e){}
+    } catch(e){ console.log('Proxy error:', e); }
   }
-  if(!datos) datos = parsearQRDirecto(rawData, numCero);
+  
+  if(!datos) datos = parsearQRDirecto(rawData, numExacto);
+  
   if(datos){ mostrarCard(datos); }
   else {
     setEstado('Empleado no encontrado');
