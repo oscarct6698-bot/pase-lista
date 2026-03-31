@@ -220,7 +220,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0a;font-family:
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://unpkg.com/jsqr@1.4.0/dist/jsQR.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 <script>
 // ══════════════════════════════════════════════
 //  CONFIGURACIÓN — edita aquí
@@ -406,14 +406,20 @@ const ctxQR = canvasQR.getContext('2d');
 async function iniciarCamara(){
   try {
     const stream = await navigator.mediaDevices.getUserMedia({
-      video:{ facingMode:'environment', width:{ideal:1280}, height:{ideal:720} }
+      video:{ 
+        facingMode:{exact:'environment'},
+        width:{ideal:1920, min:640},
+        height:{ideal:1080, min:480},
+        focusMode: 'continuous',
+        advanced: [{focusMode:'continuous'}]
+      }
     });
     video.srcObject = stream;
     await video.play();
     video.addEventListener('loadedmetadata', ()=>{
       canvasQR.width = video.videoWidth;
       canvasQR.height = video.videoHeight;
-      scanInterval = setInterval(escanearFrame, 250);
+      scanInterval = setInterval(escanearFrame, 150);
     }, {once:true});
   } catch(e){
     setPill('Sin cámara — usa entrada manual');
@@ -429,14 +435,18 @@ function pararCamara(){
 
 function escanearFrame(){
   if(cooldown || video.readyState !== 4) return;
-  canvasQR.width = video.videoWidth;
-  canvasQR.height = video.videoHeight;
-  ctxQR.drawImage(video, 0, 0);
-  const img = ctxQR.getImageData(0,0,canvasQR.width,canvasQR.height);
-  const code = jsQR(img.data, img.width, img.height, {inversionAttempts:'dontInvert'});
-  if(code && code.data && code.data !== ultimoQR){
-    ultimoQR = code.data;
-    procesarQR(code.data);
+  const vw = video.videoWidth, vh = video.videoHeight;
+  if(!vw || !vh) return;
+  canvasQR.width = vw;
+  canvasQR.height = vh;
+  ctxQR.drawImage(video, 0, 0, vw, vh);
+  const img = ctxQR.getImageData(0, 0, vw, vh);
+  let code = jsQR(img.data, img.width, img.height, {inversionAttempts:'dontInvert'});
+  if(!code) code = jsQR(img.data, img.width, img.height, {inversionAttempts:'invertFirst'});
+  if(!code) code = jsQR(img.data, img.width, img.height, {inversionAttempts:'attemptBoth'});
+  if(code && code.data && code.data.trim() !== ultimoQR){
+    ultimoQR = code.data.trim();
+    procesarQR(code.data.trim());
   }
 }
 
