@@ -1,0 +1,301 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.app{max-width:480px;margin:0 auto;padding:12px;font-family:system-ui,sans-serif}
+.header{background:#1a3a2a;color:#fff;padding:14px 16px;border-radius:12px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:15px;font-weight:500}
+.header .hora{font-size:13px;opacity:.8}
+.tabs{display:flex;gap:8px;margin-bottom:12px}
+.tab{flex:1;padding:9px;border:0.5px solid var(--color-border-secondary);border-radius:8px;background:var(--color-background-primary);cursor:pointer;font-size:13px;font-weight:500;color:var(--color-text-secondary);text-align:center}
+.tab.active{background:#1a3a2a;color:#fff;border-color:#1a3a2a}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:16px;margin-bottom:12px}
+.scan-area{border:2px dashed var(--color-border-secondary);border-radius:12px;padding:24px 16px;text-align:center;margin-bottom:12px;cursor:pointer}
+.scan-icon{width:56px;height:56px;margin:0 auto 10px;border:2px solid var(--color-border-secondary);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:28px}
+.scan-area p{font-size:13px;color:var(--color-text-secondary)}
+.qr-input{width:100%;padding:10px 12px;border:0.5px solid var(--color-border-secondary);border-radius:8px;font-size:14px;color:var(--color-text-primary);background:var(--color-background-primary);margin-bottom:10px}
+.worker-card{display:flex;align-items:center;gap:14px;padding:14px;background:var(--color-background-secondary);border-radius:10px;margin-bottom:12px}
+.avatar{width:60px;height:60px;border-radius:50%;background:#1a3a2a;color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:500;flex-shrink:0}
+.worker-info h2{font-size:16px;font-weight:500;color:var(--color-text-primary);text-transform:capitalize}
+.worker-info p{font-size:13px;color:var(--color-text-secondary);text-transform:capitalize}
+.worker-info .num{font-size:12px;color:var(--color-text-tertiary);margin-top:3px}
+.btn-row{display:flex;gap:8px}
+.btn{flex:1;padding:12px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;border:none}
+.btn-ok{background:#1a3a2a;color:#fff}
+.btn-cancel{background:var(--color-background-danger);color:var(--color-text-danger);border:0.5px solid var(--color-border-danger)}
+.badge{display:inline-block;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:500;margin:1px}
+.badge-in{background:var(--color-background-success);color:var(--color-text-success)}
+.badge-out{background:var(--color-background-info);color:var(--color-text-info)}
+.badge-extra{background:var(--color-background-warning);color:var(--color-text-warning)}
+.list-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.list-item:last-child{border-bottom:none}
+.list-avatar{width:36px;height:36px;border-radius:50%;background:#1a3a2a;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0;text-transform:uppercase}
+.list-info{flex:1;min-width:0}
+.list-info strong{font-size:13px;display:block;color:var(--color-text-primary);text-transform:capitalize;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.list-info span{font-size:11px;color:var(--color-text-secondary);text-transform:capitalize}
+.list-badges{text-align:right;flex-shrink:0}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+.stat{background:var(--color-background-secondary);border-radius:8px;padding:10px;text-align:center}
+.stat-num{font-size:22px;font-weight:500;color:var(--color-text-primary)}
+.stat-label{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+.success-banner{background:var(--color-background-success);border:0.5px solid var(--color-border-success);border-radius:10px;padding:14px;text-align:center;margin-bottom:12px}
+.success-banner p{font-size:14px;color:var(--color-text-success);font-weight:500;text-transform:capitalize}
+.success-banner small{font-size:12px;color:var(--color-text-success);opacity:.8}
+.error-banner{background:var(--color-background-danger);border:0.5px solid var(--color-border-danger);border-radius:10px;padding:14px;text-align:center;margin-bottom:12px}
+.error-banner p{font-size:14px;color:var(--color-text-danger);font-weight:500}
+.error-banner small{font-size:12px;color:var(--color-text-danger);opacity:.8}
+.dl-btn{width:100%;padding:12px;background:#1a3a2a;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer}
+.section-title{font-size:12px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.turno-toggle{display:flex;gap:6px;margin-bottom:14px}
+.turno-btn{flex:1;padding:8px;border:0.5px solid var(--color-border-secondary);border-radius:8px;font-size:13px;cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary)}
+.turno-btn.active{background:#c8a84b;color:#3a2a00;border-color:#c8a84b;font-weight:500}
+.hora-extra-row{display:flex;align-items:center;gap:8px;padding:10px;background:var(--color-background-warning);border-radius:8px;margin-bottom:10px}
+.hora-extra-row label{font-size:13px;color:var(--color-text-warning);flex:1}
+.hora-extra-row input[type=checkbox]{width:18px;height:18px;cursor:pointer}
+.warn-banner{background:var(--color-background-warning);border:0.5px solid var(--color-border-warning);border-radius:10px;padding:12px;margin-bottom:10px;font-size:13px;color:var(--color-text-warning)}
+</style>
+
+<div class="app">
+  <div class="header">
+    <h1>Pase de lista — Obra</h1>
+    <span class="hora" id="clock">--:--</span>
+  </div>
+
+  <div class="turno-toggle">
+    <button class="turno-btn active" id="btn-entrada" onclick="setTurno('entrada')">Entrada</button>
+    <button class="turno-btn" id="btn-salida" onclick="setTurno('salida')">Salida</button>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('scanner')">Escanear</div>
+    <div class="tab" onclick="showTab('lista')">Lista del día</div>
+    <div class="tab" onclick="showTab('exportar')">Exportar</div>
+  </div>
+
+  <div id="tab-scanner">
+    <div class="card">
+      <div class="section-title" id="turno-label">Registrando entrada</div>
+      <div class="scan-area" onclick="document.getElementById('qr-field').focus()">
+        <div class="scan-icon">&#9638;</div>
+        <p>Apunta el escáner al QR de la credencial</p>
+        <p style="margin-top:6px;font-size:12px;color:var(--color-text-tertiary)">o escribe el número de empleado</p>
+      </div>
+      <input class="qr-input" id="qr-field" placeholder="Número de empleado..." autofocus oninput="handleQR(this.value)" onkeydown="if(event.key==='Enter')buscarTrabajador()">
+    </div>
+    <div id="worker-result" style="display:none">
+      <div class="worker-card" id="worker-display"></div>
+      <div class="hora-extra-row" id="hora-extra-row" style="display:none">
+        <label>Registrar hora extra</label>
+        <input type="checkbox" id="chk-extra">
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-cancel" onclick="cancelar()">Cancelar</button>
+        <button class="btn btn-ok" id="btn-confirmar" onclick="confirmar()">Confirmar</button>
+      </div>
+    </div>
+    <div id="msg-area"></div>
+  </div>
+
+  <div id="tab-lista" style="display:none">
+    <div class="stats">
+      <div class="stat"><div class="stat-num" id="cnt-presentes">0</div><div class="stat-label">Entradas</div></div>
+      <div class="stat"><div class="stat-num" id="cnt-salida">0</div><div class="stat-label">Salidas</div></div>
+      <div class="stat"><div class="stat-num" id="cnt-extras">0</div><div class="stat-label">H. extra</div></div>
+    </div>
+    <div class="card">
+      <div class="section-title">Registros de hoy</div>
+      <div id="lista-registros"><p style="font-size:13px;color:var(--color-text-tertiary);text-align:center;padding:20px 0">Sin registros aún</p></div>
+    </div>
+  </div>
+
+  <div id="tab-exportar" style="display:none">
+    <div class="card">
+      <div class="section-title">Resumen del día</div>
+      <div class="stats" style="margin-bottom:0">
+        <div class="stat"><div class="stat-num" id="exp-presentes">0</div><div class="stat-label">Presentes</div></div>
+        <div class="stat"><div class="stat-num" id="exp-ausentes">0</div><div class="stat-label">Ausentes</div></div>
+        <div class="stat"><div class="stat-num" id="exp-extras">0</div><div class="stat-label">H. extra</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-title">Descargar Excel</div>
+      <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:14px">Incluye: número de empleado, nombre, especialidad, fecha, hora entrada, hora salida, hora extra y asistencia.</p>
+      <button class="dl-btn" onclick="exportarExcel()">Descargar consolidado .xlsx</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+const TRABAJADORES = [
+  {id:'276402238', nombre:'anahi garcia',     puesto:'administrativo'},
+  {id:'276403074', nombre:'rodigo sanchez',   puesto:'albañil'},
+  {id:'276403073', nombre:'rodriguez ernesto',puesto:'fierrero'},
+  {id:'276403072', nombre:'fidel adrian',     puesto:'carpintero'},
+  {id:'276403019', nombre:'julio eduardo',    puesto:'ayudante'},
+  {id:'276403051', nombre:'jose luis',        puesto:'albañil'},
+];
+
+function iniciales(nombre){
+  return nombre.trim().split(/\s+/).slice(0,2).map(n=>n[0].toUpperCase()).join('');
+}
+
+let registros = {};
+let turnoActual = 'entrada';
+let trabajadorActual = null;
+let qrTimer = null;
+
+function setTurno(t){
+  turnoActual = t;
+  document.getElementById('btn-entrada').className='turno-btn'+(t==='entrada'?' active':'');
+  document.getElementById('btn-salida').className='turno-btn'+(t==='salida'?' active':'');
+  document.getElementById('turno-label').textContent = t==='entrada'?'Registrando entrada':'Registrando salida';
+  document.getElementById('btn-confirmar').textContent = t==='entrada'?'Confirmar entrada':'Confirmar salida';
+  document.getElementById('hora-extra-row').style.display = t==='salida'?'flex':'none';
+  cancelar();
+}
+
+function getNow(){ return new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit',second:'2-digit'}); }
+function getHM(){ return new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'}); }
+function getFecha(){ return new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'2-digit',year:'numeric'}); }
+
+setInterval(()=>{ document.getElementById('clock').textContent=getNow(); },1000);
+document.getElementById('clock').textContent=getNow();
+
+function handleQR(val){
+  clearTimeout(qrTimer);
+  document.getElementById('worker-result').style.display='none';
+  document.getElementById('msg-area').innerHTML='';
+  if(val.length>=3) qrTimer=setTimeout(()=>buscarTrabajador(),350);
+}
+
+function buscarTrabajador(){
+  const val = document.getElementById('qr-field').value.trim();
+  if(!val) return;
+  let encontrado = TRABAJADORES.find(t=>t.id===val);
+  if(!encontrado) encontrado = TRABAJADORES.find(t=>t.nombre.toLowerCase().includes(val.toLowerCase()));
+  if(!encontrado){
+    document.getElementById('msg-area').innerHTML=`<div class="error-banner"><p>No encontrado</p><small>Número: ${val}</small></div>`;
+    document.getElementById('worker-result').style.display='none';
+    return;
+  }
+  document.getElementById('msg-area').innerHTML='';
+  trabajadorActual=encontrado;
+
+  const reg=registros[encontrado.id];
+  let alertMsg='';
+  let bloquear=false;
+
+  if(turnoActual==='entrada' && reg?.entrada){
+    alertMsg=`<div class="warn-banner">Ya registró entrada a las ${reg.entrada}</div>`;
+  }
+  if(turnoActual==='salida' && !reg?.entrada){
+    alertMsg=`<div class="error-banner"><p>Sin entrada registrada</p><small>No se puede registrar salida sin haber registrado entrada.</small></div>`;
+    bloquear=true;
+  }
+  if(turnoActual==='salida' && reg?.salida){
+    alertMsg=`<div class="warn-banner">Ya registró salida a las ${reg.salida}</div>`;
+  }
+
+  document.getElementById('worker-display').innerHTML=`
+    <div class="avatar">${iniciales(encontrado.nombre)}</div>
+    <div class="worker-info">
+      <h2>${encontrado.nombre}</h2>
+      <p>${encontrado.puesto}</p>
+      <div class="num">No. ${encontrado.id}</div>
+    </div>`;
+
+  document.getElementById('worker-result').style.display='block';
+  document.getElementById('btn-confirmar').disabled=bloquear;
+  document.getElementById('btn-confirmar').style.opacity=bloquear?'.4':'1';
+
+  if(alertMsg) document.getElementById('msg-area').innerHTML=alertMsg;
+}
+
+function confirmar(){
+  if(!trabajadorActual) return;
+  const hora=getHM();
+  const id=trabajadorActual.id;
+  if(!registros[id]) registros[id]={nombre:trabajadorActual.nombre,puesto:trabajadorActual.puesto,fecha:getFecha()};
+
+  if(turnoActual==='entrada'){
+    registros[id].entrada=hora;
+    showMsg('success',trabajadorActual.nombre,`Entrada registrada a las ${hora}`);
+  } else {
+    registros[id].salida=hora;
+    const extra=document.getElementById('chk-extra').checked;
+    registros[id].horaExtra=extra;
+    showMsg('success',trabajadorActual.nombre,`Salida registrada a las ${hora}${extra?' · Hora extra registrada':''}`);
+  }
+  actualizarContadores();
+  cancelar();
+}
+
+function showMsg(tipo,nombre,detalle){
+  const div=document.getElementById('msg-area');
+  div.innerHTML=tipo==='success'
+    ?`<div class="success-banner"><p>${nombre}</p><small>${detalle}</small></div>`
+    :`<div class="error-banner"><p>${nombre}</p><small>${detalle}</small></div>`;
+  setTimeout(()=>{ div.innerHTML=''; },3500);
+}
+
+function cancelar(){
+  trabajadorActual=null;
+  document.getElementById('qr-field').value='';
+  document.getElementById('worker-result').style.display='none';
+  document.getElementById('chk-extra').checked=false;
+  document.getElementById('qr-field').focus();
+}
+
+function actualizarContadores(){
+  const vals=Object.values(registros);
+  const presentes=vals.filter(r=>r.entrada).length;
+  const salidas=vals.filter(r=>r.salida).length;
+  const extras=vals.filter(r=>r.horaExtra).length;
+  ['cnt-presentes','exp-presentes'].forEach(id=>document.getElementById(id).textContent=presentes);
+  document.getElementById('cnt-salida').textContent=salidas;
+  ['cnt-extras','exp-extras'].forEach(id=>document.getElementById(id).textContent=extras);
+  document.getElementById('exp-ausentes').textContent=TRABAJADORES.length-presentes;
+  renderLista();
+}
+
+function renderLista(){
+  const container=document.getElementById('lista-registros');
+  const vals=Object.values(registros);
+  if(!vals.length){ container.innerHTML='<p style="font-size:13px;color:var(--color-text-tertiary);text-align:center;padding:20px 0">Sin registros aún</p>'; return; }
+  container.innerHTML=vals.map(r=>{
+    const badges=[];
+    if(r.entrada) badges.push(`<span class="badge badge-in">Entrada ${r.entrada}</span>`);
+    if(r.salida) badges.push(`<span class="badge badge-out">Salida ${r.salida}</span>`);
+    if(r.horaExtra) badges.push(`<span class="badge badge-extra">H. extra</span>`);
+    return `<div class="list-item">
+      <div class="list-avatar">${iniciales(r.nombre)}</div>
+      <div class="list-info"><strong>${r.nombre}</strong><span>${r.puesto}</span></div>
+      <div class="list-badges">${badges.join('<br>')}</div>
+    </div>`;
+  }).join('');
+}
+
+function showTab(t){
+  ['scanner','lista','exportar'].forEach(tab=>{
+    document.getElementById('tab-'+tab).style.display=tab===t?'block':'none';
+  });
+  document.querySelectorAll('.tab').forEach((el,i)=>{
+    el.className='tab'+(['scanner','lista','exportar'][i]===t?' active':'');
+  });
+  if(t==='lista'||t==='exportar') actualizarContadores();
+}
+
+function exportarExcel(){
+  const fecha=getFecha();
+  const rows=[['No. Empleado','Nombre','Especialidad','Fecha','Hora Entrada','Hora Salida','Hora Extra','Asistencia']];
+  TRABAJADORES.forEach(t=>{
+    const r=registros[t.id];
+    rows.push([t.id,t.nombre,t.puesto,fecha,r?.entrada||'',r?.salida||'',r?.horaExtra?'Sí':'No',r?.entrada?'Presente':'Ausente']);
+  });
+  const wb=XLSX.utils.book_new();
+  const ws=XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols']=[14,25,18,12,14,14,12,12].map(w=>({wch:w}));
+  XLSX.utils.book_append_sheet(wb,ws,'Asistencia');
+  XLSX.writeFile(wb,`Asistencia_${fecha.replace(/\//g,'-')}.xlsx`);
+}
+</script>
