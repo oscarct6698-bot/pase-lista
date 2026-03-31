@@ -348,12 +348,38 @@ function tick(){
 function handleQR(data){
   if(current) return;
   setPill('✓ QR detectado','ok');
-  const m = data.match(/consulta[&?/](\d{7,})[&?/](\d+)/i);
-  let num = m ? m[1] : null;
-  if(!num){ const ns=data.match(/\d{7,}/g); if(ns) num=ns[0]; }
-  if(!num){ setPill('QR no reconocido','err'); setTimeout(()=>{lastQR='';setPill('Apunta al QR de la credencial');},2000); return; }
+  console.log('QR raw:', data);
+
+  // Extraer todos los números de 7+ dígitos del QR
+  const allNums = (data.match(/\d{7,}/g)||[]);
+  let num = null;
+  
+  // Buscar el número que coincida con algún trabajador primero
+  for(const n of allNums){
+    const padded = n.padStart(10,'0');
+    const stripped = n.replace(/^0+/,'');
+    const found = WORKERS.find(x=>
+      x.id===n || x.id===padded ||
+      x.id.replace(/^0+/,'')=== stripped
+    );
+    if(found){ num=n; break; }
+  }
+  // Si no encontró match, usar el primer número largo
+  if(!num && allNums.length>0) num = allNums[0];
+  
+  if(!num){
+    setPill('QR no reconocido — no. '+data.substring(0,30),'err');
+    setTimeout(()=>{lastQR='';setPill('Apunta al QR de la credencial');},3000);
+    return;
+  }
+
   const padded = num.padStart(10,'0');
-  const w = WORKERS.find(x=>x.id===padded||x.id===num||x.id.replace(/^0+/,'')=== num.replace(/^0+/,''));
+  const stripped = num.replace(/^0+/,'');
+  const w = WORKERS.find(x=>
+    x.id===num || x.id===padded ||
+    x.id.replace(/^0+/,'')=== stripped
+  );
+  console.log('Num encontrado:', num, 'Worker:', w?.name);
   showCard({name: w?w.name:'Empleado '+padded, num:padded, rawNum:num});
 }
 
@@ -363,11 +389,26 @@ function showCard(d){
   const foto = document.getElementById('wfoto');
   const iniEl = document.getElementById('wini');
   iniEl.textContent = ini; iniEl.style.display='none'; foto.style.display='block';
+  // Intentar múltiples patrones de URL de foto
+  // Las fotos en rh-2025 tienen formato: numero-timestamp.jpg
+  // Timestamps conocidos:
+  const tsMap = {
+    '0276402238': '1768515884',
+    '0276403074': '1774306432',
+    '0276403073': '1774306402',
+    '0276403072': '1774306379',
+    '0276403019': '1773778450',
+    '0276403051': '1773779718',
+  };
+  const ts = tsMap[d.num] || tsMap[d.rawNum] || '';
   const tries = [
-    'https://rh-2025.aifamx.com/storage/'+d.num+'.jpg',
-    'https://rh-2025.aifamx.com/storage/'+d.rawNum+'.jpg',
-  ];
+    ts ? 'https://rh-2025.aifamx.com/storage/'+d.num+'-'+ts+'.jpg' : null,
+    ts ? 'https://wsrv.nl/?url=rh-2025.aifamx.com/storage/'+d.num+'-'+ts+'.jpg&w=400&h=400' : null,
+    'https://wsrv.nl/?url=rh-2025.aifamx.com/storage/'+d.num+'-'+ts+'.jpg&w=400&h=400',
+    'https://wsrv.nl/?url=rh-2025.aifamx.com/storage/'+d.num+'.jpg&w=400&h=400',
+  ].filter(Boolean);
   let ti=0;
+  foto.crossOrigin='';
   foto.onerror = ()=>{ ti++; if(ti<tries.length){foto.src=tries[ti];}else{foto.style.display='none';iniEl.style.display='flex';} };
   foto.src = tries[0];
 
