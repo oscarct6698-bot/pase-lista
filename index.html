@@ -255,7 +255,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 <script>
 // ══ CONFIGURACIÓN ══
 const CFG = { adminUser:'admin', adminPass:'Admin2025!' };
-const API_URL = 'https://script.google.com/macros/s/AKfycbxLtXgah8dc5z7tUzdig3iuNRPu11tLhwW9p7iO2H3QlvkBosO-fH9QdHZn9G1xbhOG/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyFA5Os4naApqNOtdKQCk0JSaWuLVYnrk1zrPWt_KVIVVZB6huy52o0N2dfaVxw8hmdYg/exec';
 
 const WORKERS = [
   {id:'20002', name:'MOISES XIXITLA', puesto:'TOPOGRAFO', foto:'', encargado:''},
@@ -590,15 +590,54 @@ async function loadWorkers(){
     if(json.workers && json.workers.length > 0){
       WORKERS = json.workers;
       console.log('Trabajadores cargados:', WORKERS.length);
-      console.log('Ejemplo:', JSON.stringify(WORKERS[0]));
       setPill('Apunta al QR de la credencial','');
     } else {
-      console.warn('Sin trabajadores:', json);
       setPill('Apunta al QR de la credencial','');
     }
+    // Cargar registros guardados del día
+    await cargarRegistros();
   } catch(e){
     console.error('Error cargando trabajadores:', e);
-    setPill('Error cargando datos - intenta de nuevo','err');
+    setPill('Sin conexión — usando datos locales','warn');
+  }
+}
+
+async function cargarRegistros(){
+  try{
+    const fecha = getFecha();
+    const res = await fetch(API_URL + '?action=getRegistros&fecha=' + encodeURIComponent(fecha) + '&t=' + Date.now());
+    const json = await res.json();
+    if(json.registros && json.registros.length > 0){
+      json.registros.forEach(r => {
+        regs[r.num] = {
+          name: r.name,
+          num: r.num,
+          date: r.fecha,
+          entrada: r.entrada || '',
+          salida: r.salida || '',
+          verificado: r.verificado || '',
+          horasExtra: r.horasExtra || 0
+        };
+      });
+      console.log('Registros cargados:', json.registros.length);
+    }
+  } catch(e){
+    console.log('Sin registros previos');
+  }
+}
+
+async function guardarRegistro(reg){
+  try{
+    await fetch(API_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        registros: [reg],
+        fecha: getFecha(),
+        checador: sesion?.name || 'checador'
+      })
+    });
+  } catch(e){
+    console.error('Error guardando:', e);
   }
 }
 
