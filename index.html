@@ -255,6 +255,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 <script>
 // ══ CONFIGURACIÓN ══
 const CFG = { adminUser:'admin', adminPass:'Admin2025!' };
+const FIREBASE_URL = 'https://pase-lista-4733a-default-rtdb.firebaseio.com';
 const API_URL = 'https://script.google.com/macros/s/AKfycbwZQLv3yaJf6DD0vq4AltLrlGR5Y5kY_45M4HE5B6bLSDcnCj0JzasBVnDmkgC4dmzf0A/exec';
 
 const WORKERS = [
@@ -604,45 +605,53 @@ async function loadWorkers(){
 
 async function cargarRegistros(){
   try{
-    const fecha = getFecha();
-    const res = await fetch(API_URL + '?action=getRegistros&fecha=' + encodeURIComponent(fecha) + '&t=' + Date.now());
+    const fecha = getFecha().replace(/\//g,'-');
+    const url = FIREBASE_URL + '/registros/' + fecha + '.json';
+    const res = await fetch(url);
     const json = await res.json();
-    if(json.registros && json.registros.length > 0){
-      json.registros.forEach(r => {
-        regs[r.num] = {
-          name: r.name,
-          num: r.num,
-          date: r.fecha,
-          entrada: r.entrada || '',
-          salida: r.salida || '',
-          verificado: r.verificado || '',
-          horasExtra: r.horasExtra || 0
-        };
+    if(json){
+      Object.values(json).forEach(r => {
+        if(r && r.num){
+          regs[r.num] = {
+            name: r.name,
+            num: r.num,
+            date: r.fecha,
+            entrada: r.entrada || '',
+            salida: r.salida || '',
+            verificado: r.verificado || '',
+            horasExtra: r.horasExtra || 0
+          };
+        }
       });
-      console.log('Registros cargados:', json.registros.length);
+      console.log('✅ Registros cargados de Firebase:', Object.keys(regs).length);
     }
   } catch(e){
-    console.log('Sin registros previos');
+    console.log('Sin registros previos en Firebase');
   }
 }
 
 async function guardarRegistro(reg){
   try{
-    const params = new URLSearchParams({
-      action: 'save',
-      fecha: getFecha(),
-      checador: sesion?.name || 'checador',
-      num: reg.num,
-      name: reg.name,
-      entrada: reg.entrada || '',
-      salida: reg.salida || '',
-      verificado: reg.verificado || '',
-      horasExtra: reg.horasExtra || 0
+    const fecha = getFecha().replace(/\//g,'-');
+    const url = FIREBASE_URL + '/registros/' + fecha + '/' + reg.num + '.json';
+    await fetch(url, {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        num: reg.num,
+        name: reg.name,
+        fecha: getFecha(),
+        entrada: reg.entrada || '',
+        salida: reg.salida || '',
+        verificado: reg.verificado || '',
+        horasExtra: reg.horasExtra || 0,
+        checador: sesion?.name || 'checador',
+        updatedAt: new Date().toISOString()
+      })
     });
-    await fetch(API_URL + '?' + params.toString());
-    console.log('✅ Registro guardado:', reg.num);
+    console.log('✅ Registro guardado en Firebase:', reg.num);
   } catch(e){
-    console.error('Error guardando:', e);
+    console.error('Error guardando en Firebase:', e);
   }
 }
 
