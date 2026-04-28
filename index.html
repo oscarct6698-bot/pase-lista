@@ -256,7 +256,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 // ══ CONFIGURACIÓN ══
 const CFG = { adminUser:'admin', adminPass:'Admin2025!' };
 const FIREBASE_URL = 'https://pase-lista-4733a-default-rtdb.firebaseio.com';
-const API_URL = 'https://script.google.com/macros/s/AKfycbwZQLv3yaJf6DD0vq4AltLrlGR5Y5kY_45M4HE5B6bLSDcnCj0JzasBVnDmkgC4dmzf0A/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyCcUfNWkJncJDMPlHwzhDmyDnPDEbcP6mlR_BS0RVapiILNRjWHW9ogIdDepvYR3cWFA/exec';
 
 const WORKERS = [
   {id:'20002', name:'MOISES XIXITLA', puesto:'TOPOGRAFO', foto:'', encargado:''},
@@ -584,23 +584,45 @@ let selectedHrs = 0, jsqrOk = false;
 
 // ══ LOGIN ══
 async function loadWorkers(){
-  try{
-    setPill('Cargando trabajadores...','');
-    const res = await fetch(API_URL + '?t=' + Date.now());
-    const json = await res.json();
-    if(json.workers && json.workers.length > 0){
-      WORKERS = json.workers;
-      console.log('Trabajadores cargados:', WORKERS.length);
-      setPill('Apunta al QR de la credencial','');
-    } else {
-      setPill('Apunta al QR de la credencial','');
-    }
-    // Cargar registros guardados del día
-    await cargarRegistros();
-  } catch(e){
-    console.error('Error cargando trabajadores:', e);
-    setPill('Sin conexión — usando datos locales','warn');
-  }
+  setPill('Cargando trabajadores...','');
+  // Usar JSONP para evitar bloqueos de CORS
+  return new Promise((resolve) => {
+    const callbackName = 'cb_' + Date.now();
+    const script = document.createElement('script');
+    
+    window[callbackName] = function(data){
+      delete window[callbackName];
+      document.head.removeChild(script);
+      if(data && data.workers && data.workers.length > 0){
+        WORKERS = data.workers;
+        console.log('✅ Trabajadores cargados:', WORKERS.length);
+        setPill('Apunta al QR de la credencial','');
+      } else {
+        console.warn('Sin trabajadores en respuesta');
+        setPill('Apunta al QR de la credencial','');
+      }
+      cargarRegistros();
+      resolve();
+    };
+    
+    script.onerror = function(){
+      delete window[callbackName];
+      document.head.removeChild(script);
+      console.error('Error cargando trabajadores');
+      setPill('Sin conexión — usando datos locales','warn');
+      resolve();
+    };
+    
+    script.src = API_URL + '?callback=' + callbackName + '&t=' + Date.now();
+    document.head.appendChild(script);
+    
+    // Timeout de 10 segundos
+    setTimeout(()=>{
+      if(window[callbackName]){
+        window[callbackName]({workers:[]});
+      }
+    }, 10000);
+  });
 }
 
 async function cargarRegistros(){
