@@ -9,7 +9,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{width:100%;height:100%;background:#0a0a0a;font-family:system-ui,-apple-system,sans-serif;overflow:hidden}
-
+ 
 /* LOGIN */
 #scr-login{position:fixed;inset:0;background:#0f1a14;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;z-index:100}
 .logo{font-size:48px;margin-bottom:14px}
@@ -23,7 +23,7 @@ html,body{width:100%;height:100%;background:#0a0a0a;font-family:system-ui,-apple
 .lf input:focus{border-color:#02C39A}
 .lerr{color:#f87171;font-size:12px;margin-bottom:10px;display:none;text-align:center}
 .btn-g{width:100%;padding:13px;background:#02C39A;color:#003d2e;border:none;border-radius:9px;font-size:15px;font-weight:700;cursor:pointer}
-
+ 
 /* CÁMARA */
 #scr-cam{position:fixed;inset:0;display:none;flex-direction:column;background:#000}
 #cam-wrap{position:relative;flex:1;min-height:0;overflow:hidden;background:#000}
@@ -48,20 +48,20 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 .pill.ok{border-color:#02C39A;color:#02C39A}
 .pill.err{border-color:#f87171;color:#f87171}
 .pill.warn{border-color:#f59e0b;color:#f59e0b}
-
+ 
 /* BOTTOM */
 #bot{background:#111;padding:13px;flex-shrink:0}
 .trow{display:flex;gap:7px;margin-bottom:9px}
 .tbtn{flex:1;padding:8px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #252525;background:#1a1a1a;color:#555;text-align:center}
 .tbtn.on{background:#c8a84b;color:#1a0f00;border-color:#c8a84b}
 #itxt{font-size:12px;color:#444;text-align:center;padding:2px 0 8px;min-height:22px}
-
+ 
 /* BÚSQUEDA MANUAL CON PREFIJO */
 .manual-row{display:flex;gap:0;margin-bottom:9px;border:1px solid #333;border-radius:8px;overflow:hidden}
 .manual-prefix{padding:9px 10px;background:#1a3a2a;color:#02C39A;font-size:14px;font-weight:600;border:none;flex-shrink:0;border-right:1px solid #333}
 .manual-inp{flex:1;padding:9px 10px;background:#1a1a1a;border:none;color:#fff;font-size:16px;font-weight:600;outline:none;width:80px}
 .manual-btn{padding:9px 14px;background:#02C39A;color:#003d2e;border:none;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0}
-
+ 
 /* CARD TRABAJADOR */
 #wcard{display:none;background:#1a1a1a;border:1px solid #2d2d2d;border-radius:14px;overflow:hidden;margin-bottom:10px}
 .wcard-foto{width:100%;height:280px;object-fit:contain;object-position:center;display:block;background:#111}
@@ -77,7 +77,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 .bcon:active{opacity:.85}
 .bok{background:#16a34a;color:#fff}
 .bno{background:#dc2626;color:#fff}
-
+ 
 /* HORAS EXTRA */
 #extra-wrap{display:none;background:#120e00;border:1px solid #c8a84b33;border-radius:9px;padding:10px 12px;margin-bottom:9px}
 .extra-label{font-size:12px;color:#c8a84b;margin-bottom:8px;font-weight:500}
@@ -85,7 +85,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 .hr-btn{padding:6px 11px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #333;background:#1a1a1a;color:#555}
 .hr-btn.on{background:#c8a84b;color:#1a0f00;border-color:#c8a84b}
 .btn-ver{width:100%;padding:9px;background:#1a1a1a;border:1px solid #222;border-radius:8px;color:#555;font-size:12px;cursor:pointer;margin-top:3px}
-
+ 
 /* MÓDULO VOLTEOS */
 #scr-volteo{position:fixed;inset:0;display:none;flex-direction:column;background:#000}
 #vcam-wrap{position:relative;flex:1;min-height:0;overflow:hidden;background:#000}
@@ -102,7 +102,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 .vbtn{flex:1;padding:12px;border:none;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer}
 .vbtn-ok{background:#16a34a;color:#fff}
 .vbtn-reset{background:#1a1a1a;border:1px solid #333;color:#888;font-size:13px}
-
+ 
 /* ADMIN */
 #scr-admin{position:fixed;inset:0;background:#0a0a0a;display:none;flex-direction:column}
 .adm-head{background:#1a3a2a;padding:13px 15px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
@@ -149,7 +149,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 .bdl{width:100%;padding:11px;background:#1a3a2a;border:1px solid #254a35;color:#02C39A;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;margin-top:11px}
 .empty{color:#333;text-align:center;padding:24px 0;font-size:13px}
 .sec-title{font-size:10px;color:#555;letter-spacing:.5px;margin-bottom:10px;font-weight:500}
-
+ 
 /* MODAL */
 #modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.94);z-index:200;flex-direction:column}
 #modal.show{display:flex}
@@ -158,7 +158,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 .mx{background:none;border:none;color:#fff;font-size:20px;cursor:pointer}
 .mbody{flex:1;overflow-y:auto;padding:13px}
 .mfoot{padding:13px;flex-shrink:0}
-
+ 
 /* DESCARGA OBLIGATORIA */
 #must-dl{display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:300;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center}
 #must-dl.show{display:flex}
@@ -170,7 +170,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 </style>
 </head>
 <body>
-
+ 
 <!-- LOGIN -->
 <div id="scr-login">
   <div class="logo">📋</div>
@@ -184,7 +184,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
     <button class="btn-g" onclick="doLogin()">Entrar</button>
   </div>
 </div>
-
+ 
 <!-- CÁMARA CHECADOR/VERIFICADOR -->
 <div id="scr-cam">
   <div id="cam-wrap">
@@ -232,7 +232,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
     <button class="btn-ver" onclick="openModal()">Ver registros del día ▸</button>
   </div>
 </div>
-
+ 
 <!-- MÓDULO VOLTEOS -->
 <div id="scr-volteo">
   <div id="vcam-wrap">
@@ -265,7 +265,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
     </div>
   </div>
 </div>
-
+ 
 <!-- ADMIN -->
 <div id="scr-admin">
   <div class="adm-head">
@@ -280,7 +280,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   </div>
   <div class="adm-body" id="adm-body"></div>
 </div>
-
+ 
 <!-- MODAL REGISTROS -->
 <div id="modal">
   <div class="mhead"><h2>Registros del día</h2><button class="mx" onclick="closeModal()">✕</button></div>
@@ -290,7 +290,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   </div>
   <div class="mfoot"><button class="bdl" onclick="exportar();closeModal()">Descargar .xlsx</button></div>
 </div>
-
+ 
 <!-- DESCARGA OBLIGATORIA -->
 <div id="must-dl">
   <div class="mdl-icon">📥</div>
@@ -299,14 +299,14 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   <button class="mdl-btn" onclick="exportar();closeMustDl()">Descargar y salir</button>
   <span class="mdl-skip" onclick="closeMustDl()">Ya descargué, salir</span>
 </div>
-
+ 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 // ══ CONFIG ══
 const CFG = { adminUser:'admin', adminPass:'Admin2025!' };
 const API_URL = 'https://white-feather-9a0b.oscar-ct6698.workers.dev';
 const PREFIJO = '027640'; // Prefijo común de todos los trabajadores
-
+ 
 let WORKERS = [];
 let users = [
   {user:'checador1',  pass:'Check01!',  name:'Checador 1',   role:'checker'},
@@ -314,12 +314,12 @@ let users = [
   {user:'verificador1',pass:'Verif01!', name:'Verificador 1',role:'verifier'},
   {user:'volteo1',    pass:'Volteo01!', name:'Checador Volteos',role:'volteo'},
 ];
-
+ 
 let regs={}, volteoRegs=[], sesion=null, turno='entrada', current=null;
 let lastQR='', jsqrOk=false, selectedHrs=0;
 let vStream=null, vRafId=null, vLastQR='', vStep=1;
 let vOperador=null, vVolteo=null;
-
+ 
 // ══ LOGIN ══
 function doLogin(){
   const u=document.getElementById('lu').value.trim().toLowerCase();
@@ -351,7 +351,7 @@ function show(s){
     if(el) el.style.display=(x===s?(x==='login'?'flex':'flex'):'none');
   });
 }
-
+ 
 // ══ CÁMARA CHECADOR ══
 const vid=document.getElementById('vid');
 let stream=null,rafId=null,cvs=document.createElement('canvas'),ctx2=cvs.getContext('2d',{willReadFrequently:true});
@@ -359,7 +359,7 @@ const sc=document.createElement('script');
 sc.src='https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js';
 sc.onload=()=>{jsqrOk=true;};
 document.head.appendChild(sc);
-
+ 
 async function startCam(){
   show('cam');
   const isV=sesion.role==='verifier';
@@ -393,7 +393,7 @@ function tick(){
     if(code&&code.data&&code.data!==lastQR){lastQR=code.data;handleQR(code.data);}
   }catch(e){}
 }
-
+ 
 // ══ CARGAR TRABAJADORES ══
 function loadWorkers(){
   setPill('Cargando trabajadores...','');
@@ -421,7 +421,7 @@ function loadWorkers(){
     setTimeout(()=>{if(window[cbName])window[cbName]({workers:[]});},10000);
   });
 }
-
+ 
 // ══ QR CHECADOR ══
 function handleQR(data){
   if(current)return;
@@ -433,7 +433,7 @@ function handleQR(data){
   const w=WORKERS.find(x=>x.id===num||x.id===padded||x.id.replace(/^0+/,'')=== stripped);
   showCard({name:w?w.name:'Empleado '+padded,puesto:w?.puesto||'',foto:w?.foto||'',encargado:w?.encargado||'',num:padded,rawNum:num});
 }
-
+ 
 // ══ BÚSQUEDA MANUAL CON PREFIJO ══
 function buscarManual(){
   const sfx=document.getElementById('manual-sfx').value.trim();
@@ -450,7 +450,7 @@ function buscarManual(){
     setTimeout(()=>setPill('Apunta al QR de la credencial'),2000);
   }
 }
-
+ 
 // ══ MOSTRAR CARD ══
 function showCard(d){
   current=d;
@@ -462,12 +462,12 @@ function showCard(d){
     foto.onerror=()=>{ti++;if(ti<tries.length){foto.src=tries[ti];}else{foto.style.display='none';iniEl.style.display='flex';}};
     foto.src=d.foto;
   } else {foto.style.display='none';iniEl.style.display='flex';}
-
+ 
   document.getElementById('wname').textContent=d.name;
   document.getElementById('wnum').textContent='No. '+d.num;
   document.getElementById('wpuesto').textContent=d.puesto||'';
   document.getElementById('wenc').textContent=d.encargado?'Encargado: '+d.encargado:'';
-
+ 
   const r=regs[d.num];
   let sub='',sc='#02C39A',blk=false;
   if(sesion.role==='verifier'){
@@ -494,7 +494,7 @@ function showCard(d){
   document.getElementById('itxt').textContent='';
   setPill('¿Es correcto?','');
 }
-
+ 
 function confirm_(){
   if(!current)return;
   const h=getHM(),f=getFecha(),id=current.num;
@@ -524,7 +524,7 @@ function setPill(txt,type=''){
   const p=document.getElementById('pill');
   p.textContent=txt;p.className='pill'+(type?' '+type:'');
 }
-
+ 
 // ══ HORAS EXTRA ══
 function buildHrs(){
   selectedHrs=0;
@@ -539,11 +539,11 @@ function buildHrs(){
   }
 }
 function resetHrs(){selectedHrs=0;document.querySelectorAll('.hr-btn').forEach((b,i)=>b.className='hr-btn'+(i===0?' on':''));}
-
+ 
 // ══ MÓDULO VOLTEOS ══
 const vvid=document.getElementById('vvid');
 let vcvs=document.createElement('canvas'),vctx=vcvs.getContext('2d',{willReadFrequently:true});
-
+ 
 async function startVolteo(){
   show('volteo');
   resetVolteo();
@@ -572,7 +572,7 @@ function vtick(){
     if(code&&code.data&&code.data!==vLastQR){vLastQR=code.data;handleVQR(code.data);}
   }catch(e){}
 }
-
+ 
 function handleVQR(data){
   if(vStep===1){
     // Paso 1: QR del operador (formato rh-2025 o número)
@@ -600,7 +600,7 @@ function handleVQR(data){
     document.getElementById('vbtn-registrar').style.opacity='1';
   }
 }
-
+ 
 function registrarVolteo(){
   if(!vOperador||!vVolteo)return;
   const h=getHM(),f=getFecha();
@@ -608,7 +608,7 @@ function registrarVolteo(){
   document.getElementById('vpill').textContent='✓ '+vOperador.name+' — '+vVolteo+' — '+h;
   setTimeout(()=>resetVolteo(),2000);
 }
-
+ 
 function resetVolteo(){
   vOperador=null;vVolteo=null;vStep=1;vLastQR='';
   document.getElementById('vop-val').className='vstep-empty';
@@ -619,7 +619,7 @@ function resetVolteo(){
   document.getElementById('vbtn-registrar').style.opacity='.3';
   document.getElementById('vpill').textContent='Escanea QR del operador';
 }
-
+ 
 // ══ ADMIN ══
 function aTab(t){
   document.querySelectorAll('.adm-tab').forEach((el,i)=>el.className='adm-tab'+(['users','regs','volteos','pw'][i]===t?' on':''));
@@ -629,7 +629,7 @@ function aTab(t){
   if(t==='volteos')renderVolteos(b);
   if(t==='pw')renderPw(b);
 }
-
+ 
 function renderUsers(b){
   const checkers=users.filter(u=>u.role==='checker');
   const verifiers=users.filter(u=>u.role==='verifier');
@@ -665,7 +665,7 @@ function addUser(){
   users.push({user:u,pass:p,name:n,role:r});aTab('users');
 }
 function delUser(u){if(!confirm('¿Eliminar a '+users.find(x=>x.user===u)?.name+'?'))return;users=users.filter(x=>x.user!==u);aTab('users');}
-
+ 
 function renderRegs(b){
   const v=Object.values(regs);
   const e=v.filter(r=>r.entrada).length,ve=v.filter(r=>r.verificado).length,s=v.filter(r=>r.salida).length,x=v.filter(r=>r.horasExtra>0).length;
@@ -686,7 +686,7 @@ function renderRegs(b){
   }).join(''):'<div class="empty">Sin registros</div>'}</div>
   <button class="bdl" onclick="exportar()">Descargar .xlsx</button>`;
 }
-
+ 
 function renderVolteos(b){
   b.innerHTML=`<div class="sec-title">VOLTEOS REGISTRADOS HOY (${volteoRegs.length})</div>
   <div style="background:#1a1a1a;border:1px solid #222;border-radius:10px;padding:12px">
@@ -699,7 +699,7 @@ function renderVolteos(b){
   </div>
   <button class="bdl" onclick="exportarVolteos()">Descargar volteos .xlsx</button>`;
 }
-
+ 
 function renderPw(b){
   b.innerHTML=`<div style="background:#1a1a1a;border:1px solid #222;border-radius:10px;padding:16px">
     <h3 style="color:#fff;font-size:14px;margin-bottom:13px">Cambiar contraseña admin</h3>
@@ -717,7 +717,7 @@ function chPw(){
   if(n!==c){m.style.color='#f87171';m.textContent='No coinciden';return;}
   CFG.adminPass=n;m.style.color='#86efac';m.textContent='¡Actualizada!';
 }
-
+ 
 // ══ MODAL ══
 function openModal(){
   const v=Object.values(regs);
@@ -738,7 +738,7 @@ function openModal(){
   document.getElementById('modal').classList.add('show');
 }
 function closeModal(){document.getElementById('modal').classList.remove('show');}
-
+ 
 // ══ EXPORT ══
 function getDiaSemana(){
   const dias=['DOM','LUN','MAR','MIE','JUE','VIE','SAB'];
@@ -749,7 +749,7 @@ function getNumSemana(){
   const start=new Date(d.getFullYear(),0,1);
   return Math.ceil(((d-start)/86400000+start.getDay()+1)/7);
 }
-
+ 
 function exportar(){
   const f=getFecha(), dia=getDiaSemana(), sem=getNumSemana();
   // Columnas por semana: SAB|H.E|DOM|H.E|LUN|H.E|MAR|H.E|MIE|H.E|JUE|H.E|VIE|H.E
@@ -757,7 +757,7 @@ function exportar(){
   const headers=['No. Empleado','Nombre'];
   dias.forEach(d=>{headers.push(d);headers.push('H.E '+d);});
   headers.push('Semana');
-
+ 
   const rows=[headers];
   Object.values(regs).forEach(r=>{
     const row=[r.num,r.name];
@@ -772,14 +772,14 @@ function exportar(){
     row.push('SEM '+sem);
     rows.push(row);
   });
-
+ 
   const wb=XLSX.utils.book_new();
   const ws=XLSX.utils.aoa_to_sheet(rows);
   ws['!cols']=[14,32,...Array(14).fill({wch:10}),10].map(w=>typeof w==='number'?{wch:w}:w);
   XLSX.utils.book_append_sheet(wb,ws,'SEM '+sem);
   XLSX.writeFile(wb,'Asistencia_SEM'+sem+'_'+dia+'_'+f.replace(/\//g,'-')+'.xlsx');
 }
-
+ 
 function exportarVolteos(){
   const f=getFecha(),sem=getNumSemana();
   const rows=[['Operador','No. Empleado','Volteo','Hora','Fecha']];
@@ -790,7 +790,7 @@ function exportarVolteos(){
   XLSX.utils.book_append_sheet(wb,ws,'Volteos SEM '+sem);
   XLSX.writeFile(wb,'Volteos_SEM'+sem+'_'+f.replace(/\//g,'-')+'.xlsx');
 }
-
+ 
 function getHM(){return new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});}
 function getFecha(){return new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'2-digit',year:'numeric'});}
 </script>
