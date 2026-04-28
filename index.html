@@ -9,6 +9,8 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{width:100%;height:100%;background:#0a0a0a;font-family:system-ui,-apple-system,sans-serif;overflow:hidden}
+
+/* LOGIN */
 #scr-login{position:fixed;inset:0;background:#0f1a14;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;z-index:100}
 .logo{font-size:48px;margin-bottom:14px}
 .ltitle{color:#fff;font-size:20px;font-weight:600;margin-bottom:3px}
@@ -22,6 +24,7 @@ html,body{width:100%;height:100%;background:#0a0a0a;font-family:system-ui,-apple
 .lerr{color:#f87171;font-size:12px;margin-bottom:10px;display:none;text-align:center}
 .btn-g{width:100%;padding:13px;background:#02C39A;color:#003d2e;border:none;border-radius:9px;font-size:15px;font-weight:700;cursor:pointer}
 
+/* CÁMARA */
 #scr-cam{position:fixed;inset:0;display:none;flex-direction:column;background:#000}
 #cam-wrap{position:relative;flex:1;min-height:0;overflow:hidden;background:#000}
 video{width:100%;height:100%;object-fit:cover;display:block}
@@ -39,37 +42,43 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 .role-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
 .rd-checker{background:#93c5fd}
 .rd-verifier{background:#d8b4fe}
+.rd-volteo{background:#fbbf24}
 .btn-xs{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;padding:5px 9px;border-radius:6px;font-size:11px;cursor:pointer}
 .pill{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.82);border:1px solid #333;border-radius:20px;padding:6px 18px;font-size:12px;color:#ccc;white-space:nowrap;max-width:92%;text-align:center}
 .pill.ok{border-color:#02C39A;color:#02C39A}
 .pill.err{border-color:#f87171;color:#f87171}
 .pill.warn{border-color:#f59e0b;color:#f59e0b}
 
+/* BOTTOM */
 #bot{background:#111;padding:13px;flex-shrink:0}
 .trow{display:flex;gap:7px;margin-bottom:9px}
 .tbtn{flex:1;padding:8px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #252525;background:#1a1a1a;color:#555;text-align:center}
 .tbtn.on{background:#c8a84b;color:#1a0f00;border-color:#c8a84b}
 #itxt{font-size:12px;color:#444;text-align:center;padding:2px 0 8px;min-height:22px}
-.manual-row{display:flex;gap:7px;margin-bottom:9px}
-.manual-inp{flex:1;padding:9px 11px;background:#1a1a1a;border:1px solid #333;border-radius:8px;color:#fff;font-size:14px;outline:none}
-.manual-inp:focus{border-color:#02C39A}
-.manual-btn{padding:9px 14px;background:#1a3a2a;border:1px solid #254a35;color:#02C39A;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer}
 
+/* BÚSQUEDA MANUAL CON PREFIJO */
+.manual-row{display:flex;gap:0;margin-bottom:9px;border:1px solid #333;border-radius:8px;overflow:hidden}
+.manual-prefix{padding:9px 10px;background:#1a3a2a;color:#02C39A;font-size:14px;font-weight:600;border:none;flex-shrink:0;border-right:1px solid #333}
+.manual-inp{flex:1;padding:9px 10px;background:#1a1a1a;border:none;color:#fff;font-size:16px;font-weight:600;outline:none;width:80px}
+.manual-btn{padding:9px 14px;background:#02C39A;color:#003d2e;border:none;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0}
+
+/* CARD TRABAJADOR */
 #wcard{display:none;background:#1a1a1a;border:1px solid #2d2d2d;border-radius:14px;overflow:hidden;margin-bottom:10px}
 .wcard-foto{width:100%;height:280px;object-fit:contain;object-position:center;display:block;background:#111}
 .wcard-ini-big{width:100%;height:280px;background:#1a3a2a;display:none;align-items:center;justify-content:center;font-size:80px;font-weight:700;color:#02C39A}
 .wcard-body{padding:13px}
 .wcard-name{font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;line-height:1.2}
 .wcard-sub{font-size:12px;margin-bottom:3px}
-.wcard-num{font-size:15px;color:#aaa;margin-bottom:6px;font-weight:500}
-.wcard-puesto{font-size:16px;color:#02C39A;margin-top:4px;font-weight:700}
-.wcard-enc{font-size:13px;color:#888;margin-top:3px}
+.wcard-num{font-size:15px;color:#aaa;margin-bottom:4px;font-weight:500}
+.wcard-puesto{font-size:16px;color:#02C39A;font-weight:700;margin-bottom:3px}
+.wcard-enc{font-size:13px;color:#888}
 .brow{display:flex;gap:8px;margin-top:12px}
 .bcon{flex:1;padding:13px;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer}
 .bcon:active{opacity:.85}
 .bok{background:#16a34a;color:#fff}
 .bno{background:#dc2626;color:#fff}
 
+/* HORAS EXTRA */
 #extra-wrap{display:none;background:#120e00;border:1px solid #c8a84b33;border-radius:9px;padding:10px 12px;margin-bottom:9px}
 .extra-label{font-size:12px;color:#c8a84b;margin-bottom:8px;font-weight:500}
 .hrs-row{display:flex;gap:5px;flex-wrap:wrap}
@@ -77,27 +86,47 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 .hr-btn.on{background:#c8a84b;color:#1a0f00;border-color:#c8a84b}
 .btn-ver{width:100%;padding:9px;background:#1a1a1a;border:1px solid #222;border-radius:8px;color:#555;font-size:12px;cursor:pointer;margin-top:3px}
 
+/* MÓDULO VOLTEOS */
+#scr-volteo{position:fixed;inset:0;display:none;flex-direction:column;background:#000}
+#vcam-wrap{position:relative;flex:1;min-height:0;overflow:hidden;background:#000}
+#vvid{width:100%;height:100%;object-fit:cover;display:block}
+.vpill{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.82);border:1px solid #fbbf24;border-radius:20px;padding:6px 18px;font-size:12px;color:#fbbf24;white-space:nowrap;max-width:92%;text-align:center}
+.vtopbar{position:absolute;top:0;left:0;right:0;padding:11px 13px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(#000b,transparent)}
+.voverlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+#vbot{background:#111;padding:13px;flex-shrink:0}
+.vstep{background:#1a1200;border:1px solid #fbbf2433;border-radius:10px;padding:12px;margin-bottom:10px}
+.vstep-title{color:#fbbf24;font-size:12px;font-weight:600;margin-bottom:6px;letter-spacing:.3px}
+.vstep-val{color:#fff;font-size:15px;font-weight:500}
+.vstep-empty{color:#555;font-size:13px;font-style:italic}
+.vbrow{display:flex;gap:8px}
+.vbtn{flex:1;padding:12px;border:none;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer}
+.vbtn-ok{background:#16a34a;color:#fff}
+.vbtn-reset{background:#1a1a1a;border:1px solid #333;color:#888;font-size:13px}
+
+/* ADMIN */
 #scr-admin{position:fixed;inset:0;background:#0a0a0a;display:none;flex-direction:column}
 .adm-head{background:#1a3a2a;padding:13px 15px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
 .adm-head h1{color:#fff;font-size:14px;font-weight:500}
-.adm-tabs{display:flex;background:#111;border-bottom:1px solid #1e1e1e;flex-shrink:0}
-.adm-tab{flex:1;padding:10px;font-size:11px;color:#555;text-align:center;cursor:pointer;border-bottom:2px solid transparent}
+.adm-tabs{display:flex;background:#111;border-bottom:1px solid #1e1e1e;flex-shrink:0;overflow-x:auto}
+.adm-tab{flex-shrink:0;padding:10px 14px;font-size:11px;color:#555;text-align:center;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
 .adm-tab.on{color:#02C39A;border-bottom-color:#02C39A}
 .adm-body{flex:1;overflow-y:auto;padding:14px}
 .ucard{background:#1a1a1a;border:1px solid #222;border-radius:10px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
 .uav{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
 .uav-c{background:#1a2a3a;color:#93c5fd}
 .uav-v{background:#2a1a3a;color:#d8b4fe}
+.uav-vol{background:#2a1a00;color:#fbbf24}
 .uinfo{flex:1}
 .uinfo strong{color:#fff;font-size:13px;display:block}
 .uinfo span{color:#555;font-size:11px}
 .udel{background:#1a0808;border:1px solid #2a1010;color:#f87171;padding:5px 10px;border-radius:6px;font-size:11px;cursor:pointer}
-.badd{width:100%;padding:11px;border:1px solid;color:#fff;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;margin-top:5px}
+.badd{width:100%;padding:11px;border:1px solid;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;margin-top:5px}
 .badd-c{background:#1a2a3a;border-color:#253a4a;color:#93c5fd}
 .badd-v{background:#2a1a3a;border-color:#352545;color:#d8b4fe}
+.badd-vol{background:#2a1a00;border-color:#4a3000;color:#fbbf24}
 .aform{background:#1a1a1a;border:1px solid #222;border-radius:9px;padding:13px;margin-top:7px;display:none}
-.aform input{width:100%;padding:9px 11px;background:#0f0f0f;border:1px solid #2a2a2a;border-radius:7px;color:#fff;font-size:13px;margin-bottom:8px;outline:none}
-.aform input:focus{border-color:#02C39A}
+.aform input,.aform select{width:100%;padding:9px 11px;background:#0f0f0f;border:1px solid #2a2a2a;border-radius:7px;color:#fff;font-size:13px;margin-bottom:8px;outline:none;appearance:none}
+.aform input:focus,.aform select:focus{border-color:#02C39A}
 .bsave{width:100%;padding:10px;background:#02C39A;color:#003d2e;border:none;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer}
 .strow{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:7px;margin-bottom:12px}
 .stbox{background:#1a1a1a;border-radius:8px;padding:9px;text-align:center}
@@ -106,6 +135,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 .ritem{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid #1a1a1a}
 .ritem:last-child{border-bottom:none}
 .rav{width:32px;height:32px;border-radius:50%;background:#1a3a2a;color:#02C39A;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rav-v{background:#2a1a00;color:#fbbf24}
 .rinfo{flex:1;min-width:0}
 .rinfo strong{color:#fff;font-size:12px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rinfo small{color:#555;font-size:10px}
@@ -115,10 +145,12 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 .bv{background:#2a1a4a;color:#d8b4fe}
 .bsal{background:#1e3a5f;color:#93c5fd}
 .bx{background:#451a03;color:#fed7aa}
+.bvol{background:#2a1a00;color:#fbbf24}
 .bdl{width:100%;padding:11px;background:#1a3a2a;border:1px solid #254a35;color:#02C39A;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;margin-top:11px}
 .empty{color:#333;text-align:center;padding:24px 0;font-size:13px}
 .sec-title{font-size:10px;color:#555;letter-spacing:.5px;margin-bottom:10px;font-weight:500}
 
+/* MODAL */
 #modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.94);z-index:200;flex-direction:column}
 #modal.show{display:flex}
 .mhead{background:#1a3a2a;padding:13px 15px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
@@ -127,6 +159,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 .mbody{flex:1;overflow-y:auto;padding:13px}
 .mfoot{padding:13px;flex-shrink:0}
 
+/* DESCARGA OBLIGATORIA */
 #must-dl{display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:300;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center}
 #must-dl.show{display:flex}
 .mdl-icon{font-size:52px;margin-bottom:16px}
@@ -138,11 +171,12 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 </head>
 <body>
 
+<!-- LOGIN -->
 <div id="scr-login">
   <div class="logo">📋</div>
   <div class="ltitle">Pase de Lista</div>
   <div class="lsub">Proyectos Ferroviarios · SEDENA · Frente 4</div>
-  <div class="lver">v28.04.2026 — build 43</div>
+  <div class="lver">v28.04.2026 — build 44</div>
   <div class="lcard">
     <div class="lf"><label>USUARIO</label><input id="lu" type="text" placeholder="Usuario" autocapitalize="none" autocorrect="off" spellcheck="false"></div>
     <div class="lf"><label>CONTRASEÑA</label><input id="lp" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
@@ -151,6 +185,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   </div>
 </div>
 
+<!-- CÁMARA CHECADOR/VERIFICADOR -->
 <div id="scr-cam">
   <div id="cam-wrap">
     <video id="vid" autoplay playsinline muted webkit-playsinline></video>
@@ -169,8 +204,10 @@ video{width:100%;height:100%;object-fit:cover;display:block}
       <div class="tbtn" id="ts" onclick="setT('salida')">Salida</div>
     </div>
     <div id="itxt">Escaneando...</div>
+    <!-- BÚSQUEDA MANUAL CON PREFIJO -->
     <div class="manual-row">
-      <input class="manual-inp" id="manual-num" type="text" inputmode="numeric" placeholder="No. de trabajador manual...">
+      <span class="manual-prefix">027640</span>
+      <input class="manual-inp" id="manual-sfx" type="text" inputmode="numeric" maxlength="4" placeholder="0000" onkeydown="if(event.key==='Enter')buscarManual()">
       <button class="manual-btn" onclick="buscarManual()">Buscar</button>
     </div>
     <div id="extra-wrap">
@@ -196,6 +233,40 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   </div>
 </div>
 
+<!-- MÓDULO VOLTEOS -->
+<div id="scr-volteo">
+  <div id="vcam-wrap">
+    <video id="vvid" autoplay playsinline muted webkit-playsinline></video>
+    <div class="voverlay">
+      <div class="frame" style="border-color:#fbbf24">
+        <div class="c-tr" style="border-color:#fbbf24"></div>
+        <div class="c-bl" style="border-color:#fbbf24"></div>
+        <div class="sbar" style="background:linear-gradient(90deg,transparent,#fbbf24,transparent)"></div>
+      </div>
+    </div>
+    <div class="vtopbar">
+      <span style="color:#fbbf24;font-size:12px;font-weight:600">🚛 CHECADOR DE VOLTEOS</span>
+      <button class="btn-xs" onclick="tryLogout()">Salir</button>
+    </div>
+    <div class="vpill" id="vpill">Escanea QR del operador</div>
+  </div>
+  <div id="vbot">
+    <div class="vstep">
+      <div class="vstep-title">PASO 1 — OPERADOR</div>
+      <div id="vop-val" class="vstep-empty">Pendiente de escaneo...</div>
+    </div>
+    <div class="vstep">
+      <div class="vstep-title">PASO 2 — VOLTEO</div>
+      <div id="vvol-val" class="vstep-empty">Pendiente de escaneo...</div>
+    </div>
+    <div class="vbrow">
+      <button class="vbtn vbtn-reset" onclick="resetVolteo()">↺ Reiniciar</button>
+      <button class="vbtn vbtn-ok" id="vbtn-registrar" onclick="registrarVolteo()" disabled style="opacity:.3">✓ Registrar salida</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN -->
 <div id="scr-admin">
   <div class="adm-head">
     <h1>Administrador</h1>
@@ -203,12 +274,14 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   </div>
   <div class="adm-tabs">
     <div class="adm-tab on" onclick="aTab('users')">Usuarios</div>
-    <div class="adm-tab" onclick="aTab('regs')">Registros</div>
+    <div class="adm-tab" onclick="aTab('regs')">Asistencia</div>
+    <div class="adm-tab" onclick="aTab('volteos')">Volteos</div>
     <div class="adm-tab" onclick="aTab('pw')">Contraseña</div>
   </div>
   <div class="adm-body" id="adm-body"></div>
 </div>
 
+<!-- MODAL REGISTROS -->
 <div id="modal">
   <div class="mhead"><h2>Registros del día</h2><button class="mx" onclick="closeModal()">✕</button></div>
   <div class="mbody">
@@ -218,6 +291,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   <div class="mfoot"><button class="bdl" onclick="exportar();closeModal()">Descargar .xlsx</button></div>
 </div>
 
+<!-- DESCARGA OBLIGATORIA -->
 <div id="must-dl">
   <div class="mdl-icon">📥</div>
   <div class="mdl-title">Descarga requerida</div>
@@ -228,39 +302,57 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
+// ══ CONFIG ══
 const CFG = { adminUser:'admin', adminPass:'Admin2025!' };
 const API_URL = 'https://white-feather-9a0b.oscar-ct6698.workers.dev';
+const PREFIJO = '027640'; // Prefijo común de todos los trabajadores
+
 let WORKERS = [];
 let users = [
-  {user:'checador1', pass:'Check01!', name:'Checador 1', role:'checker'},
-  {user:'checador2', pass:'Check02!', name:'Checador 2', role:'checker'},
-  {user:'verificador1', pass:'Verif01!', name:'Verificador 1', role:'verifier'},
+  {user:'checador1',  pass:'Check01!',  name:'Checador 1',   role:'checker'},
+  {user:'checador2',  pass:'Check02!',  name:'Checador 2',   role:'checker'},
+  {user:'verificador1',pass:'Verif01!', name:'Verificador 1',role:'verifier'},
+  {user:'volteo1',    pass:'Volteo01!', name:'Checador Volteos',role:'volteo'},
 ];
-let regs={}, sesion=null, turno='entrada', current=null, lastQR='', jsqrOk=false, selectedHrs=0;
 
-// ── LOGIN ──
+let regs={}, volteoRegs=[], sesion=null, turno='entrada', current=null;
+let lastQR='', jsqrOk=false, selectedHrs=0;
+let vStream=null, vRafId=null, vLastQR='', vStep=1;
+let vOperador=null, vVolteo=null;
+
+// ══ LOGIN ══
 function doLogin(){
   const u=document.getElementById('lu').value.trim().toLowerCase();
   const p=document.getElementById('lp').value;
   document.getElementById('lerr').style.display='none';
   if(u===CFG.adminUser.toLowerCase()&&p===CFG.adminPass){sesion={role:'admin'};show('admin');aTab('users');return;}
   const usr=users.find(x=>x.user.toLowerCase()===u&&x.pass===p);
-  if(usr){sesion={role:usr.role,name:usr.name};startCam();return;}
+  if(usr){
+    sesion={role:usr.role,name:usr.name};
+    if(usr.role==='volteo') startVolteo();
+    else startCam();
+    return;
+  }
   document.getElementById('lerr').style.display='block';
 }
 function tryLogout(){
-  if(Object.keys(regs).length>0){document.getElementById('must-dl').classList.add('show');}
+  if(Object.keys(regs).length>0||volteoRegs.length>0){document.getElementById('must-dl').classList.add('show');}
   else doLogout();
 }
 function closeMustDl(){document.getElementById('must-dl').classList.remove('show');doLogout();}
-function doLogout(){sesion=null;stopCam();document.getElementById('lu').value='';document.getElementById('lp').value='';show('login');}
+function doLogout(){
+  sesion=null;stopCam();stopVolteo();
+  document.getElementById('lu').value='';document.getElementById('lp').value='';
+  show('login');
+}
 function show(s){
-  document.getElementById('scr-login').style.display=s==='login'?'flex':'none';
-  document.getElementById('scr-cam').style.display=s==='cam'?'flex':'none';
-  document.getElementById('scr-admin').style.display=s==='admin'?'flex':'none';
+  ['login','cam','admin','volteo'].forEach(x=>{
+    const el=document.getElementById('scr-'+x);
+    if(el) el.style.display=(x===s?(x==='login'?'flex':'flex'):'none');
+  });
 }
 
-// ── CÁMARA ──
+// ══ CÁMARA CHECADOR ══
 const vid=document.getElementById('vid');
 let stream=null,rafId=null,cvs=document.createElement('canvas'),ctx2=cvs.getContext('2d',{willReadFrequently:true});
 const sc=document.createElement('script');
@@ -302,7 +394,7 @@ function tick(){
   }catch(e){}
 }
 
-// ── CARGAR TRABAJADORES ──
+// ══ CARGAR TRABAJADORES ══
 function loadWorkers(){
   setPill('Cargando trabajadores...','');
   return new Promise((resolve)=>{
@@ -313,7 +405,7 @@ function loadWorkers(){
       document.head.removeChild(script);
       if(data&&data.workers&&data.workers.length>0){
         WORKERS=data.workers;
-        console.log('✅ Trabajadores cargados:',WORKERS.length);
+        console.log('✅ Trabajadores:',WORKERS.length);
       }
       setPill('Apunta al QR de la credencial','');
       resolve();
@@ -321,7 +413,7 @@ function loadWorkers(){
     script.onerror=function(){
       delete window[cbName];
       document.head.removeChild(script);
-      setPill('Sin conexión — reintenta','warn');
+      setPill('Sin conexión','warn');
       resolve();
     };
     script.src=API_URL+'?callback='+cbName+'&t='+Date.now();
@@ -330,7 +422,7 @@ function loadWorkers(){
   });
 }
 
-// ── QR ──
+// ══ QR CHECADOR ══
 function handleQR(data){
   if(current)return;
   const m=data.match(/consulta[&?/](\d{7,})[&?/](\d+)/i);
@@ -342,31 +434,34 @@ function handleQR(data){
   showCard({name:w?w.name:'Empleado '+padded,puesto:w?.puesto||'',foto:w?.foto||'',encargado:w?.encargado||'',num:padded,rawNum:num});
 }
 
+// ══ BÚSQUEDA MANUAL CON PREFIJO ══
 function buscarManual(){
-  const val=document.getElementById('manual-num').value.trim();
-  if(!val)return;
-  const stripped=val.replace(/^0+/,'');
-  const w=WORKERS.find(x=>x.id===val||x.id===val.padStart(10,'0')||x.id.replace(/^0+/,'')=== stripped);
+  const sfx=document.getElementById('manual-sfx').value.trim();
+  if(!sfx)return;
+  const numCompleto=PREFIJO+sfx;
+  const padded=numCompleto.padStart(10,'0');
+  const stripped=numCompleto.replace(/^0+/,'');
+  const w=WORKERS.find(x=>x.id===numCompleto||x.id===padded||x.id.replace(/^0+/,'')=== stripped||x.id.endsWith(sfx));
   if(w){
-    showCard({name:w.name,puesto:w.puesto||'',foto:w.foto||'',encargado:w.encargado||'',num:w.id,rawNum:val});
-    document.getElementById('manual-num').value='';
+    showCard({name:w.name,puesto:w.puesto||'',foto:w.foto||'',encargado:w.encargado||'',num:w.id,rawNum:numCompleto});
+    document.getElementById('manual-sfx').value='';
   } else {
-    setPill('No encontrado: '+val,'err');
+    setPill('No encontrado: '+numCompleto,'err');
     setTimeout(()=>setPill('Apunta al QR de la credencial'),2000);
   }
 }
 
-// ── MOSTRAR CARD ──
+// ══ MOSTRAR CARD ══
 function showCard(d){
   current=d;
   const ini=d.name.trim().split(/\s+/).slice(0,2).map(n=>n[0]?.toUpperCase()||'').join('');
   const foto=document.getElementById('wfoto'),iniEl=document.getElementById('wini');
   iniEl.textContent=ini;iniEl.style.display='none';foto.style.display='block';
-  const tries=[d.foto,'https://wsrv.nl/?url='+encodeURIComponent(d.foto||'')+'&w=400&h=500'].filter(Boolean);
-  let ti=0;
-  foto.onerror=()=>{ti++;if(ti<tries.length){foto.src=tries[ti];}else{foto.style.display='none';iniEl.style.display='flex';}};
-  foto.src=tries[0]||'';
-  if(!d.foto){foto.style.display='none';iniEl.style.display='flex';}
+  if(d.foto){
+    let ti=0;const tries=[d.foto];
+    foto.onerror=()=>{ti++;if(ti<tries.length){foto.src=tries[ti];}else{foto.style.display='none';iniEl.style.display='flex';}};
+    foto.src=d.foto;
+  } else {foto.style.display='none';iniEl.style.display='flex';}
 
   document.getElementById('wname').textContent=d.name;
   document.getElementById('wnum').textContent='No. '+d.num;
@@ -378,7 +473,7 @@ function showCard(d){
   if(sesion.role==='verifier'){
     if(!r?.entrada){sub='✕ Sin entrada — no puede verificarse';sc='#f87171';blk=true;}
     else if(r?.verificado){sub='⚠ Ya verificado ('+r.verificado+')';sc='#f59e0b';}
-    else sub='Confirmando presencia en Punto B';
+    else sub='Confirmando presencia · Punto B';
   } else {
     if(turno==='entrada'){
       sub=r?.entrada?'⚠ Ya registró entrada ('+r.entrada+')':'Registrando entrada · Punto A';
@@ -394,6 +489,7 @@ function showCard(d){
   const bok=document.getElementById('bok');
   bok.disabled=blk;bok.style.opacity=blk?'.3':'1';
   document.getElementById('extra-wrap').style.display=turno==='salida'&&sesion.role!=='verifier'&&!blk?'block':'none';
+  if(turno==='salida'&&!blk) resetHrs();
   document.getElementById('wcard').style.display='block';
   document.getElementById('itxt').textContent='';
   setPill('¿Es correcto?','');
@@ -414,6 +510,7 @@ function reset(){
   current=null;lastQR='';
   document.getElementById('wcard').style.display='none';
   document.getElementById('extra-wrap').style.display='none';
+  document.getElementById('manual-sfx').value='';
   document.getElementById('itxt').textContent='Escaneando...';
   setTimeout(()=>setPill('Apunta al QR de la credencial',''),1800);
 }
@@ -428,7 +525,7 @@ function setPill(txt,type=''){
   p.textContent=txt;p.className='pill'+(type?' '+type:'');
 }
 
-// ── HORAS EXTRA ──
+// ══ HORAS EXTRA ══
 function buildHrs(){
   selectedHrs=0;
   const row=document.getElementById('hrs-row');
@@ -441,31 +538,124 @@ function buildHrs(){
     row.appendChild(btn);
   }
 }
+function resetHrs(){selectedHrs=0;document.querySelectorAll('.hr-btn').forEach((b,i)=>b.className='hr-btn'+(i===0?' on':''));}
 
-// ── ADMIN ──
+// ══ MÓDULO VOLTEOS ══
+const vvid=document.getElementById('vvid');
+let vcvs=document.createElement('canvas'),vctx=vcvs.getContext('2d',{willReadFrequently:true});
+
+async function startVolteo(){
+  show('volteo');
+  resetVolteo();
+  try{
+    vStream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:'environment',width:{ideal:1280},height:{ideal:720}}});
+    vvid.srcObject=vStream;
+    vvid.onloadedmetadata=()=>{vvid.play();requestAnimationFrame(vtick);};
+  }catch(e){document.getElementById('vpill').textContent='Sin cámara';}
+  loadWorkers();
+}
+function stopVolteo(){
+  if(vRafId)cancelAnimationFrame(vRafId);
+  if(vStream)vStream.getTracks().forEach(t=>t.stop());
+  vStream=null;vvid.srcObject=null;
+}
+function vtick(){
+  vRafId=requestAnimationFrame(vtick);
+  if(!jsqrOk||vvid.readyState<2||vvid.paused)return;
+  const w=vvid.videoWidth,h=vvid.videoHeight;
+  if(!w||!h)return;
+  vcvs.width=w;vcvs.height=h;
+  vctx.drawImage(vvid,0,0,w,h);
+  try{
+    const img=vctx.getImageData(0,0,w,h);
+    const code=jsQR(img.data,w,h,{inversionAttempts:'attemptBoth'});
+    if(code&&code.data&&code.data!==vLastQR){vLastQR=code.data;handleVQR(code.data);}
+  }catch(e){}
+}
+
+function handleVQR(data){
+  if(vStep===1){
+    // Paso 1: QR del operador (formato rh-2025 o número)
+    const m=data.match(/consulta[&?/](\d{7,})[&?/](\d+)/i);
+    let num=m?m[1]:null;
+    if(!num){const ns=data.match(/\d{7,}/g);if(ns)num=ns[0];}
+    if(!num){document.getElementById('vpill').textContent='QR no reconocido';setTimeout(()=>{vLastQR='';document.getElementById('vpill').textContent='Escanea QR del operador';},2000);return;}
+    const padded=num.padStart(10,'0');
+    const w=WORKERS.find(x=>x.id===num||x.id===padded||x.id.replace(/^0+/,'')=== num.replace(/^0+/,''));
+    vOperador={num:padded,name:w?w.name:'Operador '+padded};
+    document.getElementById('vop-val').className='vstep-val';
+    document.getElementById('vop-val').textContent=vOperador.name+' — No. '+vOperador.num;
+    vStep=2;vLastQR='';
+    document.getElementById('vpill').textContent='✓ Operador OK — Escanea QR del volteo';
+  } else if(vStep===2){
+    // Paso 2: QR del volteo (formato V-01, V-02, etc.)
+    const mVol=data.match(/V-?\d+/i);
+    if(!mVol){document.getElementById('vpill').textContent='QR de volteo no válido — debe ser V-01, V-02...';setTimeout(()=>{vLastQR='';document.getElementById('vpill').textContent='Escanea QR del volteo';},2500);return;}
+    vVolteo=mVol[0].toUpperCase();
+    document.getElementById('vvol-val').className='vstep-val';
+    document.getElementById('vvol-val').textContent='🚛 '+vVolteo;
+    vStep=3;vLastQR='';
+    document.getElementById('vpill').textContent='✓ Listo — confirma la salida';
+    document.getElementById('vbtn-registrar').disabled=false;
+    document.getElementById('vbtn-registrar').style.opacity='1';
+  }
+}
+
+function registrarVolteo(){
+  if(!vOperador||!vVolteo)return;
+  const h=getHM(),f=getFecha();
+  volteoRegs.push({operador:vOperador.name,numOp:vOperador.num,volteo:vVolteo,hora:h,fecha:f});
+  document.getElementById('vpill').textContent='✓ '+vOperador.name+' — '+vVolteo+' — '+h;
+  setTimeout(()=>resetVolteo(),2000);
+}
+
+function resetVolteo(){
+  vOperador=null;vVolteo=null;vStep=1;vLastQR='';
+  document.getElementById('vop-val').className='vstep-empty';
+  document.getElementById('vop-val').textContent='Pendiente de escaneo...';
+  document.getElementById('vvol-val').className='vstep-empty';
+  document.getElementById('vvol-val').textContent='Pendiente de escaneo...';
+  document.getElementById('vbtn-registrar').disabled=true;
+  document.getElementById('vbtn-registrar').style.opacity='.3';
+  document.getElementById('vpill').textContent='Escanea QR del operador';
+}
+
+// ══ ADMIN ══
 function aTab(t){
-  document.querySelectorAll('.adm-tab').forEach((el,i)=>el.className='adm-tab'+(['users','regs','pw'][i]===t?' on':''));
+  document.querySelectorAll('.adm-tab').forEach((el,i)=>el.className='adm-tab'+(['users','regs','volteos','pw'][i]===t?' on':''));
   const b=document.getElementById('adm-body');
   if(t==='users')renderUsers(b);
   if(t==='regs')renderRegs(b);
+  if(t==='volteos')renderVolteos(b);
   if(t==='pw')renderPw(b);
 }
+
 function renderUsers(b){
   const checkers=users.filter(u=>u.role==='checker');
   const verifiers=users.filter(u=>u.role==='verifier');
-  const ucard=(u)=>`<div class="ucard"><div class="uav ${u.role==='checker'?'uav-c':'uav-v'}">${u.name[0]}</div><div class="uinfo"><strong>${u.name}</strong><span>${u.user} · ${u.role==='checker'?'Checador':'Verificador'}</span></div><button class="udel" onclick="delUser('${u.user}')">Eliminar</button></div>`;
-  b.innerHTML=`<div class="sec-title">CHECADORES — PUNTO A (${checkers.length})</div>${checkers.map(ucard).join('')||'<div class="empty">Sin checadores</div>'}
-  <button class="badd badd-c" onclick="showForm('checker')">+ Agregar checador</button>
-  <div class="sec-title" style="margin-top:16px">VERIFICADORES — PUNTO B (${verifiers.length})</div>
-  ${verifiers.map(ucard).join('')||'<div class="empty">Sin verificadores</div>'}
-  <button class="badd badd-v" onclick="showForm('verifier')">+ Agregar verificador</button>
-  <div class="aform" id="aform">
-    <input id="fn" placeholder="Nombre completo">
-    <input id="fu" placeholder="Usuario" autocapitalize="none" spellcheck="false">
-    <input id="fp" type="password" placeholder="Contraseña">
-    <input type="hidden" id="frole">
-    <button class="bsave" onclick="addUser()">Guardar</button>
+  const volteos=users.filter(u=>u.role==='volteo');
+  const ucard=(u)=>`<div class="ucard">
+    <div class="uav ${u.role==='checker'?'uav-c':u.role==='volteo'?'uav-vol':'uav-v'}">${u.name[0]}</div>
+    <div class="uinfo"><strong>${u.name}</strong><span>${u.user} · ${u.role==='checker'?'Checador A':u.role==='verifier'?'Verificador B':'Checador Volteos'}</span></div>
+    <button class="udel" onclick="delUser('${u.user}')">Eliminar</button>
   </div>`;
+  b.innerHTML=`
+    <div class="sec-title">CHECADORES — PUNTO A (${checkers.length})</div>
+    ${checkers.map(ucard).join('')||'<div class="empty">Sin checadores</div>'}
+    <button class="badd badd-c" onclick="showForm('checker')">+ Agregar checador</button>
+    <div class="sec-title" style="margin-top:14px">VERIFICADORES — PUNTO B (${verifiers.length})</div>
+    ${verifiers.map(ucard).join('')||'<div class="empty">Sin verificadores</div>'}
+    <button class="badd badd-v" onclick="showForm('verifier')">+ Agregar verificador</button>
+    <div class="sec-title" style="margin-top:14px">CHECADORES VOLTEOS (${volteos.length})</div>
+    ${volteos.map(ucard).join('')||'<div class="empty">Sin checadores de volteos</div>'}
+    <button class="badd badd-vol" onclick="showForm('volteo')">+ Agregar checador volteos</button>
+    <div class="aform" id="aform">
+      <input id="fn" placeholder="Nombre completo">
+      <input id="fu" placeholder="Usuario" autocapitalize="none" spellcheck="false">
+      <input id="fp" type="password" placeholder="Contraseña">
+      <input type="hidden" id="frole">
+      <button class="bsave" onclick="addUser()">Guardar</button>
+    </div>`;
 }
 function showForm(role){const f=document.getElementById('aform');document.getElementById('frole').value=role;f.style.display='block';f.scrollIntoView({behavior:'smooth'});}
 function addUser(){
@@ -475,20 +665,41 @@ function addUser(){
   users.push({user:u,pass:p,name:n,role:r});aTab('users');
 }
 function delUser(u){if(!confirm('¿Eliminar a '+users.find(x=>x.user===u)?.name+'?'))return;users=users.filter(x=>x.user!==u);aTab('users');}
+
 function renderRegs(b){
   const v=Object.values(regs);
   const e=v.filter(r=>r.entrada).length,ve=v.filter(r=>r.verificado).length,s=v.filter(r=>r.salida).length,x=v.filter(r=>r.horasExtra>0).length;
-  b.innerHTML=`<div class="strow"><div class="stbox"><div class="stn">${e}</div><div class="stl">Entradas</div></div><div class="stbox"><div class="stn">${ve}</div><div class="stl">Verif.</div></div><div class="stbox"><div class="stn">${s}</div><div class="stl">Salidas</div></div><div class="stbox"><div class="stn">${x}</div><div class="stl">H.Extra</div></div></div>`+
-  `<div style="background:#1a1a1a;border:1px solid #222;border-radius:10px;padding:12px">${v.length?v.map(r=>{
+  b.innerHTML=`<div class="strow">
+    <div class="stbox"><div class="stn">${e}</div><div class="stl">Entradas</div></div>
+    <div class="stbox"><div class="stn">${ve}</div><div class="stl">Verif.</div></div>
+    <div class="stbox"><div class="stn">${s}</div><div class="stl">Salidas</div></div>
+    <div class="stbox"><div class="stn">${x}</div><div class="stl">H.Extra</div></div>
+  </div><div style="background:#1a1a1a;border:1px solid #222;border-radius:10px;padding:12px">
+  ${v.length?v.map(r=>{
     const ini=r.name.trim().split(/\s+/).slice(0,2).map(n=>n[0]||'').join('').toUpperCase();
     const bs=[];
-    if(r.entrada)bs.push(`<span class="b ba">A ${r.entrada}</span>`);
-    if(r.verificado)bs.push(`<span class="b bv">B ${r.verificado}</span>`);
+    if(r.entrada)bs.push(`<span class="b ba">Ent ${r.entrada}</span>`);
+    if(r.verificado)bs.push(`<span class="b bv">Ver ${r.verificado}</span>`);
     if(r.salida)bs.push(`<span class="b bsal">Sal ${r.salida}</span>`);
     if(r.horasExtra>0)bs.push(`<span class="b bx">${r.horasExtra}h</span>`);
     return`<div class="ritem"><div class="rav">${ini}</div><div class="rinfo"><strong>${r.name}</strong><small>No. ${r.num}</small></div><div class="rbadges">${bs.join('<br>')}</div></div>`;
-  }).join(''):'<div class="empty">Sin registros</div>'}</div><button class="bdl" onclick="exportar()">Descargar .xlsx</button>`;
+  }).join(''):'<div class="empty">Sin registros</div>'}</div>
+  <button class="bdl" onclick="exportar()">Descargar .xlsx</button>`;
 }
+
+function renderVolteos(b){
+  b.innerHTML=`<div class="sec-title">VOLTEOS REGISTRADOS HOY (${volteoRegs.length})</div>
+  <div style="background:#1a1a1a;border:1px solid #222;border-radius:10px;padding:12px">
+  ${volteoRegs.length?volteoRegs.map(v=>`
+    <div class="ritem">
+      <div class="rav rav-v">🚛</div>
+      <div class="rinfo"><strong>${v.operador}</strong><small>No. ${v.numOp}</small></div>
+      <div class="rbadges"><span class="b bvol">${v.volteo}</span><br><span style="font-size:10px;color:#555">${v.hora}</span></div>
+    </div>`).join(''):'<div class="empty">Sin registros de volteos</div>'}
+  </div>
+  <button class="bdl" onclick="exportarVolteos()">Descargar volteos .xlsx</button>`;
+}
+
 function renderPw(b){
   b.innerHTML=`<div style="background:#1a1a1a;border:1px solid #222;border-radius:10px;padding:16px">
     <h3 style="color:#fff;font-size:14px;margin-bottom:13px">Cambiar contraseña admin</h3>
@@ -507,10 +718,14 @@ function chPw(){
   CFG.adminPass=n;m.style.color='#86efac';m.textContent='¡Actualizada!';
 }
 
-// ── MODAL ──
+// ══ MODAL ══
 function openModal(){
   const v=Object.values(regs);
-  document.getElementById('mstats').innerHTML=`<div class="stbox"><div class="stn">${v.filter(r=>r.entrada).length}</div><div class="stl">Entradas</div></div><div class="stbox"><div class="stn">${v.filter(r=>r.verificado).length}</div><div class="stl">Verif.</div></div><div class="stbox"><div class="stn">${v.filter(r=>r.salida).length}</div><div class="stl">Salidas</div></div><div class="stbox"><div class="stn">${v.filter(r=>r.horasExtra>0).length}</div><div class="stl">H.Extra</div></div>`;
+  document.getElementById('mstats').innerHTML=`
+    <div class="stbox"><div class="stn">${v.filter(r=>r.entrada).length}</div><div class="stl">Entradas</div></div>
+    <div class="stbox"><div class="stn">${v.filter(r=>r.verificado).length}</div><div class="stl">Verif.</div></div>
+    <div class="stbox"><div class="stn">${v.filter(r=>r.salida).length}</div><div class="stl">Salidas</div></div>
+    <div class="stbox"><div class="stn">${v.filter(r=>r.horasExtra>0).length}</div><div class="stl">H.Extra</div></div>`;
   document.getElementById('mlista').innerHTML=v.length?v.map(r=>{
     const ini=r.name.trim().split(/\s+/).slice(0,2).map(n=>n[0]||'').join('').toUpperCase();
     const bs=[];
@@ -524,18 +739,56 @@ function openModal(){
 }
 function closeModal(){document.getElementById('modal').classList.remove('show');}
 
-// ── EXPORT ──
+// ══ EXPORT ══
+function getDiaSemana(){
+  const dias=['DOM','LUN','MAR','MIE','JUE','VIE','SAB'];
+  return dias[new Date().getDay()];
+}
+function getNumSemana(){
+  const d=new Date();
+  const start=new Date(d.getFullYear(),0,1);
+  return Math.ceil(((d-start)/86400000+start.getDay()+1)/7);
+}
+
 function exportar(){
-  const f=getFecha();
-  const rows=[['No. Empleado','Nombre','Fecha','Entrada (Punto A)','Verificado (Punto B)','Salida','Horas Extra','Asistencia A','Asistencia B']];
+  const f=getFecha(), dia=getDiaSemana(), sem=getNumSemana();
+  // Columnas por semana: SAB|H.E|DOM|H.E|LUN|H.E|MAR|H.E|MIE|H.E|JUE|H.E|VIE|H.E
+  const dias=['SAB','DOM','LUN','MAR','MIE','JUE','VIE'];
+  const headers=['No. Empleado','Nombre'];
+  dias.forEach(d=>{headers.push(d);headers.push('H.E '+d);});
+  headers.push('Semana');
+
+  const rows=[headers];
   Object.values(regs).forEach(r=>{
-    rows.push([r.num,r.name,r.date||f,r.entrada||'',r.verificado||'',r.salida||'',r.horasExtra||0,r.entrada?'✓':'✗',r.verificado?'✓':'✗']);
+    const row=[r.num,r.name];
+    dias.forEach(d=>{
+      if(d===dia){
+        row.push(r.entrada||'');
+        row.push(r.salida||'');
+      } else {
+        row.push('');row.push('');
+      }
+    });
+    row.push('SEM '+sem);
+    rows.push(row);
   });
+
   const wb=XLSX.utils.book_new();
   const ws=XLSX.utils.aoa_to_sheet(rows);
-  ws['!cols']=[14,32,12,16,16,14,12,13,13].map(w=>({wch:w}));
-  XLSX.utils.book_append_sheet(wb,ws,'Asistencia');
-  XLSX.writeFile(wb,'Asistencia_'+f.replace(/\//g,'-')+'.xlsx');
+  ws['!cols']=[14,32,...Array(14).fill({wch:10}),10].map(w=>typeof w==='number'?{wch:w}:w);
+  XLSX.utils.book_append_sheet(wb,ws,'SEM '+sem);
+  XLSX.writeFile(wb,'Asistencia_SEM'+sem+'_'+dia+'_'+f.replace(/\//g,'-')+'.xlsx');
+}
+
+function exportarVolteos(){
+  const f=getFecha(),sem=getNumSemana();
+  const rows=[['Operador','No. Empleado','Volteo','Hora','Fecha']];
+  volteoRegs.forEach(v=>rows.push([v.operador,v.numOp,v.volteo,v.hora,v.fecha]));
+  const wb=XLSX.utils.book_new();
+  const ws=XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols']=[32,14,10,10,12].map(w=>({wch:w}));
+  XLSX.utils.book_append_sheet(wb,ws,'Volteos SEM '+sem);
+  XLSX.writeFile(wb,'Volteos_SEM'+sem+'_'+f.replace(/\//g,'-')+'.xlsx');
 }
 
 function getHM(){return new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});}
