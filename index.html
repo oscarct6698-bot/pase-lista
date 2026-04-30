@@ -207,7 +207,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
     <!-- BÚSQUEDA MANUAL CON PREFIJO -->
     <div class="manual-row">
       <span class="manual-prefix">027640</span>
-      <input class="manual-inp" id="manual-sfx" type="text" inputmode="numeric" maxlength="4" placeholder="0000" onkeydown="if(event.key==='Enter')buscarManual()">
+      <input class="manual-inp" id="manual-sfx" type="text" inputmode="numeric" maxlength="4" placeholder="####" onkeydown="if(event.key==='Enter')buscarManual()">
       <button class="manual-btn" onclick="buscarManual()">Buscar</button>
     </div>
     <div style="display:flex;gap:7px;margin-bottom:9px">
@@ -405,17 +405,25 @@ async function loadWorkers(){
   setPill('Cargando trabajadores...','');
   try{
     const res = await fetch(API_URL + '?t=' + Date.now());
+    if(!res.ok) throw new Error('HTTP ' + res.status);
     const json = await res.json();
-    if(json.workers && json.workers.length > 0){
-      WORKERS = json.workers;
-      console.log('✅ Trabajadores:', WORKERS.length);
+    console.log('Respuesta:', JSON.stringify(json).substring(0,100));
+    const lista = json.workers || json || [];
+    if(Array.isArray(lista) && lista.length > 0){
+      WORKERS = lista;
+      console.log('✅ Trabajadores:', WORKERS.length, 'Ejemplo:', JSON.stringify(WORKERS[0]));
       const cnt = document.getElementById('refresh-count');
       if(cnt) cnt.textContent = WORKERS.length + ' cargados';
+      setPill('✅ ' + WORKERS.length + ' trabajadores listos','ok');
+      setTimeout(()=>setPill('Apunta al QR de la credencial',''),2000);
+    } else {
+      console.warn('Sin trabajadores en respuesta:', json);
+      setPill('Sin conexión — reintenta','warn');
     }
-    setPill('Apunta al QR de la credencial','');
   } catch(e){
     console.error('Error cargando trabajadores:', e);
-    setPill('Sin conexión — reintenta','warn');
+    setPill('Error: ' + e.message,'err');
+    setTimeout(()=>setPill('Apunta al QR de la credencial',''),3000);
   }
 }
 
