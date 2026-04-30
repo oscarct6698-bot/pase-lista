@@ -177,7 +177,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   <div class="logo">📋</div>
   <div class="ltitle">Pase de Lista</div>
   <div class="lsub">Proyectos Ferroviarios · SEDENA · Frente 4</div>
-  <div class="lver">v30.04.2026 — build 45</div>
+  <div class="lver">v30.04.2026 — build 46</div>
   <div class="lcard">
     <div class="lf"><label>USUARIO</label><input id="lu" type="text" placeholder="Usuario" autocapitalize="none" autocorrect="off" spellcheck="false"></div>
     <div class="lf"><label>CONTRASEÑA</label><input id="lp" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
@@ -208,7 +208,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
     <!-- BÚSQUEDA MANUAL CON PREFIJO -->
     <div class="manual-row">
       <span class="manual-prefix">27640</span>
-      <input class="manual-inp" id="manual-sfx" type="text" inputmode="numeric" maxlength="4" placeholder="####" onkeydown="if(event.key==='Enter')buscarManual()">
+      <input class="manual-inp" id="manual-sfx" type="tel" maxlength="4" placeholder="####" onkeydown="if(event.key==='Enter')buscarManual()">
       <button class="manual-btn" onclick="buscarManual()">Buscar</button>
     </div>
     <div style="display:flex;gap:7px;margin-bottom:9px">
@@ -446,12 +446,24 @@ async function refreshWorkers(){
   const btn = document.getElementById('refresh-btn');
   btn.textContent = '⏳ Cargando...';
   btn.disabled = true;
-  await loadWorkers();
+  try{
+    const res = await fetch(API_URL + '?t=' + Date.now());
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const json = await res.json();
+    const lista = json.workers || json || [];
+    if(Array.isArray(lista) && lista.length > 0){
+      WORKERS = lista;
+      document.getElementById('refresh-count').textContent = WORKERS.length + ' cargados';
+      setPill('✅ ' + WORKERS.length + ' trabajadores','ok');
+      setTimeout(()=>setPill('Apunta al QR de la credencial',''),2000);
+    } else {
+      setPill('Sin datos — intenta de nuevo','err');
+    }
+  } catch(e){
+    setPill('Error: ' + e.message,'err');
+  }
   btn.textContent = '🔄 Actualizar trabajadores';
   btn.disabled = false;
-  document.getElementById('refresh-count').textContent = WORKERS.length + ' cargados';
-  setPill('✅ ' + WORKERS.length + ' trabajadores cargados','ok');
-  setTimeout(()=>setPill('Apunta al QR de la credencial',''),3000);
 }
 
 function buscarManual(){
