@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test Trabajadores</title>
+<style>
+body{font-family:system-ui;background:#0a0a0a;color:#fff;padding:20px}
+button{padding:12px 24px;background:#02C39A;color:#003d2e;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:16px}
+#log{background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:14px;font-size:13px;font-family:monospace;white-space:pre-wrap;min-height:100px}
+.ok{color:#86efac}
+.err{color:#f87171}
+.info{color:#93c5fd}
+</style>
+</head>
+<body>
+<h2>🔬 Test de carga de trabajadores</h2>
+<button onclick="test1()">Prueba 1 — Fetch directo</button>
+<button onclick="test2()">Prueba 2 — JSONP</button>
+<button onclick="test3()">Prueba 3 — Script tag</button>
+<div id="log">Presiona un botón para iniciar la prueba...\n</div>
+
+<script>
+const API = 'https://white-feather-9a0b.oscar-ct6698.workers.dev';
+
+function log(msg, type=''){
+  const el = document.getElementById('log');
+  const span = document.createElement('span');
+  span.className = type;
+  span.textContent = msg + '\n';
+  el.appendChild(span);
+  el.scrollTop = el.scrollHeight;
+}
+
+function clearLog(){ document.getElementById('log').innerHTML = ''; }
+
+async function test1(){
+  clearLog();
+  log('=== PRUEBA 1: fetch() directo ===', 'info');
+  log('URL: ' + API);
+  try{
+    const res = await fetch(API + '?t=' + Date.now());
+    log('Status: ' + res.status);
+    log('Headers OK: ' + res.headers.get('Access-Control-Allow-Origin'));
+    const text = await res.text();
+    log('Respuesta (primeros 200 chars): ' + text.substring(0,200));
+    const json = JSON.parse(text);
+    log('✅ Workers cargados: ' + json.workers?.length, 'ok');
+  }catch(e){
+    log('❌ Error: ' + e.message, 'err');
+  }
+}
+
+function test2(){
+  clearLog();
+  log('=== PRUEBA 2: JSONP ===', 'info');
+  const cbName = 'testCb_' + Date.now();
+  const script = document.createElement('script');
+  
+  window[cbName] = function(data){
+    delete window[cbName];
+    document.head.removeChild(script);
+    if(data && data.workers){
+      log('✅ Workers: ' + data.workers.length, 'ok');
+      log('Primero: ' + JSON.stringify(data.workers[0]));
+    } else {
+      log('❌ Sin datos: ' + JSON.stringify(data), 'err');
+    }
+  };
+  
+  script.onerror = function(){
+    delete window[cbName];
+    document.head.removeChild(script);
+    log('❌ Error cargando script', 'err');
+  };
+  
+  const url = API + '?callback=' + cbName + '&t=' + Date.now();
+  log('URL: ' + url);
+  script.src = url;
+  document.head.appendChild(script);
+  log('Script tag agregado, esperando respuesta...');
+  
+  setTimeout(()=>{
+    if(window[cbName]){
+      log('⏱ Timeout — sin respuesta en 10 segundos', 'err');
+      window[cbName]({workers:[]});
+    }
+  }, 10000);
+}
+
+async function test3(){
+  clearLog();
+  log('=== PRUEBA 3: fetch con no-cors ===', 'info');
+  try{
+    const res = await fetch(API + '?t=' + Date.now(), {
+      mode: 'cors',
+      headers: {'Accept': 'application/json'}
+    });
+    log('Status: ' + res.status, 'ok');
+    const json = await res.json();
+    log('✅ Workers: ' + json.workers?.length, 'ok');
+    if(json.workers?.length > 0){
+      log('Ejemplo: ' + JSON.stringify(json.workers[0]));
+    }
+  }catch(e){
+    log('❌ Error: ' + e.message, 'err');
+  }
+}
+</script>
+</body>
+</html>
