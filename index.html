@@ -69,9 +69,10 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 .wcard-body{padding:13px}
 .wcard-name{font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;line-height:1.2}
 .wcard-sub{font-size:12px;margin-bottom:3px}
-.wcard-num{font-size:15px;color:#aaa;margin-bottom:4px;font-weight:500}
-.wcard-puesto{font-size:16px;color:#02C39A;font-weight:700;margin-bottom:3px}
-.wcard-enc{font-size:13px;color:#888}
+.wcard-num{font-size:20px;color:#fff;margin-bottom:4px;font-weight:700;letter-spacing:.5px}
+.wcard-puesto{font-size:14px;color:#02C39A;font-weight:600;margin-bottom:3px}
+.wcard-enc{font-size:14px;color:#c8a84b;font-weight:500;margin-bottom:3px}
+.wcard-alerta{font-size:20px;font-weight:700;color:#f87171;margin-top:6px;padding:8px;background:#2a0808;border-radius:8px;border:1px solid #f8717144;text-align:center;display:none}
 .brow{display:flex;gap:8px;margin-top:12px}
 .bcon{flex:1;padding:13px;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer}
 .bcon:active{opacity:.85}
@@ -229,6 +230,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
         <div class="wcard-num" id="wnum"></div>
         <div class="wcard-puesto" id="wpuesto"></div>
         <div class="wcard-enc" id="wenc"></div>
+        <div class="wcard-alerta" id="walerta"></div>
         <div class="brow">
           <button class="bcon bno" onclick="nope()">✕ Incorrecto</button>
           <button class="bcon bok" id="bok" onclick="confirm_()">✓ Correcto</button>
@@ -436,7 +438,7 @@ function handleQR(data){
   if(!num){setPill('QR no reconocido','err');setTimeout(()=>{lastQR='';setPill('Apunta al QR');},2000);return;}
   const padded=num.padStart(10,'0'),stripped=num.replace(/^0+/,'');
   const w=WORKERS.find(x=>x.id===num||x.id===padded||x.id.replace(/^0+/,'')=== stripped);
-  showCard({name:w?w.name:'Empleado '+padded,puesto:w?.puesto||'',foto:w?.foto||'',encargado:w?.encargado||'',num:padded,rawNum:num});
+  showCard({name:w?w.name:'Empleado '+padded,puesto:w?.puesto||'',foto:w?.foto||'',encargado:w?.encargado||'',alerta:w?.alerta||'',num:padded,rawNum:num});
 }
 
 // ══ BÚSQUEDA MANUAL CON PREFIJO ══
@@ -467,7 +469,7 @@ function buscarManual(){
     x.id.slice(-4)===sfx.padStart(4,'0')
   );
   if(w){
-    showCard({name:w.name,puesto:w.puesto||'',foto:w.foto||'',encargado:w.encargado||'',num:w.id,rawNum:numCompleto});
+    showCard({name:w.name,puesto:w.puesto||'',foto:w.foto||'',encargado:w.encargado||'',alerta:w.alerta||'',num:w.id,rawNum:numCompleto});
     document.getElementById('manual-sfx').value='';
   } else {
     setPill('No encontrado: '+numCompleto,'err');
@@ -490,7 +492,14 @@ function showCard(d){
   document.getElementById('wname').textContent=d.name;
   document.getElementById('wnum').textContent='No. '+d.num;
   document.getElementById('wpuesto').textContent=d.puesto||'';
-  document.getElementById('wenc').textContent=d.encargado?'Encargado: '+d.encargado:'';
+  document.getElementById('wenc').textContent=d.encargado?'⚙ '+d.encargado:'';
+  const alertaEl=document.getElementById('walerta');
+  if(d.alerta && d.alerta.trim()!=''){
+    alertaEl.textContent='⚠ '+d.alerta;
+    alertaEl.style.display='block';
+  } else {
+    alertaEl.style.display='none';
+  }
 
   const r=regs[d.num];
   let sub='',sc='#02C39A',blk=false;
@@ -519,15 +528,52 @@ function showCard(d){
   setPill('¿Es correcto?','');
 }
 
+function getDia(){
+  const dias=['DOM','LUN','MAR','MIE','JUE','VIE','SAB'];
+  return dias[new Date().getDay()];
+}
+function getSemana(){
+  const d=new Date(),s=new Date(d.getFullYear(),0,1);
+  return 'SEM '+Math.ceil(((d-s)/86400000+s.getDay()+1)/7);
+}
+
 function confirm_(){
   if(!current)return;
   const h=getHM(),f=getFecha(),id=current.num;
-  if(!regs[id])regs[id]={name:current.name,num:id,date:f};
-  if(sesion.role==='verifier')regs[id].verificado=h;
-  else if(turno==='entrada')regs[id].entrada=h;
-  else{regs[id].salida=h;regs[id].horasExtra=selectedHrs;}
+  if(!regs[id])regs[id]={name:current.name,num:id,date:f,puesto:current.puesto||'',encargado:current.encargado||''};
+  if(sesion.role==='verifier') regs[id].verificado=h;
+  else if(turno==='entrada'){
+    regs[id].entrada=h;
+    guardarEnSheet(id,'entrada',h);
+  } else {
+    regs[id].salida=h;
+    regs[id].horasExtra=selectedHrs;
+    guardarEnSheet(id,'salida',h);
+  }
   setPill('✓ '+current.name+' — '+h,'ok');
   reset();
+}
+
+async function guardarEnSheet(num, tipo, hora){
+  try{
+    const r = regs[num];
+    const params = new URLSearchParams({
+      action: 'save',
+      fecha: getFecha(),
+      num: num,
+      nombre: r.name,
+      puesto: r.puesto||'',
+      encargado: r.encargado||'',
+      dia: getDia(),
+      semana: getSemana(),
+      entrada: tipo==='entrada' ? hora : '',
+      salida: tipo==='salida' ? hora : ''
+    });
+    await fetch(API_URL + '?' + params.toString());
+    console.log('✅ Guardado en Sheet:', num, tipo, hora);
+  } catch(e){
+    console.error('Error guardando en Sheet:', e);
+  }
 }
 function nope(){setPill('Cancelado','err');reset();}
 function reset(){
