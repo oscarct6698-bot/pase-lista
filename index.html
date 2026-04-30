@@ -401,33 +401,22 @@ function tick(){
 }
 
 // ══ CARGAR TRABAJADORES ══
-function loadWorkers(){
+async function loadWorkers(){
   setPill('Cargando trabajadores...','');
-  return new Promise((resolve)=>{
-    const cbName='cb_'+Date.now();
-    const script=document.createElement('script');
-    window[cbName]=function(data){
-      delete window[cbName];
-      document.head.removeChild(script);
-      if(data&&data.workers&&data.workers.length>0){
-        WORKERS=data.workers;
-        console.log('✅ Trabajadores:',WORKERS.length);
-        const cnt=document.getElementById('refresh-count');
-        if(cnt) cnt.textContent=WORKERS.length+' cargados';
-      }
-      setPill('Apunta al QR de la credencial','');
-      resolve();
-    };
-    script.onerror=function(){
-      delete window[cbName];
-      document.head.removeChild(script);
-      setPill('Sin conexión','warn');
-      resolve();
-    };
-    script.src=API_URL+'?callback='+cbName+'&t='+Date.now();
-    document.head.appendChild(script);
-    setTimeout(()=>{if(window[cbName])window[cbName]({workers:[]});},10000);
-  });
+  try{
+    const res = await fetch(API_URL + '?t=' + Date.now());
+    const json = await res.json();
+    if(json.workers && json.workers.length > 0){
+      WORKERS = json.workers;
+      console.log('✅ Trabajadores:', WORKERS.length);
+      const cnt = document.getElementById('refresh-count');
+      if(cnt) cnt.textContent = WORKERS.length + ' cargados';
+    }
+    setPill('Apunta al QR de la credencial','');
+  } catch(e){
+    console.error('Error cargando trabajadores:', e);
+    setPill('Sin conexión — reintenta','warn');
+  }
 }
 
 // ══ QR CHECADOR ══
