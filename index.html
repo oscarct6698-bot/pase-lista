@@ -437,6 +437,29 @@ async function loadWorkers(){
     setPill('Error: ' + e.message,'err');
     setTimeout(()=>setPill('Apunta al QR de la credencial',''),3000);
   }
+  // Siempre cargar registros del día aunque falle la carga de trabajadores
+  await cargarRegistrosDelDia();
+}
+
+async function cargarRegistrosDelDia(){
+  try{
+    const dia = getDia();
+    const res = await fetch(API_URL + '?action=getRegistros&dia=' + encodeURIComponent(dia) + '&t=' + Date.now());
+    if(!res.ok) return;
+    const json = await res.json();
+    if(json.registros && json.registros.length > 0){
+      json.registros.forEach(r => {
+        const num = String(r.num||'').trim();
+        if(!num) return;
+        if(!regs[num]) regs[num] = {name:'', num:num, date:getFecha()};
+        if(r.entrada && String(r.entrada).trim() !== '') regs[num].entrada = String(r.entrada).trim();
+        if(r.salida  && String(r.salida).trim()  !== '') regs[num].salida  = String(r.salida).trim();
+      });
+      console.log('✅ Registros del día cargados:', json.registros.length);
+    }
+  } catch(e){
+    console.log('Sin registros previos del día:', e);
+  }
 }
 
 // ══ QR CHECADOR ══
