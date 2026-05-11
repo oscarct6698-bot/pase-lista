@@ -144,6 +144,23 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 .mdl-sub{color:#666;font-size:13px;margin-bottom:28px;line-height:1.6}
 .mdl-btn{padding:14px 32px;background:#02C39A;color:#003d2e;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:12px;width:100%;max-width:300px}
 .mdl-skip{color:#444;font-size:12px;cursor:pointer;text-decoration:underline}
+
+/* MÓDULO VOLTEOS */
+#scr-volteo{position:fixed;inset:0;display:none;flex-direction:column;background:#000}
+#vcam-wrap{position:relative;flex:1;min-height:0;overflow:hidden;background:#000}
+#vvid{width:100%;height:100%;object-fit:cover;display:block}
+.vpill{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.82);border:1px solid #fbbf24;border-radius:20px;padding:6px 18px;font-size:12px;color:#fbbf24;white-space:nowrap;max-width:92%;text-align:center}
+.vtopbar{position:absolute;top:0;left:0;right:0;padding:11px 13px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(#000b,transparent)}
+.voverlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+#vbot{background:#111;padding:13px;flex-shrink:0}
+.vstep{background:#1a1200;border:1px solid #fbbf2433;border-radius:10px;padding:12px;margin-bottom:10px}
+.vstep-title{color:#fbbf24;font-size:12px;font-weight:600;margin-bottom:6px;letter-spacing:.3px}
+.vstep-val{color:#fff;font-size:15px;font-weight:500}
+.vstep-empty{color:#555;font-size:13px;font-style:italic}
+.vbrow{display:flex;gap:8px}
+.vbtn{flex:1;padding:12px;border:none;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer}
+.vbtn-ok{background:#16a34a;color:#fff}
+.vbtn-reset{background:#1a1a1a;border:1px solid #333;color:#888;font-size:13px}
 </style>
 </head>
 <body>
@@ -218,6 +235,39 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   </div>
 </div>
 
+<!-- MÓDULO VOLTEOS -->
+<div id="scr-volteo">
+  <div id="vcam-wrap">
+    <video id="vvid" autoplay playsinline muted webkit-playsinline></video>
+    <div class="voverlay">
+      <div class="frame" style="border-color:#fbbf24">
+        <div class="c-tr" style="border-color:#fbbf24"></div>
+        <div class="c-bl" style="border-color:#fbbf24"></div>
+        <div class="sbar" style="background:linear-gradient(90deg,transparent,#fbbf24,transparent)"></div>
+      </div>
+    </div>
+    <div class="vtopbar">
+      <span style="color:#fbbf24;font-size:12px;font-weight:600">🚛 CHECADOR DE VOLTEOS</span>
+      <button class="btn-xs" onclick="tryLogout()">Salir</button>
+    </div>
+    <div class="vpill" id="vpill">Escanea QR del operador</div>
+  </div>
+  <div id="vbot">
+    <div class="vstep">
+      <div class="vstep-title">PASO 1 — OPERADOR</div>
+      <div id="vop-val" class="vstep-empty">Pendiente de escaneo...</div>
+    </div>
+    <div class="vstep">
+      <div class="vstep-title">PASO 2 — VOLTEO</div>
+      <div id="vvol-val" class="vstep-empty">Pendiente de escaneo...</div>
+    </div>
+    <div class="vbrow">
+      <button class="vbtn vbtn-reset" onclick="resetVolteo()">↺ Reiniciar</button>
+      <button class="vbtn vbtn-ok" id="vbtn-registrar" onclick="registrarVolteo()" disabled style="opacity:.3">✓ Registrar salida</button>
+    </div>
+  </div>
+</div>
+
 <!-- ADMIN -->
 <div id="scr-admin">
   <div class="adm-head">
@@ -227,6 +277,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   <div class="adm-tabs">
     <div class="adm-tab on" onclick="aTab('users')">Usuarios</div>
     <div class="adm-tab" onclick="aTab('regs')">Registros</div>
+    <div class="adm-tab" onclick="aTab('volteos')">Volteos</div>
     <div class="adm-tab" onclick="aTab('pw')">Contraseña</div>
   </div>
   <div class="adm-body" id="adm-body"></div>
@@ -574,12 +625,15 @@ let users = [
   {user:'checador1', pass:'Check01!', name:'Checador 1', role:'checker'},
   {user:'checador2', pass:'Check02!', name:'Checador 2', role:'checker'},
   {user:'verificador1', pass:'Verif01!', name:'Verificador 1', role:'verifier'},
+  {user:'volteo1', pass:'Volteo01!', name:'Checador Volteos', role:'volteo'},
 ];
 
 // registros[id] = {name, num, date, entrada, salida, verificado, horasExtra}
 let regs = {};
+let volteoRegs = [];
 let sesion = null, turno = 'entrada', current = null, scanning = false, lastQR = '';
 let selectedHrs = 0, jsqrOk = false;
+let vStream=null, vRafId=null, vLastQR='', vStep=1, vOperador=null, vVolteo=null;
 
 // ══ LOGIN ══
 async function loadWorkers(){
@@ -610,23 +664,29 @@ function doLogin(){
     sesion = {role:'admin', name:'Administrador'}; show('admin'); aTab('users'); return;
   }
   const usr = users.find(x => x.user.toLowerCase()===u && x.pass===p);
-  if(usr){ sesion = {role:usr.role, name:usr.name}; startCam(); return; }
+  if(usr){
+    sesion = {role:usr.role, name:usr.name};
+    if(usr.role==='volteo') startVolteo();
+    else startCam();
+    return;
+  }
   document.getElementById('lerr').style.display = 'block';
 }
 
 function tryLogout(){
   // Si hay registros sin descargar, mostrar aviso
-  if(Object.keys(regs).length > 0){
+  if(Object.keys(regs).length > 0 || volteoRegs.length > 0){
     document.getElementById('must-dl').classList.add('show');
   } else { doLogout(); }
 }
 function closeMustDl(){ document.getElementById('must-dl').classList.remove('show'); doLogout(); }
-function doLogout(){ sesion=null; stopCam(); document.getElementById('lu').value=''; document.getElementById('lp').value=''; show('login'); }
+function doLogout(){ sesion=null; stopCam(); stopVolteo(); document.getElementById('lu').value=''; document.getElementById('lp').value=''; show('login'); }
 
 function show(s){
   document.getElementById('scr-login').style.display = s==='login'?'flex':'none';
   document.getElementById('scr-cam').style.display   = s==='cam'?'flex':'none';
   document.getElementById('scr-admin').style.display = s==='admin'?'flex':'none';
+  document.getElementById('scr-volteo').style.display = s==='volteo'?'flex':'none';
 }
 
 // ══ CÁMARA ══
@@ -856,10 +916,11 @@ function resetHrs(){ selectHr(0); }
 
 // ══ ADMIN ══
 function aTab(t){
-  document.querySelectorAll('.adm-tab').forEach((el,i)=>el.className='adm-tab'+(['users','regs','pw'][i]===t?' on':''));
+  document.querySelectorAll('.adm-tab').forEach((el,i)=>el.className='adm-tab'+(['users','regs','volteos','pw'][i]===t?' on':''));
   const b=document.getElementById('adm-body');
   if(t==='users') renderUsers(b);
   if(t==='regs') renderRegs(b);
+  if(t==='volteos') renderVolteos(b);
   if(t==='pw') renderPw(b);
 }
 
@@ -1023,6 +1084,142 @@ function buscarManual(){
     setPill('No encontrado: '+val,'err');
     setTimeout(()=>setPill('Apunta al QR de la credencial'),2000);
   }
+}
+
+function renderVolteos(b){
+  b.innerHTML=`<div class="sec-title">VOLTEOS REGISTRADOS HOY (${volteoRegs.length})</div>
+  <div style="background:#1a1a1a;border:1px solid #222;border-radius:10px;padding:12px">
+  ${volteoRegs.length?volteoRegs.map(v=>`
+    <div class="ritem">
+      <div class="rav rav-v">🚛</div>
+      <div class="rinfo"><strong>${v.operador}</strong><small>No. ${v.numOp}</small></div>
+      <div class="rbadges"><span class="b bvol">${v.volteo}</span><br><span style="font-size:10px;color:#555">${v.hora}</span></div>
+    </div>`).join(''):'<div class="empty">Sin registros de volteos</div>'}
+  </div>
+  <button class="bdl" onclick="exportarVolteos()">Descargar volteos .xlsx</button>`;
+}
+
+// ══ MÓDULO VOLTEOS ══
+async function startVolteo(){
+  show('volteo');
+  resetVolteo();
+  try{
+    vStream = await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:'environment',width:{ideal:1280},height:{ideal:720}}});
+    document.getElementById('vvid').srcObject = vStream;
+    document.getElementById('vvid').onloadedmetadata = ()=>{
+      document.getElementById('vvid').play();
+      vStep=1; vLastQR='';
+      requestAnimationFrame(vTick);
+    };
+  }catch(e){ setVPill('Sin cámara',''); }
+}
+
+function stopVolteo(){
+  if(vRafId) cancelAnimationFrame(vRafId);
+  if(vStream) vStream.getTracks().forEach(t=>t.stop());
+  vStream=null;
+  const v=document.getElementById('vvid');
+  if(v) v.srcObject=null;
+}
+
+function vTick(){
+  vRafId = requestAnimationFrame(vTick);
+  const v=document.getElementById('vvid');
+  if(!jsqrOk||!v||v.readyState<2||v.paused) return;
+  const w=v.videoWidth,h=v.videoHeight;
+  if(!w||!h) return;
+  const vc=document.createElement('canvas');
+  vc.width=w; vc.height=h;
+  const vctx=vc.getContext('2d');
+  vctx.drawImage(v,0,0,w,h);
+  try{
+    const img=vctx.getImageData(0,0,w,h);
+    const code=jsQR(img.data,w,h,{inversionAttempts:'attemptBoth'});
+    if(code&&code.data&&code.data!==vLastQR){ vLastQR=code.data; handleVQR(code.data); }
+  }catch(e){}
+}
+
+function handleVQR(data){
+  const allNums=(data.match(/\d{7,}/g)||[]);
+  let num=null;
+  for(const n of allNums){
+    const padded=n.padStart(10,'0');
+    const stripped=n.replace(/^0+/,'');
+    const found=WORKERS.find(x=>x.id===n||x.id===padded||x.id.replace(/^0+/,'')=== stripped);
+    if(found){num=n;break;}
+  }
+  if(!num&&allNums.length>0) num=allNums[0];
+  if(!num){setVPill('QR no reconocido','');setTimeout(()=>{vLastQR='';},2000);return;}
+  const padded=num.padStart(10,'0');
+  const w=WORKERS.find(x=>x.id===num||x.id===padded||x.id.replace(/^0+/,'')=== num.replace(/^0+/,''));
+
+  if(vStep===1){
+    vOperador={name:w?w.name:'Operador '+padded, num:padded};
+    document.getElementById('vop-val').textContent=vOperador.name+' — No. '+padded;
+    document.getElementById('vop-val').className='vstep-val';
+    setVPill('✓ Operador registrado — escanea volteo');
+    vStep=2; vLastQR='';
+  } else if(vStep===2){
+    const vData=data.trim().toUpperCase();
+    const volNum=vData.match(/V[-]?(\d{3,})/i)||vData.match(/VOLTEO[-]?\s*(\d{3,})/i);
+    const etiqueta=volNum?'VOLTEO-'+volNum[1]:vData.substring(0,20);
+    vVolteo=etiqueta;
+    document.getElementById('vvol-val').textContent=etiqueta;
+    document.getElementById('vvol-val').className='vstep-val';
+    setVPill('✓ Volteo escaneado — confirma para registrar');
+    const btn=document.getElementById('vbtn-registrar');
+    btn.disabled=false; btn.style.opacity='1';
+    vLastQR='';
+  }
+}
+
+function registrarVolteo(){
+  if(!vOperador||!vVolteo) return;
+  volteoRegs.push({operador:vOperador.name, numOp:vOperador.num, volteo:vVolteo, hora:getHM(), fecha:getFecha()});
+  setVPill('✓ Volteo registrado — '+vOperador.name);
+  setTimeout(()=>{ resetVolteo(); setVPill('Escanea QR del operador'); },2000);
+}
+
+function resetVolteo(){
+  vStep=1; vOperador=null; vVolteo=null; vLastQR='';
+  const opEl=document.getElementById('vop-val');
+  const volEl=document.getElementById('vvol-val');
+  if(opEl){ opEl.textContent='Pendiente de escaneo...'; opEl.className='vstep-empty'; }
+  if(volEl){ volEl.textContent='Pendiente de escaneo...'; volEl.className='vstep-empty'; }
+  const btn=document.getElementById('vbtn-registrar');
+  if(btn){ btn.disabled=true; btn.style.opacity='.3'; }
+  setVPill('Escanea QR del operador');
+}
+
+function setVPill(txt){
+  const p=document.getElementById('vpill');
+  if(p) p.textContent=txt;
+}
+
+// ══ EXPORT VOLTEOS ══
+function exportarVolteos(){
+  const f=getFecha(),sem=getNumSemana();
+  const rows=[['Operador','No. Empleado','Volteo','Hora','Fecha']];
+  volteoRegs.forEach(v=>rows.push([v.operador,v.numOp,v.volteo,v.hora,v.fecha]));
+  const wb=XLSX.utils.book_new();
+  const ws=XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols']=[32,14,15,10,12].map(w=>({wch:w}));
+  XLSX.utils.book_append_sheet(wb,ws,'Volteos SEM '+sem);
+  XLSX.writeFile(wb,'Volteos_SEM'+sem+'_'+f.replace(/\//g,'-')+'.xlsx');
+}
+
+function getDia(){
+  const d=new Date();
+  return d.toISOString().split('T')[0];
+}
+function getDiaSemana(){
+  const dias=['DOM','LUN','MAR','MIE','JUE','VIE','SAB'];
+  return dias[new Date().getDay()];
+}
+function getNumSemana(){
+  const d=new Date();
+  const start=new Date(d.getFullYear(),0,1);
+  return Math.ceil(((d-start)/86400000+start.getDay()+1)/7);
 }
 
 function getHM(){ return new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'}); }
