@@ -177,7 +177,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   <div class="logo">📋</div>
   <div class="ltitle">Pase de Lista</div>
   <div class="lsub">Proyectos Ferroviarios · SEDENA · Frente 4</div>
-  <div class="lver">v02.05.2026 — build 52</div>
+  <div class="lver">v11.05.2026 — build 53</div>
   <div class="lcard">
     <div class="lf"><label>USUARIO</label><input id="lu" type="text" placeholder="Usuario" autocapitalize="none" autocorrect="off" spellcheck="false"></div>
     <div class="lf"><label>CONTRASEÑA</label><input id="lp" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
@@ -216,20 +216,6 @@ video{width:100%;height:100%;object-fit:cover;display:block}
         🔄 Actualizar trabajadores
       </button>
       <span id="refresh-count" style="font-size:11px;color:#444;align-self:center;white-space:nowrap"></span>
-    </div>
-    <div class="manual-row" id="nombre-row" style="display:none">
-      <input class="manual-inp" id="manual-nombre" type="text" placeholder="Nombre del trabajador..." style="width:100%" oninput="debounceNombre()" onkeydown="if(event.key==='Enter')buscarNombre()">
-      <button class="manual-btn" onclick="buscarNombre()">Buscar</button>
-    </div>
-    <div id="nombre-resultados" style="display:none;background:#1a1a1a;border:1px solid #333;border-radius:8px;margin-bottom:9px;max-height:150px;overflow-y:auto"></div>
-    <div style="display:flex;gap:7px;margin-bottom:9px">
-      <button onclick="toggleNombreSearch()" id="btn-nombre" style="flex:1;padding:8px;background:#1a1a2a;border:1px solid #252535;color:#d8b4fe;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer">
-        🔍 Buscar por nombre
-      </button>
-    </div>
-    <div id="extra-wrap">
-      <div class="extra-label">Horas extra</div>
-      <div class="hrs-row" id="hrs-row"></div>
     </div>
     <div id="wcard">
       <img id="wfoto" class="wcard-foto" src="">
@@ -471,78 +457,19 @@ function handleQR(data){
   if(!num){setPill('QR no reconocido','err');setTimeout(()=>{lastQR='';setPill('Apunta al QR');},2000);return;}
   const padded=num.padStart(10,'0'),stripped=num.replace(/^0+/,'');
   const w=WORKERS.find(x=>x.id===num||x.id===padded||x.id.replace(/^0+/,'')=== stripped);
-  showCard({name:w?w.name:'Empleado '+padded,puesto:w?.puesto||'',foto:w?.foto||'',encargado:w?.encargado||'',alerta:w?.alerta||'',num:padded,rawNum:num});
+  if(!w){
+    setPill('⚠ No registrado en base de datos','err');
+    setTimeout(()=>{lastQR='';setPill('Apunta al QR de la credencial');},3000);
+    return;
+  }
+  showCard({name:w.name,puesto:w.puesto||'',foto:w.foto||'',encargado:w.encargado||'',alerta:w.alerta||'',num:padded,rawNum:num});
 }
 
 // ══ BÚSQUEDA MANUAL CON PREFIJO ══
-function toggleNombreSearch(){
-  const row = document.getElementById('nombre-row');
-  const res = document.getElementById('nombre-resultados');
-  const btn = document.getElementById('btn-nombre');
-  const visible = row.style.display !== 'none';
-  row.style.display = visible ? 'none' : 'flex';
-  res.style.display = 'none';
-  btn.textContent = visible ? '🔍 Buscar por nombre' : '✕ Cerrar búsqueda';
-  if(!visible) setTimeout(()=>document.getElementById('manual-nombre').focus(), 100);
-}
 
-let _nombreTimer = null;
-function debounceNombre(){
-  clearTimeout(_nombreTimer);
-  _nombreTimer = setTimeout(buscarNombre, 350);
-}
 
-function buscarNombre(){
-  const query = document.getElementById('manual-nombre').value.trim().toLowerCase();
-  if(!query || query.length < 2) return;
-  
-  const resultados = WORKERS.filter(w => 
-    w.name.toLowerCase().includes(query)
-  ).slice(0, 8);
-  
-  const res = document.getElementById('nombre-resultados');
-  
-  if(resultados.length === 0){
-    res.style.display = 'block';
-    res.innerHTML = '<div style="padding:12px;color:#555;font-size:13px;text-align:center">No encontrado — ¿nuevo ingreso sin número?</div>' +
-      '<div style="padding:0 10px 10px"><button onclick="registrarSinNumero()" style="width:100%;padding:10px;background:#2a1a3a;border:1px solid #352545;color:#d8b4fe;border-radius:8px;font-size:13px;cursor:pointer">+ Registrar como nuevo ingreso</button></div>';
-    return;
-  }
-  
-  res.style.display = 'block';
-  res.innerHTML = resultados.map(w => `
-    <div onclick="seleccionarWorker('${w.id}')" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #222;cursor:pointer;active:background:#252525">
-      <div style="width:32px;height:32px;border-radius:50%;background:#1a3a2a;color:#02C39A;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">
-        ${w.name.trim().split(/\s+/).slice(0,2).map(n=>n[0]?.toUpperCase()||'').join('')}
-      </div>
-      <div style="flex:1;min-width:0">
-        <div style="color:#fff;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${w.name}</div>
-        <div style="color:#555;font-size:11px">No. ${w.id} · ${w.puesto||'Sin categoría'}</div>
-      </div>
-    </div>`).join('');
-}
 
-function seleccionarWorker(id){
-  const w = WORKERS.find(x => x.id === id);
-  if(!w) return;
-  document.getElementById('nombre-resultados').style.display = 'none';
-  document.getElementById('nombre-row').style.display = 'none';
-  document.getElementById('btn-nombre').textContent = '🔍 Buscar por nombre';
-  document.getElementById('manual-nombre').value = '';
-  showCard({name:w.name, puesto:w.puesto||'', foto:w.foto||'', encargado:w.encargado||'', alerta:w.alerta||'', num:w.id, rawNum:w.id});
-}
 
-function registrarSinNumero(){
-  const nombre = document.getElementById('manual-nombre').value.trim();
-  if(!nombre) return;
-  // Generar ID temporal con prefijo NI (Nuevo Ingreso)
-  const tempId = 'NI-' + Date.now().toString().slice(-6);
-  document.getElementById('nombre-resultados').style.display = 'none';
-  document.getElementById('nombre-row').style.display = 'none';
-  document.getElementById('btn-nombre').textContent = '🔍 Buscar por nombre';
-  document.getElementById('manual-nombre').value = '';
-  showCard({name:nombre, puesto:'NUEVO INGRESO', foto:'', encargado:'', alerta:'', num:tempId, rawNum:tempId});
-}
 
 async function refreshWorkers(){
   const btn = document.getElementById('refresh-btn');
@@ -586,7 +513,7 @@ function buscarManual(){
     showCard({name:w.name,puesto:w.puesto||'',foto:w.foto||'',encargado:w.encargado||'',alerta:w.alerta||'',num:w.id,rawNum:numCompleto});
     document.getElementById('manual-sfx').value='';
   } else {
-    setPill('No encontrado: '+numCompleto,'err');
+    setPill('⚠ No registrado en base de datos','err');
     setTimeout(()=>setPill('Apunta al QR de la credencial'),2000);
   }
 }
