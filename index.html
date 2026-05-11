@@ -177,7 +177,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   <div class="logo">📋</div>
   <div class="ltitle">Pase de Lista</div>
   <div class="lsub">Proyectos Ferroviarios · SEDENA · Frente 4</div>
-  <div class="lver">v11.05.2026 — build 53</div>
+  <div class="lver">v11.05.2026 — build 54</div>
   <div class="lcard">
     <div class="lf"><label>USUARIO</label><input id="lu" type="text" placeholder="Usuario" autocapitalize="none" autocorrect="off" spellcheck="false"></div>
     <div class="lf"><label>CONTRASEÑA</label><input id="lp" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
@@ -372,12 +372,26 @@ async function startCam(){
   document.getElementById('trow-turnos').style.display=isV?'none':'flex';
   if(isV) turno='verificar';
   buildHrs();
-  loadWorkers();
   try{
-    stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:'environment',width:{ideal:1280},height:{ideal:720}}});
+    const constraints={audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}};
+    stream=await navigator.mediaDevices.getUserMedia(constraints);
     vid.srcObject=stream;
-    vid.onloadedmetadata=()=>{vid.play();requestAnimationFrame(tick);};
-  }catch(e){setPill('Sin cámara — usa búsqueda manual','err');}
+    vid.setAttribute('playsinline','true');
+    vid.muted=true;
+    vid.onloadedmetadata=()=>{
+      vid.play().then(()=>{
+        requestAnimationFrame(tick);
+        setPill('Apunta al QR de la credencial','');
+      }).catch(err=>{
+        console.error('Play error:',err);
+        setPill('Error de cámara','err');
+      });
+    };
+  }catch(e){
+    console.error('Cam error:',e);
+    setPill('Sin cámara — usa búsqueda manual','err');
+  }
+  loadWorkers();
 }
 function stopCam(){
   if(rafId)cancelAnimationFrame(rafId);
