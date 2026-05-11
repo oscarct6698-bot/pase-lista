@@ -69,9 +69,10 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 .wcard-body{padding:13px}
 .wcard-name{font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;line-height:1.2}
 .wcard-sub{font-size:12px;margin-bottom:3px}
-.wcard-num{font-size:15px;color:#aaa;margin-bottom:4px;font-weight:500}
-.wcard-puesto{font-size:16px;color:#02C39A;font-weight:700;margin-bottom:3px}
-.wcard-enc{font-size:13px;color:#888}
+.wcard-num{font-size:20px;color:#fff;margin-bottom:4px;font-weight:700;letter-spacing:.5px}
+.wcard-puesto{font-size:14px;color:#02C39A;font-weight:600;margin-bottom:3px}
+.wcard-enc{font-size:14px;color:#c8a84b;font-weight:500;margin-bottom:3px}
+.wcard-alerta{font-size:20px;font-weight:700;color:#f87171;margin-top:6px;padding:8px;background:#2a0808;border-radius:8px;border:1px solid #f8717144;text-align:center;display:none}
 .brow{display:flex;gap:8px;margin-top:12px}
 .bcon{flex:1;padding:13px;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer}
 .bcon:active{opacity:.85}
@@ -176,7 +177,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   <div class="logo">📋</div>
   <div class="ltitle">Pase de Lista</div>
   <div class="lsub">Proyectos Ferroviarios · SEDENA · Frente 4</div>
-  <div class="lver">v28.04.2026 — build 44</div>
+  <div class="lver">v11.05.2026 — build 54</div>
   <div class="lcard">
     <div class="lf"><label>USUARIO</label><input id="lu" type="text" placeholder="Usuario" autocapitalize="none" autocorrect="off" spellcheck="false"></div>
     <div class="lf"><label>CONTRASEÑA</label><input id="lp" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
@@ -207,12 +208,14 @@ video{width:100%;height:100%;object-fit:cover;display:block}
     <!-- BÚSQUEDA MANUAL CON PREFIJO -->
     <div class="manual-row">
       <span class="manual-prefix">027640</span>
-      <input class="manual-inp" id="manual-sfx" type="text" inputmode="numeric" maxlength="4" placeholder="0000" onkeydown="if(event.key==='Enter')buscarManual()">
+      <input class="manual-inp" id="manual-sfx" type="tel" maxlength="4" placeholder="####" onkeydown="if(event.key==='Enter')buscarManual()">
       <button class="manual-btn" onclick="buscarManual()">Buscar</button>
     </div>
-    <div id="extra-wrap">
-      <div class="extra-label">Horas extra</div>
-      <div class="hrs-row" id="hrs-row"></div>
+    <div style="display:flex;gap:7px;margin-bottom:9px">
+      <button onclick="refreshWorkers()" id="refresh-btn" style="flex:1;padding:8px;background:#1a2a3a;border:1px solid #253a4a;color:#93c5fd;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer">
+        🔄 Actualizar trabajadores
+      </button>
+      <span id="refresh-count" style="font-size:11px;color:#444;align-self:center;white-space:nowrap"></span>
     </div>
     <div id="wcard">
       <img id="wfoto" class="wcard-foto" src="">
@@ -223,6 +226,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
         <div class="wcard-num" id="wnum"></div>
         <div class="wcard-puesto" id="wpuesto"></div>
         <div class="wcard-enc" id="wenc"></div>
+        <div class="wcard-alerta" id="walerta"></div>
         <div class="brow">
           <button class="bcon bno" onclick="nope()">✕ Incorrecto</button>
           <button class="bcon bok" id="bok" onclick="confirm_()">✓ Correcto</button>
@@ -368,12 +372,26 @@ async function startCam(){
   document.getElementById('trow-turnos').style.display=isV?'none':'flex';
   if(isV) turno='verificar';
   buildHrs();
-  loadWorkers();
   try{
-    stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:'environment',width:{ideal:1280},height:{ideal:720}}});
+    const constraints={audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}};
+    stream=await navigator.mediaDevices.getUserMedia(constraints);
     vid.srcObject=stream;
-    vid.onloadedmetadata=()=>{vid.play();requestAnimationFrame(tick);};
-  }catch(e){setPill('Sin cámara — usa búsqueda manual','err');}
+    vid.setAttribute('playsinline','true');
+    vid.muted=true;
+    vid.onloadedmetadata=()=>{
+      vid.play().then(()=>{
+        requestAnimationFrame(tick);
+        setPill('Apunta al QR de la credencial','');
+      }).catch(err=>{
+        console.error('Play error:',err);
+        setPill('Error de cámara','err');
+      });
+    };
+  }catch(e){
+    console.error('Cam error:',e);
+    setPill('Sin cámara — usa búsqueda manual','err');
+  }
+  loadWorkers();
 }
 function stopCam(){
   if(rafId)cancelAnimationFrame(rafId);
@@ -395,31 +413,53 @@ function tick(){
 }
 
 // ══ CARGAR TRABAJADORES ══
-function loadWorkers(){
+async function loadWorkers(){
   setPill('Cargando trabajadores...','');
-  return new Promise((resolve)=>{
-    const cbName='cb_'+Date.now();
-    const script=document.createElement('script');
-    window[cbName]=function(data){
-      delete window[cbName];
-      document.head.removeChild(script);
-      if(data&&data.workers&&data.workers.length>0){
-        WORKERS=data.workers;
-        console.log('✅ Trabajadores:',WORKERS.length);
-      }
-      setPill('Apunta al QR de la credencial','');
-      resolve();
-    };
-    script.onerror=function(){
-      delete window[cbName];
-      document.head.removeChild(script);
-      setPill('Sin conexión','warn');
-      resolve();
-    };
-    script.src=API_URL+'?callback='+cbName+'&t='+Date.now();
-    document.head.appendChild(script);
-    setTimeout(()=>{if(window[cbName])window[cbName]({workers:[]});},10000);
-  });
+  try{
+    const res = await fetch(API_URL + '?t=' + Date.now());
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const json = await res.json();
+    console.log('Respuesta:', JSON.stringify(json).substring(0,100));
+    const lista = json.workers || json || [];
+    if(Array.isArray(lista) && lista.length > 0){
+      WORKERS = lista;
+      console.log('✅ Trabajadores:', WORKERS.length, 'Ejemplo:', JSON.stringify(WORKERS[0]));
+      const cnt = document.getElementById('refresh-count');
+      if(cnt) cnt.textContent = WORKERS.length + ' cargados';
+      setPill('✅ ' + WORKERS.length + ' trabajadores listos','ok');
+      setTimeout(()=>setPill('Apunta al QR de la credencial',''),2000);
+    } else {
+      console.warn('Sin trabajadores en respuesta:', json);
+      setPill('Sin conexión — reintenta','warn');
+    }
+  } catch(e){
+    console.error('Error cargando trabajadores:', e);
+    setPill('Error: ' + e.message,'err');
+    setTimeout(()=>setPill('Apunta al QR de la credencial',''),3000);
+  }
+  // Siempre cargar registros del día aunque falle la carga de trabajadores
+  await cargarRegistrosDelDia();
+}
+
+async function cargarRegistrosDelDia(){
+  try{
+    const dia = getDia();
+    const res = await fetch(API_URL + '?action=getRegistros&dia=' + encodeURIComponent(dia) + '&t=' + Date.now());
+    if(!res.ok) return;
+    const json = await res.json();
+    if(json.registros && json.registros.length > 0){
+      json.registros.forEach(r => {
+        const num = String(r.num||'').trim();
+        if(!num) return;
+        if(!regs[num]) regs[num] = {name:'', num:num, date:getFecha()};
+        if(r.entrada && String(r.entrada).trim() !== '') regs[num].entrada = String(r.entrada).trim();
+        if(r.salida  && String(r.salida).trim()  !== '') regs[num].salida  = String(r.salida).trim();
+      });
+      console.log('✅ Registros del día cargados:', json.registros.length);
+    }
+  } catch(e){
+    console.log('Sin registros previos del día:', e);
+  }
 }
 
 // ══ QR CHECADOR ══
@@ -431,22 +471,63 @@ function handleQR(data){
   if(!num){setPill('QR no reconocido','err');setTimeout(()=>{lastQR='';setPill('Apunta al QR');},2000);return;}
   const padded=num.padStart(10,'0'),stripped=num.replace(/^0+/,'');
   const w=WORKERS.find(x=>x.id===num||x.id===padded||x.id.replace(/^0+/,'')=== stripped);
-  showCard({name:w?w.name:'Empleado '+padded,puesto:w?.puesto||'',foto:w?.foto||'',encargado:w?.encargado||'',num:padded,rawNum:num});
+  if(!w){
+    setPill('⚠ No registrado en base de datos','err');
+    setTimeout(()=>{lastQR='';setPill('Apunta al QR de la credencial');},3000);
+    return;
+  }
+  showCard({name:w.name,puesto:w.puesto||'',foto:w.foto||'',encargado:w.encargado||'',alerta:w.alerta||'',num:padded,rawNum:num});
 }
 
 // ══ BÚSQUEDA MANUAL CON PREFIJO ══
+
+
+
+
+
+async function refreshWorkers(){
+  const btn = document.getElementById('refresh-btn');
+  btn.textContent = '⏳ Cargando...';
+  btn.disabled = true;
+  try{
+    const res = await fetch(API_URL + '?t=' + Date.now());
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const json = await res.json();
+    const lista = json.workers || json || [];
+    if(Array.isArray(lista) && lista.length > 0){
+      WORKERS = lista;
+      document.getElementById('refresh-count').textContent = WORKERS.length + ' cargados';
+      setPill('✅ ' + WORKERS.length + ' trabajadores','ok');
+      setTimeout(()=>setPill('Apunta al QR de la credencial',''),2000);
+    } else {
+      setPill('Sin datos — intenta de nuevo','err');
+    }
+  } catch(e){
+    setPill('Error: ' + e.message,'err');
+  }
+  btn.textContent = '🔄 Actualizar trabajadores';
+  btn.disabled = false;
+}
+
 function buscarManual(){
   const sfx=document.getElementById('manual-sfx').value.trim();
   if(!sfx)return;
   const numCompleto=PREFIJO+sfx;
   const padded=numCompleto.padStart(10,'0');
   const stripped=numCompleto.replace(/^0+/,'');
-  const w=WORKERS.find(x=>x.id===numCompleto||x.id===padded||x.id.replace(/^0+/,'')=== stripped||x.id.endsWith(sfx));
+  // Buscar por sufijo, número completo, o número con padding
+  const w=WORKERS.find(x=>
+    x.id===numCompleto ||
+    x.id===padded ||
+    x.id.replace(/^0+/,'')=== stripped ||
+    x.id.endsWith(sfx) ||
+    x.id.slice(-4)===sfx.padStart(4,'0')
+  );
   if(w){
-    showCard({name:w.name,puesto:w.puesto||'',foto:w.foto||'',encargado:w.encargado||'',num:w.id,rawNum:numCompleto});
+    showCard({name:w.name,puesto:w.puesto||'',foto:w.foto||'',encargado:w.encargado||'',alerta:w.alerta||'',num:w.id,rawNum:numCompleto});
     document.getElementById('manual-sfx').value='';
   } else {
-    setPill('No encontrado: '+numCompleto,'err');
+    setPill('⚠ No registrado en base de datos','err');
     setTimeout(()=>setPill('Apunta al QR de la credencial'),2000);
   }
 }
@@ -466,7 +547,14 @@ function showCard(d){
   document.getElementById('wname').textContent=d.name;
   document.getElementById('wnum').textContent='No. '+d.num;
   document.getElementById('wpuesto').textContent=d.puesto||'';
-  document.getElementById('wenc').textContent=d.encargado?'Encargado: '+d.encargado:'';
+  document.getElementById('wenc').textContent=d.encargado?'⚙ '+d.encargado:'';
+  const alertaEl=document.getElementById('walerta');
+  if(d.alerta && d.alerta.trim()!=''){
+    alertaEl.textContent='⚠ '+d.alerta;
+    alertaEl.style.display='block';
+  } else {
+    alertaEl.style.display='none';
+  }
 
   const r=regs[d.num];
   let sub='',sc='#02C39A',blk=false;
@@ -495,15 +583,47 @@ function showCard(d){
   setPill('¿Es correcto?','');
 }
 
+function getDia(){
+  const dias=['DOM','LUN','MAR','MIE','JUE','VIE','SAB'];
+  return dias[new Date().getDay()];
+}
+function getSemana(){
+  const d=new Date(),s=new Date(d.getFullYear(),0,1);
+  return 'SEM '+Math.ceil(((d-s)/86400000+s.getDay()+1)/7);
+}
+
 function confirm_(){
   if(!current)return;
   const h=getHM(),f=getFecha(),id=current.num;
-  if(!regs[id])regs[id]={name:current.name,num:id,date:f};
-  if(sesion.role==='verifier')regs[id].verificado=h;
-  else if(turno==='entrada')regs[id].entrada=h;
-  else{regs[id].salida=h;regs[id].horasExtra=selectedHrs;}
+  if(!regs[id])regs[id]={name:current.name,num:id,date:f,puesto:current.puesto||'',encargado:current.encargado||''};
+  if(sesion.role==='verifier') regs[id].verificado=h;
+  else if(turno==='entrada'){
+    regs[id].entrada=h;
+    guardarEnSheet(id,'entrada',h);
+  } else {
+    regs[id].salida=h;
+    regs[id].horasExtra=selectedHrs;
+    guardarEnSheet(id,'salida',h);
+  }
   setPill('✓ '+current.name+' — '+h,'ok');
   reset();
+}
+
+async function guardarEnSheet(num, tipo, hora){
+  try{
+    const params = new URLSearchParams({
+      action: 'save',
+      num: num,
+      tipo: tipo,
+      hora: hora,
+      dia: getDia(),
+      semana: getSemana()
+    });
+    await fetch(API_URL + '?' + params.toString());
+    console.log('✅ Guardado en Sheet:', num, tipo, hora);
+  } catch(e){
+    console.error('Error guardando en Sheet:', e);
+  }
 }
 function nope(){setPill('Cancelado','err');reset();}
 function reset(){
