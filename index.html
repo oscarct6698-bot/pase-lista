@@ -10,21 +10,24 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{width:100%;height:100%;background:#0a0a0a;font-family:system-ui,-apple-system,sans-serif;overflow:hidden}
 
-/* LOGIN */
+/* ── LOGIN ── */
 #scr-login{position:fixed;inset:0;background:#0f1a14;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;z-index:100}
 .logo{font-size:48px;margin-bottom:14px}
 .ltitle{color:#fff;font-size:20px;font-weight:600;margin-bottom:3px}
-.lsub{color:#555;font-size:12px;margin-bottom:4px;text-align:center}
-.lver{font-size:11px;color:#333;margin-bottom:22px}
+.lsub{color:#555;font-size:12px;margin-bottom:26px;text-align:center}
 .lcard{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:16px;padding:20px;width:100%;max-width:320px}
 .lf{margin-bottom:13px}
 .lf label{display:block;color:#666;font-size:11px;letter-spacing:.5px;margin-bottom:4px}
-.lf input{width:100%;padding:11px 12px;background:#111;border:1px solid #333;border-radius:9px;color:#fff;font-size:14px;outline:none}
-.lf input:focus{border-color:#02C39A}
+.lf input,.lf select{width:100%;padding:11px 12px;background:#111;border:1px solid #333;border-radius:9px;color:#fff;font-size:14px;outline:none;appearance:none}
+.lf input:focus,.lf select:focus{border-color:#02C39A}
 .lerr{color:#f87171;font-size:12px;margin-bottom:10px;display:none;text-align:center}
 .btn-g{width:100%;padding:13px;background:#02C39A;color:#003d2e;border:none;border-radius:9px;font-size:15px;font-weight:700;cursor:pointer}
+.role-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;margin-bottom:14px}
+.rb-admin{background:#1a3a2a;color:#02C39A}
+.rb-checker{background:#1a2a3a;color:#93c5fd}
+.rb-verifier{background:#2a1a3a;color:#d8b4fe}
 
-/* CÁMARA */
+/* ── CÁMARA ── */
 #scr-cam{position:fixed;inset:0;display:none;flex-direction:column;background:#000}
 #cam-wrap{position:relative;flex:1;min-height:0;overflow:hidden;background:#000}
 video{width:100%;height:100%;object-fit:cover;display:block}
@@ -42,89 +45,65 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 .role-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
 .rd-checker{background:#93c5fd}
 .rd-verifier{background:#d8b4fe}
-.rd-volteo{background:#fbbf24}
 .btn-xs{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;padding:5px 9px;border-radius:6px;font-size:11px;cursor:pointer}
-.pill{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.82);border:1px solid #333;border-radius:20px;padding:6px 18px;font-size:12px;color:#ccc;white-space:nowrap;max-width:92%;text-align:center}
+.pill{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.82);border:1px solid #333;border-radius:20px;padding:6px 18px;font-size:12px;color:#ccc;white-space:nowrap;max-width:92%;transition:all .3s;text-align:center}
 .pill.ok{border-color:#02C39A;color:#02C39A}
 .pill.err{border-color:#f87171;color:#f87171}
 .pill.warn{border-color:#f59e0b;color:#f59e0b}
 
-/* BOTTOM */
+/* ── BOTTOM PANEL ── */
 #bot{background:#111;padding:13px;flex-shrink:0}
 .trow{display:flex;gap:7px;margin-bottom:9px}
 .tbtn{flex:1;padding:8px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #252525;background:#1a1a1a;color:#555;text-align:center}
 .tbtn.on{background:#c8a84b;color:#1a0f00;border-color:#c8a84b}
 #itxt{font-size:12px;color:#444;text-align:center;padding:2px 0 8px;min-height:22px}
 
-/* BÚSQUEDA MANUAL CON PREFIJO */
-.manual-row{display:flex;gap:0;margin-bottom:9px;border:1px solid #333;border-radius:8px;overflow:hidden}
-.manual-prefix{padding:9px 10px;background:#1a3a2a;color:#02C39A;font-size:14px;font-weight:600;border:none;flex-shrink:0;border-right:1px solid #333}
-.manual-inp{flex:1;padding:9px 10px;background:#1a1a1a;border:none;color:#fff;font-size:16px;font-weight:600;outline:none;width:80px}
-.manual-btn{padding:9px 14px;background:#02C39A;color:#003d2e;border:none;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0}
-
-/* CARD TRABAJADOR */
+/* WORKER CARD GRANDE */
 #wcard{display:none;background:#1a1a1a;border:1px solid #2d2d2d;border-radius:14px;overflow:hidden;margin-bottom:10px}
 .wcard-foto{width:100%;height:280px;object-fit:contain;object-position:center;display:block;background:#111}
 .wcard-ini-big{width:100%;height:280px;background:#1a3a2a;display:none;align-items:center;justify-content:center;font-size:80px;font-weight:700;color:#02C39A}
 .wcard-body{padding:13px}
 .wcard-name{font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;line-height:1.2}
 .wcard-sub{font-size:12px;margin-bottom:3px}
-.wcard-num{font-size:20px;color:#fff;margin-bottom:4px;font-weight:700;letter-spacing:.5px}
-.wcard-puesto{font-size:14px;color:#02C39A;font-weight:600;margin-bottom:3px}
-.wcard-enc{font-size:14px;color:#c8a84b;font-weight:500;margin-bottom:3px}
-.wcard-alerta{font-size:20px;font-weight:700;color:#f87171;margin-top:6px;padding:8px;background:#2a0808;border-radius:8px;border:1px solid #f8717144;text-align:center;display:none}
-.brow{display:flex;gap:8px;margin-top:12px}
+.wcard-num{font-size:15px;color:#aaa;margin-bottom:6px;font-weight:500}
+.brow{display:flex;gap:8px}
 .bcon{flex:1;padding:13px;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer}
-.bcon:active{opacity:.85}
+.bcon:active{opacity:.8}
 .bok{background:#16a34a;color:#fff}
 .bno{background:#dc2626;color:#fff}
 
-/* HORAS EXTRA */
-#extra-wrap{display:none;background:#120e00;border:1px solid #c8a84b33;border-radius:9px;padding:10px 12px;margin-bottom:9px}
+/* HORA EXTRA */
+#extra-wrap{display:none;background:#120e00;border:1px solid #c8a84b22;border-radius:9px;padding:10px 12px;margin-bottom:9px}
 .extra-label{font-size:12px;color:#c8a84b;margin-bottom:8px;font-weight:500}
 .hrs-row{display:flex;gap:5px;flex-wrap:wrap}
 .hr-btn{padding:6px 11px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #333;background:#1a1a1a;color:#555}
 .hr-btn.on{background:#c8a84b;color:#1a0f00;border-color:#c8a84b}
-.btn-ver{width:100%;padding:9px;background:#1a1a1a;border:1px solid #222;border-radius:8px;color:#555;font-size:12px;cursor:pointer;margin-top:3px}
 
-/* MÓDULO VOLTEOS */
-#scr-volteo{position:fixed;inset:0;display:none;flex-direction:column;background:#000}
-#vcam-wrap{position:relative;flex:1;min-height:0;overflow:hidden;background:#000}
-#vvid{width:100%;height:100%;object-fit:cover;display:block}
-.vpill{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.82);border:1px solid #fbbf24;border-radius:20px;padding:6px 18px;font-size:12px;color:#fbbf24;white-space:nowrap;max-width:92%;text-align:center}
-.vtopbar{position:absolute;top:0;left:0;right:0;padding:11px 13px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(#000b,transparent)}
-.voverlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
-#vbot{background:#111;padding:13px;flex-shrink:0}
-.vstep{background:#1a1200;border:1px solid #fbbf2433;border-radius:10px;padding:12px;margin-bottom:10px}
-.vstep-title{color:#fbbf24;font-size:12px;font-weight:600;margin-bottom:6px;letter-spacing:.3px}
-.vstep-val{color:#fff;font-size:15px;font-weight:500}
-.vstep-empty{color:#555;font-size:13px;font-style:italic}
-.vbrow{display:flex;gap:8px}
-.vbtn{flex:1;padding:12px;border:none;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer}
-.vbtn-ok{background:#16a34a;color:#fff}
-.vbtn-reset{background:#1a1a1a;border:1px solid #333;color:#888;font-size:13px}
+.btn-lista{width:100%;padding:9px;background:#1a1a1a;border:1px solid #222;border-radius:8px;color:#555;font-size:12px;cursor:pointer;margin-top:3px}
 
-/* ADMIN */
+/* ── ADMIN ── */
 #scr-admin{position:fixed;inset:0;background:#0a0a0a;display:none;flex-direction:column}
 .adm-head{background:#1a3a2a;padding:13px 15px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
 .adm-head h1{color:#fff;font-size:14px;font-weight:500}
-.adm-tabs{display:flex;background:#111;border-bottom:1px solid #1e1e1e;flex-shrink:0;overflow-x:auto}
-.adm-tab{flex-shrink:0;padding:10px 14px;font-size:11px;color:#555;text-align:center;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+.adm-tabs{display:flex;background:#111;border-bottom:1px solid #1e1e1e;flex-shrink:0}
+.adm-tab{flex:1;padding:10px;font-size:11px;color:#555;text-align:center;cursor:pointer;border-bottom:2px solid transparent}
 .adm-tab.on{color:#02C39A;border-bottom-color:#02C39A}
 .adm-body{flex:1;overflow-y:auto;padding:14px}
+
+/* CARDS */
 .ucard{background:#1a1a1a;border:1px solid #222;border-radius:10px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
 .uav{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.uav-a{background:#1a3a2a;color:#02C39A}
 .uav-c{background:#1a2a3a;color:#93c5fd}
 .uav-v{background:#2a1a3a;color:#d8b4fe}
-.uav-vol{background:#2a1a00;color:#fbbf24}
 .uinfo{flex:1}
 .uinfo strong{color:#fff;font-size:13px;display:block}
 .uinfo span{color:#555;font-size:11px}
 .udel{background:#1a0808;border:1px solid #2a1010;color:#f87171;padding:5px 10px;border-radius:6px;font-size:11px;cursor:pointer}
-.badd{width:100%;padding:11px;border:1px solid;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;margin-top:5px}
+.badd{width:100%;padding:11px;border:1px solid #254a35;color:#02C39A;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;margin-top:5px}
 .badd-c{background:#1a2a3a;border-color:#253a4a;color:#93c5fd}
 .badd-v{background:#2a1a3a;border-color:#352545;color:#d8b4fe}
-.badd-vol{background:#2a1a00;border-color:#4a3000;color:#fbbf24}
+.badd-a{background:#1a3a2a}
 .aform{background:#1a1a1a;border:1px solid #222;border-radius:9px;padding:13px;margin-top:7px;display:none}
 .aform input,.aform select{width:100%;padding:9px 11px;background:#0f0f0f;border:1px solid #2a2a2a;border-radius:7px;color:#fff;font-size:13px;margin-bottom:8px;outline:none;appearance:none}
 .aform input:focus,.aform select:focus{border-color:#02C39A}
@@ -136,7 +115,6 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 .ritem{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid #1a1a1a}
 .ritem:last-child{border-bottom:none}
 .rav{width:32px;height:32px;border-radius:50%;background:#1a3a2a;color:#02C39A;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.rav-v{background:#2a1a00;color:#fbbf24}
 .rinfo{flex:1;min-width:0}
 .rinfo strong{color:#fff;font-size:12px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rinfo small{color:#555;font-size:10px}
@@ -144,9 +122,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 .b{display:inline-block;padding:2px 5px;border-radius:6px;font-size:9px;margin:1px}
 .ba{background:#14532d;color:#86efac}
 .bv{background:#2a1a4a;color:#d8b4fe}
-.bsal{background:#1e3a5f;color:#93c5fd}
 .bx{background:#451a03;color:#fed7aa}
-.bvol{background:#2a1a00;color:#fbbf24}
 .bdl{width:100%;padding:11px;background:#1a3a2a;border:1px solid #254a35;color:#02C39A;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;margin-top:11px}
 .empty{color:#333;text-align:center;padding:24px 0;font-size:13px}
 .sec-title{font-size:10px;color:#555;letter-spacing:.5px;margin-bottom:10px;font-weight:500}
@@ -160,7 +136,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 .mbody{flex:1;overflow-y:auto;padding:13px}
 .mfoot{padding:13px;flex-shrink:0}
 
-/* DESCARGA OBLIGATORIA */
+/* DESCARGAR OBLIGATORIO */
 #must-dl{display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:300;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center}
 #must-dl.show{display:flex}
 .mdl-icon{font-size:52px;margin-bottom:16px}
@@ -177,7 +153,6 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   <div class="logo">📋</div>
   <div class="ltitle">Pase de Lista</div>
   <div class="lsub">Proyectos Ferroviarios · SEDENA · Frente 4</div>
-  <div class="lver">v11.05.2026 — build 54</div>
   <div class="lcard">
     <div class="lf"><label>USUARIO</label><input id="lu" type="text" placeholder="Usuario" autocapitalize="none" autocorrect="off" spellcheck="false"></div>
     <div class="lf"><label>CONTRASEÑA</label><input id="lp" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
@@ -186,36 +161,43 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   </div>
 </div>
 
-<!-- CÁMARA CHECADOR/VERIFICADOR -->
+<!-- CÁMARA (checker + verifier) -->
 <div id="scr-cam">
   <div id="cam-wrap">
     <video id="vid" autoplay playsinline muted webkit-playsinline></video>
     <div class="overlay">
-      <div class="frame"><div class="c-tr"></div><div class="c-bl"></div><div class="sbar"></div></div>
+      <div class="frame">
+        <div class="c-tr"></div><div class="c-bl"></div>
+        <div class="sbar"></div>
+      </div>
     </div>
     <div class="topbar">
-      <span class="topbar-title"><span class="role-dot" id="rdot"></span><span id="role-label">PASE DE LISTA</span></span>
+      <span class="topbar-title">
+        <span class="role-dot" id="rdot"></span>
+        <span id="role-label">PASE DE LISTA</span>
+      </span>
       <button class="btn-xs" onclick="tryLogout()">Salir</button>
     </div>
     <div class="pill" id="pill">Apunta al QR de la credencial</div>
   </div>
   <div id="bot">
-    <div class="trow" id="trow-turnos">
+    <div class="trow" id="trow-entrada">
       <div class="tbtn on" id="te" onclick="setT('entrada')">Entrada</div>
       <div class="tbtn" id="ts" onclick="setT('salida')">Salida</div>
     </div>
     <div id="itxt">Escaneando...</div>
-    <!-- BÚSQUEDA MANUAL CON PREFIJO -->
-    <div class="manual-row">
-      <span class="manual-prefix">027640</span>
-      <input class="manual-inp" id="manual-sfx" type="tel" maxlength="4" placeholder="####" onkeydown="if(event.key==='Enter')buscarManual()">
-      <button class="manual-btn" onclick="buscarManual()">Buscar</button>
-    </div>
-    <div style="display:flex;gap:7px;margin-bottom:9px">
-      <button onclick="refreshWorkers()" id="refresh-btn" style="flex:1;padding:8px;background:#1a2a3a;border:1px solid #253a4a;color:#93c5fd;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer">
-        🔄 Actualizar trabajadores
+    <div style="display:flex;gap:7px;margin-bottom:9px;align-items:center">
+      <input id="manual-num" type="text" inputmode="numeric" placeholder="Ingresa No. de trabajador..." 
+        style="flex:1;padding:9px 11px;background:#1a1a1a;border:1px solid #333;border-radius:8px;color:#fff;font-size:14px;outline:none"
+        onkeydown="if(event.key==='Enter')buscarManual()">
+      <button onclick="buscarManual()" 
+        style="padding:9px 14px;background:#1a3a2a;border:1px solid #254a35;color:#02C39A;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">
+        Buscar
       </button>
-      <span id="refresh-count" style="font-size:11px;color:#444;align-self:center;white-space:nowrap"></span>
+    </div>
+    <div id="extra-wrap">
+      <div class="extra-label">Horas extra</div>
+      <div class="hrs-row" id="hrs-row"></div>
     </div>
     <div id="wcard">
       <img id="wfoto" class="wcard-foto" src="">
@@ -224,49 +206,15 @@ video{width:100%;height:100%;object-fit:cover;display:block}
         <div class="wcard-name" id="wname"></div>
         <div class="wcard-sub" id="wsub"></div>
         <div class="wcard-num" id="wnum"></div>
-        <div class="wcard-puesto" id="wpuesto"></div>
-        <div class="wcard-enc" id="wenc"></div>
-        <div class="wcard-alerta" id="walerta"></div>
+        <div style="font-size:16px;color:#02C39A;margin-top:4px;font-weight:700" id="wpuesto"></div>
+        <div style="font-size:13px;color:#888;margin-top:3px" id="wencargado"></div>
         <div class="brow">
           <button class="bcon bno" onclick="nope()">✕ Incorrecto</button>
           <button class="bcon bok" id="bok" onclick="confirm_()">✓ Correcto</button>
         </div>
       </div>
     </div>
-    <button class="btn-ver" onclick="openModal()">Ver registros del día ▸</button>
-  </div>
-</div>
-
-<!-- MÓDULO VOLTEOS -->
-<div id="scr-volteo">
-  <div id="vcam-wrap">
-    <video id="vvid" autoplay playsinline muted webkit-playsinline></video>
-    <div class="voverlay">
-      <div class="frame" style="border-color:#fbbf24">
-        <div class="c-tr" style="border-color:#fbbf24"></div>
-        <div class="c-bl" style="border-color:#fbbf24"></div>
-        <div class="sbar" style="background:linear-gradient(90deg,transparent,#fbbf24,transparent)"></div>
-      </div>
-    </div>
-    <div class="vtopbar">
-      <span style="color:#fbbf24;font-size:12px;font-weight:600">🚛 CHECADOR DE VOLTEOS</span>
-      <button class="btn-xs" onclick="tryLogout()">Salir</button>
-    </div>
-    <div class="vpill" id="vpill">Escanea QR del operador</div>
-  </div>
-  <div id="vbot">
-    <div class="vstep">
-      <div class="vstep-title">PASO 1 — OPERADOR</div>
-      <div id="vop-val" class="vstep-empty">Pendiente de escaneo...</div>
-    </div>
-    <div class="vstep">
-      <div class="vstep-title">PASO 2 — VOLTEO</div>
-      <div id="vvol-val" class="vstep-empty">Pendiente de escaneo...</div>
-    </div>
-    <div class="vbrow">
-      <button class="vbtn vbtn-reset" onclick="resetVolteo()">↺ Reiniciar</button>
-      <button class="vbtn vbtn-ok" id="vbtn-registrar" onclick="registrarVolteo()" disabled style="opacity:.3">✓ Registrar salida</button>
-    </div>
+    <button class="btn-lista" onclick="openModal()">Ver registros del día ▸</button>
   </div>
 </div>
 
@@ -278,8 +226,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   </div>
   <div class="adm-tabs">
     <div class="adm-tab on" onclick="aTab('users')">Usuarios</div>
-    <div class="adm-tab" onclick="aTab('regs')">Asistencia</div>
-    <div class="adm-tab" onclick="aTab('volteos')">Volteos</div>
+    <div class="adm-tab" onclick="aTab('regs')">Registros</div>
     <div class="adm-tab" onclick="aTab('pw')">Contraseña</div>
   </div>
   <div class="adm-body" id="adm-body"></div>
@@ -299,66 +246,394 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 <div id="must-dl">
   <div class="mdl-icon">📥</div>
   <div class="mdl-title">Descarga requerida</div>
-  <div class="mdl-sub">Antes de cerrar sesión descarga el reporte del día.</div>
-  <button class="mdl-btn" onclick="exportar();closeMustDl()">Descargar y salir</button>
-  <span class="mdl-skip" onclick="closeMustDl()">Ya descargué, salir</span>
+  <div class="mdl-sub">Antes de cerrar sesión debes descargar el reporte del día para que quede registrado.</div>
+  <button class="mdl-btn" onclick="exportar();closeMustDl()">Descargar lista y salir</button>
+  <span class="mdl-skip" onclick="closeMustDl()">Ya descargué anteriormente, salir</span>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
-// ══ CONFIG ══
+// ══ CONFIGURACIÓN ══
 const CFG = { adminUser:'admin', adminPass:'Admin2025!' };
-const API_URL = 'https://white-feather-9a0b.oscar-ct6698.workers.dev';
-const PREFIJO = '027640'; // Prefijo común de todos los trabajadores
+const API_URL = 'https://script.google.com/macros/s/AKfycbxLtXgah8dc5z7tUzdig3iuNRPu11tLhwW9p7iO2H3QlvkBosO-fH9QdHZn9G1xbhOG/exec';
 
-let WORKERS = [];
-let users = [
-  {user:'checador1',  pass:'Check01!',  name:'Checador 1',   role:'checker'},
-  {user:'checador2',  pass:'Check02!',  name:'Checador 2',   role:'checker'},
-  {user:'verificador1',pass:'Verif01!', name:'Verificador 1',role:'verifier'},
-  {user:'volteo1',    pass:'Volteo01!', name:'Checador Volteos',role:'volteo'},
+const WORKERS = [
+  {id:'20002', name:'MOISES XIXITLA', puesto:'TOPOGRAFO', foto:'', encargado:''},
+  {id:'20004', name:'HUMBERTO CARVAJAL MOLINA', puesto:'TERRACERO', foto:'', encargado:''},
+  {id:'20006', name:'ANGELO MUÑOZ CORONA', puesto:'TERRACERO', foto:'', encargado:''},
+  {id:'0276400003', name:'JOSE LUIS CERON CABALLERO', puesto:'MOTOSIERRA', foto:'https://rh-2025.aifamx.com/storage/0276400003-1772646190.jpg', encargado:''},
+  {id:'0276400005', name:'JORGE JESUS HERNANDEZ OLIVARES', puesto:'CADENERO', foto:'https://rh-2025.aifamx.com/storage/0276400005-1747168140.jpg', encargado:''},
+  {id:'0276400009', name:'GRACIELA ALCANTAR MARTINEZ', puesto:'RH', foto:'', encargado:''},
+  {id:'0276400010', name:'RENE SANCHEZ DAVILA', puesto:'PLOMERO', foto:'https://rh-2025.aifamx.com/storage/0276400010-1747168520.jpg', encargado:''},
+  {id:'0276400012', name:'HECTOR ESESARTE BALOES', puesto:'TOPOGRAFO', foto:'https://rh-2025.aifamx.com/storage/0276400012-1747168605.jpg', encargado:''},
+  {id:'0276400014', name:'CANO CASTRO JORGE', puesto:'ALMACEN', foto:'', encargado:''},
+  {id:'0276400015', name:'LUIS ANGEL MACIAS SANCHEZ', puesto:'AUX TOPO', foto:'https://rh-2025.aifamx.com/storage/0276400015-1747168718.jpg', encargado:''},
+  {id:'0276400016', name:'CRESENCIO VIVEROS CRUZ', puesto:'CADENERO', foto:'https://rh-2025.aifamx.com/storage/0276400016-1747168746.jpg', encargado:''},
+  {id:'0276400021', name:'J. JESUS HERNANDEZ ORTIZ', puesto:'CADENERO', foto:'https://rh-2025.aifamx.com/storage/0276400021-1747168941.jpg', encargado:''},
+  {id:'0276400073', name:'RICARDO ANTONIO LEON HERNANDEZ', puesto:'PROYECTOS', foto:'https://rh-2025.aifamx.com/storage/0276400073-1747174260.jpg', encargado:''},
+  {id:'0276400076', name:'EMMANUEL RIVERA REA', puesto:'TERRACERIA', foto:'https://rh-2025.aifamx.com/storage/0276400021-1747168941.jpg', encargado:''},
+  {id:'0276400077', name:'EFRAIN FERNANDEZ SOTO', puesto:'FORESTAL', foto:'https://rh-2025.aifamx.com/storage/0276400077-1747174784.jpg', encargado:''},
+  {id:'0276400078', name:'MELCHOR FLORES REYES', puesto:'ARQUITECTO', foto:'https://rh-2025.aifamx.com/storage/0276400078-1747175497.jpg', encargado:''},
+  {id:'0276400084', name:'SARAI SANCHEZ CARMONA', puesto:'TERACERIAS', foto:'https://rh-2025.aifamx.com/storage/0276400084-1756936769.jpg', encargado:''},
+  {id:'0276400086', name:'RAUL LIMA CHIQUITO', puesto:'TOPOGRAFO', foto:'https://rh-2025.aifamx.com/storage/0276400086-1747180475.jpg', encargado:''},
+  {id:'0276400087', name:'IOSEF DANIEL AGUILAR MARRON', puesto:'PARAMEDICO', foto:'https://rh-2025.aifamx.com/storage/0276400087-1749059402.jpg', encargado:''},
+  {id:'0276400088', name:'MANUEL ALEJANDRO DOMINGUEZ CONTRERAS', puesto:'SUMINISTROS', foto:'https://rh-2025.aifamx.com/storage/0276400088-1747180506.jpg', encargado:''},
+  {id:'0276400089', name:'YARA FERNANDA MENDOZA ALVAREZ', puesto:'ESTIMACIONES', foto:'https://rh-2025.aifamx.com/storage/0276400089-1749059431.jpg', encargado:''},
+  {id:'0276400091', name:'DANIEL VALDES CANO', puesto:'ESTIMACIONES', foto:'https://rh-2025.aifamx.com/storage/0276400091-1747180532.jpg', encargado:''},
+  {id:'0276400094', name:'JULIO CESAR TAVERNIER CRUZ', puesto:'TOPOGRAFO', foto:'https://rh-2025.aifamx.com/storage/0276400094-1747180558.jpg', encargado:''},
+  {id:'0276400095', name:'DIEGO GUZMAN LOPEZ', puesto:'TOPOGRAFO', foto:'https://rh-2025.aifamx.com/storage/0276400095--1768412733.jpg', encargado:''},
+  {id:'0276400096', name:'CLAUDIA CASTAÑEDA AVALOS', puesto:'ADMIN', foto:'', encargado:''},
+  {id:'0276400098', name:'MAURICIO EMMANUEL RODRIGUEZ ORTIZ', puesto:'CALIDAD', foto:'https://rh-2025.aifamx.com/storage/0276400098-1747180661.jpg', encargado:''},
+  {id:'0276400100', name:'CESAR ABRAHAM OLVERA REYES', puesto:'CALIDAD', foto:'https://rh-2025.aifamx.com/storage/0276400100-1747235001.jpg', encargado:''},
+  {id:'0276400107', name:'DAVID PEREZ LOPEZ', puesto:'TOPOGRAFO', foto:'', encargado:''},
+  {id:'0276400109', name:'ALEJANDRO SIMON GUTIERREZ', puesto:'TOPOGRAFO', foto:'https://rh-2025.aifamx.com/storage/0276400109-1747235615.jpg', encargado:''},
+  {id:'0276400110', name:'ANGEL RAYMUNDO MARCIAL BATUN', puesto:'TOPOGRAFO', foto:'https://rh-2025.aifamx.com/storage/0276400110-1749059592.jpg', encargado:''},
+  {id:'0276400111', name:'ALEXANDRA HINOJOZA BALOES', puesto:'CADENERO', foto:'https://rh-2025.aifamx.com/storage/0276400111-1747235651.jpg', encargado:''},
+  {id:'0276400124', name:'MARGARITO SERRANO HERNANDEZ', puesto:'CADENERO', foto:'https://rh-2025.aifamx.com/storage/0276400124-1747237564.jpg', encargado:''},
+  {id:'0276400128', name:'CESAR MICHELLE SOLANO ALVARADO', puesto:'ELECTRICISTA', foto:'https://rh-2025.aifamx.com/storage/0276400128-1747237696.jpg', encargado:''},
+  {id:'0276400132', name:'JOSE JUAN SANCHEZ OLVERA', puesto:'CARPINTERO', foto:'https://rh-2025.aifamx.com/storage/0276400132-1747238834.jpg', encargado:''},
+  {id:'0276400150', name:'MYTHZY PAOLA CHAVARRIA CAMPOS', puesto:'', foto:'https://rh-2025.aifamx.com/storage/0276400150-1747240251.jpg', encargado:''},
+  {id:'0276400171', name:'TANIA AMERICA MORALES MURGUIA', puesto:'CALIDAD', foto:'https://rh-2025.aifamx.com/storage/0276400171-1747243658.jpg', encargado:''},
+  {id:'0276400182', name:'GALILEA ESCALANTE VAZQUEZ', puesto:'CALIDAD', foto:'https://rh-2025.aifamx.com/storage/0276400182-1747244141.jpg', encargado:''},
+  {id:'0276400183', name:'YOCELINE TLACOMULCO TLATILOLPA', puesto:'ADMINISTRATIVO', foto:'https://rh-2025.aifamx.com/storage/0276400183-1747244177.jpg', encargado:''},
+  {id:'0276400199', name:'TANIA CECILIA SORIA MENDIZABAL', puesto:'PROYECTO', foto:'https://rh-2025.aifamx.com/storage/0276400199-1747244735.jpg', encargado:''},
+  {id:'0276400200', name:'KARLA JAZMIN PALMA RUIZ', puesto:'AUXILIAR', foto:'', encargado:''},
+  {id:'0276400313', name:'LUIS ALBERTO OLIVARES DE LA LUZ', puesto:'CASINO', foto:'', encargado:''},
+  {id:'0276400340', name:'MIGUEL ANGEL GARCIA HERNANDEZ', puesto:'FIERRERO', foto:'', encargado:''},
+  {id:'0276400398', name:'KENEC ABNER BARUCH SANTOS', puesto:'ADMINISTRATIVO', foto:'https://rh-2025.aifamx.com/storage/0276400398-1747263120.jpg', encargado:''},
+  {id:'0276400462', name:'OSMAR LOPEZ GARCIA', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276400462-1772118137.jpg', encargado:''},
+  {id:'0276400464', name:'DAMIAN ISAEL DE LA CRUZ PEREZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276400464-1771428029.jpg', encargado:''},
+  {id:'0276400465', name:'MARIO ALBERTO HERNANDEZ DE LA CRUZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276400465-1772118173.jpg', encargado:''},
+  {id:'276400750', name:'JORGE LUIS PUEBLA GUTIERREZ', puesto:'FIERRERO', foto:'', encargado:''},
+  {id:'0276400751', name:'CARLOS ABEL BALLESTEROS OLVERA', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276400751-1772118263.jpg', encargado:''},
+  {id:'0276400753', name:'ERASMO RODRIGUEZ DIAZ', puesto:'OF ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276400753-1747860005.jpg', encargado:''},
+  {id:'0276400755', name:'REGULO ISRAEL CRUZ ARCINIEGA', puesto:'OF ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276400755-1772118307.jpg', encargado:''},
+  {id:'0276400756', name:'HECTOR MOTA OLGUIN', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276400756-1768413136.jpg', encargado:''},
+  {id:'0276400997', name:'ADALBERTO AGUSTIN DOMINGUEZ GALVEZ', puesto:'CARPINTERO', foto:'https://rh-2025.aifamx.com/storage/0276400997-1769020282.jpg', encargado:''},
+  {id:'0276401056', name:'REYNALDO GALINDO AVILA', puesto:'TERACERIAS', foto:'https://rh-2025.aifamx.com/storage/0276401056-1748535500.jpg', encargado:''},
+  {id:'0276401088', name:'FRAY NOE MEZA AGUILAR', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276401088-1748538014.jpg', encargado:''},
+  {id:'0276401090', name:'CESAR JUAN NUÑEZ', puesto:'MOTOSIERRA', foto:'https://rh-2025.aifamx.com/storage/0276401090-1748538114.jpg', encargado:''},
+  {id:'0276401094', name:'SAMUEL CRUZ JIMENEZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276401094-1774998527.jpg', encargado:''},
+  {id:'0276401130', name:'HILARIO ANTONIO SERRANO ORTIZ', puesto:'CARPINTERO', foto:'https://rh-2025.aifamx.com/storage/0276401130-1768413245.jpg', encargado:''},
+  {id:'0276401179', name:'MARCO ANTONIO VILLASEÑOR ZUÑIGA', puesto:'PLOMERO', foto:'https://rh-2025.aifamx.com/storage/0276401179-1749139716.jpg', encargado:''},
+  {id:'0276401181', name:'PAULINO MONROY VILLEDA', puesto:'OF ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401181-1773173557.jpg', encargado:''},
+  {id:'0276401188', name:'ERVEY MONTUFAR LOPEZ', puesto:'AUX DIESEL  Y VEHICULOS', foto:'https://rh-2025.aifamx.com/storage/0276401188-1749140043.jpg', encargado:''},
+  {id:'0276401198', name:'ROSARIO MARTINEZ VAZQUEZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276401198-1765925587.jpg', encargado:''},
+  {id:'0276401222', name:'J. GUADALUPE SERGIO OROPEZA MORALES', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401222-1753215121.jpg', encargado:''},
+  {id:'0276401223', name:'NACIANCENO MEJIA MORALES', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401223-1753215225.jpg', encargado:''},
+  {id:'0276401233', name:'ANIBAL DE JESUS LOPEZ HERNANDEZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276401233-1771428076.jpg', encargado:''},
+  {id:'0276401234', name:'JOSE DOMINGO LOPEZ ZOLANO', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276401234-1772118433.jpg', encargado:''},
+  {id:'0276401235', name:'JOSE IGNACIO VAZQUEZ LOPEZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276401235-1774998575.jpg', encargado:''},
+  {id:'0276401236', name:'ARNOLDO HERNANDEZ JIMENEZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276401236-1772118475.jpg', encargado:''},
+  {id:'0276401238', name:'JOHAN LOPEZ LAGOS', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276401238-1753804324.jpg', encargado:''},
+  {id:'0276401239', name:'EDIEL MARTIN VAZQUEZ LOPEZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276401239-1772118514.jpg', encargado:''},
+  {id:'0276401258', name:'ROBERTO DE JESUS HERNANDEZ GOMEZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276401258-1772119303.jpg', encargado:''},
+  {id:'0276401280', name:'CRISTIAN ANTONIO SANTIAGO GARCIA', puesto:'AY GIO', foto:'https://rh-2025.aifamx.com/storage/0276401280-1753808649.jpg', encargado:''},
+  {id:'0276401281', name:'ERICK ORTEGA MAQUEDA', puesto:'HERRERO', foto:'https://rh-2025.aifamx.com/storage/0276401281-1753808688.jpg', encargado:''},
+  {id:'0276401283', name:'IVAN MEJIA RAMIREZ', puesto:'HERRERO', foto:'https://rh-2025.aifamx.com/storage/0276401283-1753808785.jpg', encargado:''},
+  {id:'0276401284', name:'JUAN ADRIAN AGUILAR ANGELES', puesto:'ELECTRICISTA', foto:'https://rh-2025.aifamx.com/storage/0276401284-1753808822.jpg', encargado:''},
+  {id:'0276401324', name:'RICARDO RAMOS MARTINEZ', puesto:'AUX ALVADOR', foto:'https://rh-2025.aifamx.com/storage/0276401324-1772119630.jpg', encargado:''},
+  {id:'0276401327', name:'ALEJANDRO GUERRERO PEREZ', puesto:'ESTIMACIONES', foto:'https://rh-2025.aifamx.com/storage/0276401327-1754415668.jpg', encargado:''},
+  {id:'0276401340', name:'MAURO LOPEZ CHAVEZ', puesto:'PROYECTO', foto:'https://rh-2025.aifamx.com/storage/0276401340-1755036634.jpg', encargado:''},
+  {id:'0276401371', name:'ELIDETH PALOMA RODRIGUEZ LUCIO', puesto:'ARQUEOLOGA', foto:'https://rh-2025.aifamx.com/storage/0276401371-1755039400.jpg', encargado:''},
+  {id:'276401373', name:'ERASMO VILLEGAS MEJIA', puesto:'CARPINTERO', foto:'https://rh-2025.aifamx.com/storage/0276401373-1755039452.jpg', encargado:''},
+  {id:'276401375', name:'Hernandez Martinez Abraham', puesto:'BIOLOGO', foto:'https://rh-2025.aifamx.com/storage/0276401375-1755039507.jpg', encargado:''},
+  {id:'0276401410', name:'JOSE RODRIGUEZ CRUZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276401410-1772119759.jpg', encargado:''},
+  {id:'0276401643', name:'ANTONIO LOPEZ PEREZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276401643-1771428122.jpg', encargado:''},
+  {id:'0276401646', name:'OSCAR HUMBERTO PEREZ GUTIERREZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276401646-1768423016.jpg', encargado:''},
+  {id:'0276401658', name:'BRODELIN HERNANDEZ RUIZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276401658-1772119836.jpg', encargado:''},
+  {id:'0276401680', name:'BRENDA MICHELLE TREJO FIGUEROA', puesto:'PROYECTOS', foto:'https://rh-2025.aifamx.com/storage/0276401680-1768423914.jpg', encargado:''},
+  {id:'0276401685', name:'GERARDO ALBERTO GONZALEZ PEREZ', puesto:'TERACERIAS', foto:'https://rh-2025.aifamx.com/storage/0276401685-1768424060.jpg', encargado:''},
+  {id:'0276401695', name:'SABAS REYES CERON', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401695-1758923207.jpg', encargado:''},
+  {id:'0276401696', name:'ANASTACIO HERNANDEZ MARTINEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401696-1758923308.jpg', encargado:''},
+  {id:'0276401698', name:'EMETERIO CERON BARRON', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401698-1758923898.jpg', encargado:''},
+  {id:'0276401699', name:'JUAN CARLOS  CERON CRUZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401699-1758924290.jpg', encargado:''},
+  {id:'0276401700', name:'CLAUDIA REYES MARTINEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401700-1760393387.jpg', encargado:''},
+  {id:'0276401701', name:'LUCIANO CRUZ REYES', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401701-1758924412.jpg', encargado:''},
+  {id:'0276401702', name:'JOSE LUIS MARTINEZ REYES', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401702-1758924465.jpg', encargado:''},
+  {id:'0276401703', name:'FRANCISCO ERNESTO CERON CHAVEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401703-1758924561.jpg', encargado:''},
+  {id:'0276401704', name:'JUAN CERON BARRON', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401704-1758924614.jpg', encargado:''},
+  {id:'0276401705', name:'FELIPE CERON BARRON', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401705-1758924680.jpg', encargado:''},
+  {id:'0276401706', name:'ARIADNA LIZBEIDI ESTRADA JULIAN', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401706-1758924733.jpg', encargado:''},
+  {id:'0276401709', name:'ALFREDO MENDOZA ARTEAGA', puesto:'AY ALBAÑIL', foto:'', encargado:''},
+  {id:'0276401710', name:'MARGARITA RAMIREZ VILLEGAS', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401710-1758924947.jpg', encargado:''},
+  {id:'0276401711', name:'MARCO ANTONIO CERON JIMENEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401711-1758924994.jpg', encargado:''},
+  {id:'0276401712', name:'FRANCISCO HERNANDEZ MARTINEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401712-1758925047.jpg', encargado:''},
+  {id:'0276401713', name:'ALBERTO CRUZ REYES', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401713-1758925093.jpg', encargado:''},
+  {id:'0276401722', name:'EDUARDO BALTAZAR GUDIÑO', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401722-1772646267.jpg', encargado:''},
+  {id:'0276401723', name:'AGUSTIN BALTAZAR RAMOS', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401723-1759264619.jpg', encargado:''},
+  {id:'0276401725', name:'MARIO ALBERTO CERON  MEDINA', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401725-1759955458.jpg', encargado:''},
+  {id:'0276401726', name:'FILIBERTO CERON CHAVEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401726-1759955501.jpg', encargado:''},
+  {id:'0276401732', name:'ARTURO MARTINEZ REYES', puesto:'OF ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401732-1760393699.jpg', encargado:''},
+  {id:'0276401733', name:'SEVERIANO LUGO MARTINEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401733-1760393748.jpg', encargado:''},
+  {id:'0276401758', name:'JUAN MANUEL GONZALES GONZALES', puesto:'CARPINTERO', foto:'', encargado:''},
+  {id:'0276401759', name:'LUIS RENE SEGOVIA MONTUFAR', puesto:'AUX MAQUINARIA', foto:'https://rh-2025.aifamx.com/storage/0276401759-1765926025.jpg', encargado:''},
+  {id:'0276401768', name:'HUGO CESAR MORALES GOMEZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276401768-1765926318.jpg', encargado:''},
+  {id:'0276401769', name:'OSCAR ALFREDO GOMEZ HERNANDEZ', puesto:'MOTOSIERRA', foto:'https://rh-2025.aifamx.com/storage/0276401769-1765926349.jpg', encargado:''},
+  {id:'0276401770', name:'JOSE LUIS OLGUIN GARCIA', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401770-1765926372.jpg', encargado:''},
+  {id:'0276401771', name:'AMADOR CRUZ MERA', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401771-1765926396.jpg', encargado:''},
+  {id:'0276401780', name:'FERNANDO JAVIER FUENTES RIVAS', puesto:'AUX TERRACERIA', foto:'https://rh-2025.aifamx.com/storage/0276401780-1765926687.jpg', encargado:''},
+  {id:'0276401781', name:'FREDY ANAYA CORONADO', puesto:'MOTSIERRA', foto:'https://rh-2025.aifamx.com/storage/0276401781-1765926713.jpg', encargado:''},
+  {id:'0276401782', name:'AARON ERNESTO PAZ PAZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276401782-1765926775.jpg', encargado:''},
+  {id:'0276401784', name:'MARCO ALONSO PAZ PEREZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276401784-1765926865.jpg', encargado:''},
+  {id:'0276401785', name:'AARON JOVAN PAZ PEREZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276401785-1765926888.jpg', encargado:''},
+  {id:'0276401788', name:'JESUS MARTIN LEON ANACLETO', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401788-1765926954.jpg', encargado:''},
+  {id:'0276401796', name:'ABEL BARRERA TEODOCIO', puesto:'OF ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401796-1767127162.jpg', encargado:''},
+  {id:'0276401799', name:'ALEJANDRO PINTADO LOPEZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276401799-1767127335.jpg', encargado:''},
+  {id:'0276401800', name:'GEOVANY PINTADO LOPEZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276401800-1767127383.jpg', encargado:''},
+  {id:'0276401815', name:'MANRIQUE ARTURO AGUILAR GARCIA', puesto:'AUX GERARDO', foto:'https://rh-2025.aifamx.com/storage/0276401815-1767128488.jpg', encargado:''},
+  {id:'0276401817', name:'MIGUEL HERNANDEZ HILARIO', puesto:'OF ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401817-1767385464.jpg', encargado:''},
+  {id:'0276401818', name:'BENJAMIN GUADALUPE HERNANDEZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276401818-1767385503.jpg', encargado:''},
+  {id:'0276401819', name:'CRISTIAN IVAN CAMPOS PEREZ', puesto:'CARPINTERO', foto:'https://rh-2025.aifamx.com/storage/0276401819-1767385534.jpg', encargado:''},
+  {id:'0276401821', name:'HERIBERTO ACEVEDO SOLANO', puesto:'CARPINTERO', foto:'https://rh-2025.aifamx.com/storage/0276401821-1767385588.jpg', encargado:''},
+  {id:'0276401822', name:'NOE ISAI NAVARRETE NUÑEZ', puesto:'MOTOSIERRA', foto:'https://rh-2025.aifamx.com/storage/0276401822-1767385616.jpg', encargado:''},
+  {id:'0276401825', name:'MARCELINO TELLO PEREZ', puesto:'OF ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401825-1767385872.jpg', encargado:''},
+  {id:'0276401828', name:'LUIS EUSEBIO LEON SEBASTIAN', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401828-1767385970.jpg', encargado:''},
+  {id:'0276401853', name:'ANTONIO MARTINEZ JASSO', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401853-1768424607.jpg', encargado:''},
+  {id:'0276401859', name:'JOSE GUADALUPE REYES OCHOA', puesto:'OF ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401859-1768424853.jpg', encargado:''},
+  {id:'0276401862', name:'BENJAMIN RAMIREZ HERRERA', puesto:'CARPINTERO', foto:'', encargado:''},
+  {id:'0276401864', name:'J. ASCENCION ORTEGA ALVAREZ', puesto:'OF ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401864-1768425083.jpg', encargado:''},
+  {id:'0276401865', name:'NELSON SEBASTIAN HERNANDEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401865-1768425148.jpg', encargado:''},
+  {id:'276401879', name:'CECILIO MARTINEZ MARTINEZ', puesto:'OF ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401879-1768425755.jpg', encargado:''},
+  {id:'0276401885', name:'VICTOR MANUEL REYES ANGELES', puesto:'CARPINTERO', foto:'https://rh-2025.aifamx.com/storage/0276401885-1768425990.jpg', encargado:''},
+  {id:'0276401889', name:'MISAEL BENITEZ CAMACHO', puesto:'OF ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401889-1768426296.jpg', encargado:''},
+  {id:'0276401908', name:'GUSTAVO PALMA JIMENEZ', puesto:'CARPINTERO', foto:'', encargado:''},
+  {id:'0276401914', name:'RICARDO SOLEDAD RODEA', puesto:'CARPINTERO', foto:'', encargado:''},
+  {id:'0276401916', name:'ANTONY BRAYAN FRANCISCO APARICIO', puesto:'CARPINTERO', foto:'', encargado:''},
+  {id:'0276401918', name:'IGNACIO ACEVEDO PEREZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276401918-1768427808.jpg', encargado:''},
+  {id:'0276401920', name:'VICTOR ALFONSO MORENO LARA', puesto:'CARPINTERO', foto:'', encargado:''},
+  {id:'0276401924', name:'GERARDO NERI SAUCEDO', puesto:'CARPINTERO', foto:'', encargado:''},
+  {id:'0276401931', name:'MARCELO HERNANDEZ REYES', puesto:'CARPINTERO', foto:'https://rh-2025.aifamx.com/storage/0276401931-1768428755.jpg', encargado:''},
+  {id:'0276401937', name:'JORGE GIOVANI CANO JUAREZ', puesto:'ALMACEN', foto:'', encargado:''},
+  {id:'0276401942', name:'MIGUEL JONATHAN CRUZ HERNANDEZ', puesto:'MANTENIMIENTO VOLTEOS', foto:'https://rh-2025.aifamx.com/storage/0276401942-1768432102.jpg', encargado:''},
+  {id:'0276401987', name:'ISAI URIEL ALDERETE SALAZAR', puesto:'FIERRERO', foto:'', encargado:''},
+  {id:'0276402105', name:'AGUSTIN MERA GUERRERO', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402105-1768500651.jpg', encargado:''},
+  {id:'0276402106', name:'FERNANDO VIVEROS CRUZ', puesto:'CADENERO', foto:'https://rh-2025.aifamx.com/storage/0276402106-1768500678.jpg', encargado:''},
+  {id:'0276402107', name:'MARCELINO VIVEROS GARCIA', puesto:'CADENERO', foto:'https://rh-2025.aifamx.com/storage/0276402107-1768500706.jpg', encargado:''},
+  {id:'0276402111', name:'MARCO ANTONIO HERNANDEZ ESTRADA', puesto:'CARPINTERO', foto:'', encargado:''},
+  {id:'0276402112', name:'SILVIA DELGADO HERNANDEZ', puesto:'PARAMEDICO', foto:'https://rh-2025.aifamx.com/storage/0276402112-1768501477.jpg', encargado:''},
+  {id:'0276402134', name:'LEOPOLDO FUENTES AGUILAR', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402134-1768508601.jpg', encargado:''},
+  {id:'0276402149', name:'BERTHA GUILLEN CALDERON', puesto:'COCINA', foto:'', encargado:''},
+  {id:'0276402212', name:'MARVIN MOISES AVILA LUGARDO', puesto:'AUX DRON', foto:'https://rh-2025.aifamx.com/storage/0276402212-1768514417.jpg', encargado:''},
+  {id:'0276402213', name:'YOSADARA BETSABE CORRO MEJIA', puesto:'CADISTA', foto:'https://rh-2025.aifamx.com/storage/0276402213-1768514464.jpg', encargado:''},
+  {id:'0276402214', name:'ALFREDO ORTIZ HERNANDEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402214-1768514507.jpg', encargado:''},
+  {id:'0276402215', name:'HUMBERTO MARQUEZ FLORES', puesto:'MECANICO', foto:'https://rh-2025.aifamx.com/storage/0276402215-1768514539.jpg', encargado:''},
+  {id:'0276402216', name:'GUSTAVO GUADALUPE HERNANDEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402216-1768514567.jpg', encargado:''},
+  {id:'0276402219', name:'ARTEMIO SAUL HERNANDEZ CRUZ', puesto:'OF ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402219-1768514886.jpg', encargado:''},
+  {id:'0276402221', name:'FERNANDO ESCAMILLA MARTINEZ', puesto:'CARPINTERO', foto:'', encargado:''},
+  {id:'0276402223', name:'JAIME LARA MARTINEZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276402223-1768515229.jpg', encargado:''},
+  {id:'0276402230', name:'DANIEL CERON HERNANDEZ', puesto:'FIERRERO', foto:'', encargado:''},
+  {id:'0276402237', name:'CESAR MOCIAS TREJO MAGAÑA', puesto:'AUX COMBUSTIBLE', foto:'https://rh-2025.aifamx.com/storage/0276402237-1768515856.jpg', encargado:''},
+  {id:'0276402239', name:'JOSE MIGUEL SALAZAR GARCIA', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402239-1768515917.jpg', encargado:''},
+  {id:'0276402246', name:'GERARDO CASTAÑEDA GONZALEZ', puesto:'ALMACEN TULA', foto:'https://rh-2025.aifamx.com/storage/0276402246-1768516331.jpg', encargado:''},
+  {id:'0276402249', name:'JESUS BARRERA FACIO', puesto:'CARPINTERO', foto:'https://rh-2025.aifamx.com/storage/0276402249-1768516443.jpg', encargado:''},
+  {id:'0276402252', name:'DIEGO ACEVEDO CRUZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402252-1768516694.jpg', encargado:''},
+  {id:'0276402253', name:'MAURICIO HERNANDEZ VILLEDA', puesto:'COMBUSTBLE', foto:'https://rh-2025.aifamx.com/storage/0276402253-1768516726.jpg', encargado:''},
+  {id:'0276402257', name:'ANGEL JUAN ANGELES', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402257-1768517065.jpg', encargado:''},
+  {id:'0276402267', name:'JUAN GOMEZ MARCOS', puesto:'ESTIMACIONES', foto:'https://rh-2025.aifamx.com/storage/0276402267-1768517674.jpg', encargado:''},
+  {id:'0276402268', name:'EPIFANIO VIVEROS CRUZ', puesto:'CADENERO', foto:'https://rh-2025.aifamx.com/storage/0276402268-1768517723.jpg', encargado:''},
+  {id:'0276402275', name:'OSCAR LUGO MARTINEZ', puesto:'OF ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402275-1768518165.jpg', encargado:''},
+  {id:'0276402278', name:'IGNACIO ANGELES LUNA', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402278-1768518284.jpg', encargado:''},
+  {id:'0276402280', name:'OSCAR YAIR PEREZ REYES', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402280-1768518354.jpg', encargado:''},
+  {id:'0276402287', name:'OMAR REYES CRUZ', puesto:'MANIOBRISTA', foto:'https://rh-2025.aifamx.com/storage/0276402287-1768518677.jpg', encargado:''},
+  {id:'0276402288', name:'ALDO ISAIR CORREA ZAMUDIO', puesto:'AUX  JUSTINO', foto:'https://rh-2025.aifamx.com/storage/0276402288-1768518747.jpg', encargado:''},
+  {id:'0276402291', name:'ODYN RAYMUNDO FRANCO ESTRADA', puesto:'TERACERIAS', foto:'https://rh-2025.aifamx.com/storage/0276402291-1768518899.jpg', encargado:''},
+  {id:'0276402297', name:'RAMIRO RAMIREZ LOPEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402297-1768519166.jpg', encargado:''},
+  {id:'0276402298', name:'JOSE LUIS VARGAS LICONA', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402298-1768519205.jpg', encargado:''},
+  {id:'0276402301', name:'JOSE ANGEL MARTINEZ VAZQUEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402301-1768575815.jpg', encargado:''},
+  {id:'0276402302', name:'MIGUEL ANGEL MENDOZA CABRERA', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402302-1768575842.jpg', encargado:''},
+  {id:'0276402307', name:'VICTOR VALDEZ MARTINEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402307-1768575981.jpg', encargado:''},
+  {id:'0276402308', name:'OLIVER AGUSTIN RAMIREZ CHAVEZ', puesto:'AUX MAQ', foto:'https://rh-2025.aifamx.com/storage/0276402308-1768576017.jpg', encargado:''},
+  {id:'0276402311', name:'JESUS EDUARDO VAZQUEZ MARTINEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402311-1768576287.jpg', encargado:''},
+  {id:'0276402314', name:'JOSE JESUS CRUZ CRUZ', puesto:'OF ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402314-1768576537.jpg', encargado:''},
+  {id:'0276402317', name:'FRANCISCO BADILLO MONTAÑO', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402317-1768576653.jpg', encargado:''},
+  {id:'0276402318', name:'DIEGO DAMIAN DE LA LUZ DIAZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402318-1768576699.jpg', encargado:''},
+  {id:'0276402319', name:'FERMIN ESTEBAN MONTIEL', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402319-1768576724.jpg', encargado:''},
+  {id:'0276402327', name:'JESUS VIVEROS REYES', puesto:'CADENERO', foto:'https://rh-2025.aifamx.com/storage/0276402327-1768577017.jpg', encargado:''},
+  {id:'0276402329', name:'BENITO MUÑOZ HERNANDEZ', puesto:'OF ALBAÑIL', foto:'', encargado:''},
+  {id:'0276402331', name:'SERGIO CERON CASTILLO', puesto:'MOTOSIERRA', foto:'https://rh-2025.aifamx.com/storage/0276402331-1768577154.jpg', encargado:''},
+  {id:'0276402332', name:'ISRAEL REMIGIO JUAN', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402332-1768577183.jpg', encargado:''},
+  {id:'0276402333', name:'HECTOR REYES ARCE', puesto:'OF ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402333-1768577216.jpg', encargado:''},
+  {id:'0276402335', name:'SALVADOR MENDOZA BERNAL', puesto:'OF ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402335-1768577263.jpg', encargado:''},
+  {id:'0276402336', name:'JOSE GUADALUPE CHAVARRIA SANCHEZ', puesto:'MECANICO GASOLINA', foto:'https://rh-2025.aifamx.com/storage/0276402336-1768577289.jpg', encargado:''},
+  {id:'0276402342', name:'DAVID BENITEZ TORRES', puesto:'HERRERO', foto:'https://rh-2025.aifamx.com/storage/0276402342-1768577513.jpg', encargado:''},
+  {id:'0276402343', name:'GEOVANNI SOSA GARRIDO', puesto:'AY ALBAÑIL', foto:'', encargado:''},
+  {id:'0276402344', name:'ALBERTO GUERRERO CAMPOS', puesto:'SOLDADOR', foto:'https://rh-2025.aifamx.com/storage/0276402344-1768577661.jpg', encargado:''},
+  {id:'0276402346', name:'NESTOR TADEO PEREZ VILLEGAS', puesto:'OF ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402346-1768577857.jpg', encargado:''},
+  {id:'0276402348', name:'CESAR CRAVIOTO LOPEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402348-1768577921.jpg', encargado:''},
+  {id:'0276402349', name:'JONATHAN TAVARES GUILLEN', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402349-1768577955.jpg', encargado:''},
+  {id:'0276402350', name:'OEL GIOVANNY GOMEZ MONTESINOS', puesto:'MAQUINARIA', foto:'https://rh-2025.aifamx.com/storage/0276402350-1768577984.jpg', encargado:''},
+  {id:'0276402358', name:'LUCIANO LAZARO HERNANDEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402358-1768578653.jpg', encargado:''},
+  {id:'0276402368', name:'ADRIAN JESUS VILLAMIL LUCHO', puesto:'MIC', foto:'https://rh-2025.aifamx.com/storage/0276402368-1768579091.jpg', encargado:''},
+  {id:'0276402369', name:'HUGO ENRIQUE FLORES MORALES', puesto:'MIC', foto:'https://rh-2025.aifamx.com/storage/0276402369-1768579119.jpg', encargado:''},
+  {id:'0276402397', name:'J. ISABEL PEREZ HERNANDEZ', puesto:'TOPOGRAFO', foto:'https://rh-2025.aifamx.com/storage/0276402397-1768579954.jpg', encargado:''},
+  {id:'0276402455', name:'GERMAN VILLEDA PEREZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402455-1771428162.jpg', encargado:''},
+  {id:'0276402456', name:'ROBERTO MARTINEZ AVILEZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276402456-1768582154.jpg', encargado:''},
+  {id:'0276402457', name:'JULIAN MENDOZA RAMIREZ', puesto:'CARPINTERO', foto:'', encargado:''},
+  {id:'0276402461', name:'JUAN SOTO ESTRADA', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402461-1768582318.jpg', encargado:''},
+  {id:'0276402462', name:'BRAYAN ANTONIO ANDARA AMADOR', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402462-1768582355.jpg', encargado:''},
+  {id:'0276402465', name:'ALAN SAUL PAZ PEREZ', puesto:'CADENERO', foto:'https://rh-2025.aifamx.com/storage/0276402465-1768582509.jpg', encargado:''},
+  {id:'0276402466', name:'JOSE MANUEL MARQUEZ VARGAS', puesto:'ESTIMACIONES', foto:'https://rh-2025.aifamx.com/storage/0276402466-1768582541.jpg', encargado:''},
+  {id:'0276402477', name:'MARTIN SERRANO BARRON', puesto:'OF ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402477-1769021044.jpg', encargado:''},
+  {id:'0276402478', name:'RAMON SALDIVAR LOPEZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276402478-1769025907.jpg', encargado:''},
+  {id:'0276402481', name:'SAMUEL GUZMAN MENDOZA', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402481-1769026043.jpg', encargado:''},
+  {id:'0276402484', name:'FLORENTINO PORRAS CRUZ', puesto:'CADENERO', foto:'https://rh-2025.aifamx.com/storage/0276402484-1769026308.jpg', encargado:''},
+  {id:'0276402486', name:'RICARDO HERNANDEZ ANGELES', puesto:'AY ALBAÑIL', foto:'', encargado:''},
+  {id:'0276402489', name:'VICTOR GARCIA BAEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402489-1769026525.jpg', encargado:''},
+  {id:'0276402490', name:'ARI NAAAHER DE AMAHER MOLINA', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276402490-1769026568.jpg', encargado:''},
+  {id:'0276402501', name:'MANUEL DE JESUS ARGUETA VAZQUEZ', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276402501-1769027012.jpg', encargado:''},
+  {id:'0276402517', name:'HECTOR MONDRAGON REYES', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402517-1769027742.jpg', encargado:''},
+  {id:'0276402519', name:'JOSUE MIZAEL RODRIGUEZ SERRANO', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402519-1769027823.jpg', encargado:''},
+  {id:'0276402523', name:'JONATHAN JUAN MARTINEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402523-1769027978.jpg', encargado:''},
+  {id:'0276402524', name:'BONY FRANCISCO GANTE', puesto:'CARPINTERO', foto:'', encargado:''},
+  {id:'0276402529', name:'JONATAN CRISTIAN RIOS GARCIA', puesto:'SOLDADOR', foto:'https://rh-2025.aifamx.com/storage/0276402529-1769555246.jpg', encargado:''},
+  {id:'0276402532', name:'ROBERTO JOVEN SANCHEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402532-1769555529.jpg', encargado:''},
+  {id:'0276402533', name:'ALDO ISRAEL FLORES PEREZ', puesto:'OF ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402533-1769555556.jpg', encargado:''},
+  {id:'276402534', name:'LEANDRO GOMEZ ORDAZ', puesto:'CASINO', foto:'https://rh-2025.aifamx.com/storage/0276402534-1769555585.jpg', encargado:''},
+  {id:'0276402535', name:'LUIS MANUEL SANCHEZ MARTINEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402535-1769555615.jpg', encargado:''},
+  {id:'0276402542', name:'ALEJANDRO SANTANA ZAMORA', puesto:'ESTIMACIONES', foto:'https://rh-2025.aifamx.com/storage/0276402542-1769557797.jpg', encargado:''},
+  {id:'0276402549', name:'JESUS EMMANUEL VALDEZ CRAVIOTO', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402549-1769558027.jpg', encargado:''},
+  {id:'0276402550', name:'ISMAEL CORNEJO DOMINGUEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402550-1769558050.jpg', encargado:''},
+  {id:'0276402552', name:'RODRIGO HERNANDEZ HERNANDEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402552-1769558096.jpg', encargado:''},
+  {id:'0276402558', name:'JUAN CARLOS RAMIREZ MAYA', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402558-1769617005.jpg', encargado:''},
+  {id:'0276402559', name:'ALDO MEZA PADILLA', puesto:'PROYECTO', foto:'https://rh-2025.aifamx.com/storage/0276402559-1769617034.jpg', encargado:''},
+  {id:'0276402563', name:'KEVIN NAPOLEON SANTOS LEON', puesto:'MANIOBRISTA', foto:'https://rh-2025.aifamx.com/storage/0276402563-1769617187.jpg', encargado:''},
+  {id:'0276402566', name:'ALAN ADAIR GARCIA HERNANDEZ', puesto:'AY ALBAÑIL', foto:'', encargado:''},
+  {id:'0276402567', name:'JOSUE ANGEL CORNEJO DOMINGUEZ', puesto:'SEGURISTA', foto:'https://rh-2025.aifamx.com/storage/0276402667-1770328761.jpg', encargado:''},
+  {id:'0276402573', name:'HUMBERTO JULIO SERAPIO', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402573-1769617525.jpg', encargado:''},
+  {id:'0276402574', name:'JESUS AVENDAÑO SEBASTIAN', puesto:'AY ALBAÑIL', foto:'', encargado:''},
+  {id:'0276402575', name:'JOSE URIEL ABAD PEREZ', puesto:'FIERRERO', foto:'', encargado:''},
+  {id:'0276402577', name:'ABRAHAMSON URIEL MUÑOZ MARTINEZ', puesto:'FIERRERO', foto:'', encargado:''},
+  {id:'0276402579', name:'ENRIQUE GONZALEZ BASURTO', puesto:'FIERRERO', foto:'', encargado:''},
+  {id:'0276402584', name:'OSCAR DAIR DE YTA AMBROCIO', puesto:'ESTIMACIONES', foto:'', encargado:''},
+  {id:'0276402587', name:'ARMANDO LOPEZ CORTES', puesto:'CABO', foto:'', encargado:''},
+  {id:'0276402588', name:'MARCO ANTONIO MARTINEZ PARRA', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402588-1769618170.jpg', encargado:''},
+  {id:'0276402602', name:'HUGO ENRIQUE JIMENEZ REYES', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402602-1769619459.jpg', encargado:''},
+  {id:'0276402605', name:'MICHAEL JUAN BARRERA', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402605-1769619660.jpg', encargado:''},
+  {id:'0276402611', name:'FELIPE ALVARES ROBERTO', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276402611-1770322474.jpg', encargado:''},
+  {id:'0276402619', name:'ROMEO GILES GOMEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402619-1770322770.jpg', encargado:''},
+  {id:'0276402623', name:'JUAN FELIPE LOPEZ ZAMUDIO', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402623-1770325331.jpg', encargado:''},
+  {id:'0276402631', name:'RICARDO TRINIDAD HERNANDEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402631-1770327017.jpg', encargado:''},
+  {id:'0276402636', name:'ELISEO ANTONIO HERNANDEZ RAMIREZ', puesto:'MOTOSIERRA', foto:'https://rh-2025.aifamx.com/storage/0276402636-1770327527.jpg', encargado:''},
+  {id:'0276402639', name:'JUAN MANUEL HERNANDEZ RAMIREZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402639-1770327704.jpg', encargado:''},
+  {id:'0276402657', name:'DIEGO ALBERTO RODRIGUEZ REYES', puesto:'AUX TERRACERIA', foto:'https://rh-2025.aifamx.com/storage/0276402657-1770328463.jpg', encargado:''},
+  {id:'0276402658', name:'OSCAR SANCHEZ LOPEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402658-1770328492.jpg', encargado:''},
+  {id:'0276402665', name:'EMMANUEL MUÑOZ DOMINGUEZ', puesto:'ESTIMACIONES', foto:'https://rh-2025.aifamx.com/storage/0276402665-1770328708.jpg', encargado:''},
+  {id:'0276402667', name:'FERNANDO ANDRADE MALAGON', puesto:'AUX SARAI', foto:'https://rh-2025.aifamx.com/storage/0276402667-1770328761.jpg', encargado:''},
+  {id:'0276402674', name:'ABRAHAM CORONA GONZALEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402674-1770676849.jpg', encargado:''},
+  {id:'0276402677', name:'MARTIN VAZQUEZ RUIZ', puesto:'AY ALBAÑIL', foto:'', encargado:''},
+  {id:'0276402684', name:'ARTURO MUCIÑO TELLEZ', puesto:'AMBIENTALISTA', foto:'https://rh-2025.aifamx.com/storage/0276402684-1770677227.jpg', encargado:''},
+  {id:'0276402689', name:'JANZETH MARTINEZ LUGO', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402689-1770677697.jpg', encargado:''},
+  {id:'0276402700', name:'ROBERTO CARLOS LOPEZ HERNANDEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402700-1770678170.jpg', encargado:''},
+  {id:'0276402705', name:'JONATHAN SERRANO ESCAMILLA', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402705-1770678383.jpg', encargado:''},
+  {id:'0276402719', name:'JOSE EDUARDO TORRES JIMENEZ', puesto:'TOPOGRAFO', foto:'', encargado:''},
+  {id:'0276402720', name:'CESAR DIONICIO RAMIREZ', puesto:'TOPOGRAFO', foto:'', encargado:''},
+  {id:'0276402721', name:'URIEL CRUZ GUERRERO', puesto:'TOPOGRAFO', foto:'https://rh-2025.aifamx.com/storage/0276402721-1771429186.jpg', encargado:''},
+  {id:'0276402723', name:'LUIS ENRIQUE FELIX CRUZ', puesto:'FIERRERO', foto:'', encargado:''},
+  {id:'0276402724', name:'LUIS MARTINEZ JASSO', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402724-1771429515.jpg', encargado:''},
+  {id:'0276402728', name:'MIGUEL ANGEL RODRIGUEZ VENANCIO', puesto:'FIERRERO', foto:'', encargado:''},
+  {id:'0276402729', name:'MAURICIO HERNANDEZ HERNANDEZ', puesto:'FIERRERO', foto:'', encargado:''},
+  {id:'0276402734', name:'ALLAN EMILIO ROMAN MARTINEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402734-1771429980.jpg', encargado:''},
+  {id:'0276402737', name:'ALEJANDRO VILLEGAS ALCANTARA', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402737-1771430087.jpg', encargado:''},
+  {id:'0276402747', name:'OSCAR GUERRERO LUVIANO', puesto:'TERRACERO', foto:'https://rh-2025.aifamx.com/storage/0276402747-1771430486.jpg', encargado:''},
+  {id:'0276402756', name:'LUIS FERNANDO GALLEGOS CRUZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402756-1771430903.jpg', encargado:''},
+  {id:'0276402758', name:'JUAN MANUEL CRUZ MENDOZA', puesto:'OF ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402758-1771430974.jpg', encargado:''},
+  {id:'0276402762', name:'GABRIEL ORTEGA MIRANDA', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402762-1771431122.jpg', encargado:''},
+  {id:'0276402763', name:'JOSE FRANCISCO HERNANDEZ ESTEBAN', puesto:'OF ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402763-1771431216.jpg', encargado:''},
+  {id:'0276402764', name:'GAMALIEL JUAN MARTINEZ', puesto:'AY ALBAÑIL', foto:'', encargado:''},
+  {id:'0276402765', name:'FRANCISCO JAVIER SAAVEDRA CANUTO', puesto:'SEGURISTA', foto:'https://rh-2025.aifamx.com/storage/0276402765-1771431290.jpg', encargado:''},
+  {id:'0276402766', name:'ERIK CABRERA CAMARA', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402766-1771431327.jpg', encargado:''},
+  {id:'0276402767', name:'FERMIN SERRANO HERNANDEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402767-1771431363.jpg', encargado:''},
+  {id:'0276402770', name:'JOVITA MARTINEZ MORALES', puesto:'AUXLIAR', foto:'https://rh-2025.aifamx.com/storage/0276402770-1771431477.jpg', encargado:''},
+  {id:'0276402779', name:'J. JESUS MERA REYES', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276402779-1772120525.jpg', encargado:''},
+  {id:'0276402784', name:'CRESCENCIO MERA REYES', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276402784-1772120784.jpg', encargado:''},
+  {id:'0276402787', name:'EMETERIO CORNEJO MENDEZ', puesto:'OF ALBAÑIL', foto:'', encargado:''},
+  {id:'0276402788', name:'MIGUEL ANTONIO BERMUDEZ VELASQUEZ', puesto:'AY ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402788-1772120922.jpg', encargado:''},
+  {id:'0276402793', name:'JOSE RODRIGO GUERRERO CRUZ', puesto:'OF ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402793-1772121237.jpg', encargado:''},
+  {id:'0276402796', name:'EDUARDO DE JESUS PEREZ CRUZ', puesto:'FIERRERO', foto:'', encargado:''},
+  {id:'0276402808', name:'JOSE RUBISEL GARCIA VAZQUEZ', puesto:'FIERRERO', foto:'', encargado:''},
+  {id:'0276402809', name:'JOSE ANTONIO FIGUEROA AGUILAR', puesto:'FIERRERO', foto:'https://rh-2025.aifamx.com/storage/0276402809-1772121970.jpg', encargado:''},
+  {id:'0276402810', name:'CARLOS CHAVEZ MENDOZA', puesto:'AY ALMACEN', foto:'', encargado:''},
+  {id:'0276402811', name:'ALBERTO LOPEZ TORRES', puesto:'OF ALBAÑIL', foto:'https://rh-2025.aifamx.com/storage/0276402811-1772122081.jpg', encargado:''},
+  {id:'0276402812', name:'JOSE DE JESUS COUTIÑO CASTRO', puesto:'FIERRERO', foto:'', encargado:''},
+  {id:'0276402821', name:'CARLOS DANIEL LOPEZ LOPEZ', puesto:'FIERRERO', foto:'', encargado:''},
+  {id:'0276402822', name:'EVELIO DE JESUS ALVAREZ GARCIA', puesto:'FIERRERO', foto:'', encargado:''},
+  {id:'0276402823', name:'JOSE ANGEL FALCON MARTINEZ', puesto:'FIERRERO', foto:'', encargado:''},
+  {id:'0276402824', name:'ARIOSTO ALEJANDRO LOPEZ HERNANDEZ', puesto:'FIERRERO', foto:'', encargado:''},
+  {id:'0276402826', name:'GRICEL HERNANDEZ RAMIREZ', puesto:'FIERRERO', foto:'', encargado:''},
+  {id:'0276402828', name:'DANIEL HERNANDEZ HERNANDEZ', puesto:'FIERRERO', foto:'', encargado:''},
+  {id:'0276402830', name:'ALEJANDRO DEL CARMEN LOPEZ DE LA CRUZ', puesto:'FIERRERO', foto:'', encargado:''},
+  {id:'0276402831', name:'JESUS DEL CARMEN LOPEZ CABRERA', puesto:'FIERRERO', foto:'', encargado:''},
+  {id:'0276402832', name:'JOSE CIPRIANITO LOPEZ LOPEZ', puesto:'FIERRERO', foto:'', encargado:''},
+  {id:'0276402840', name:'TOMAS MONTUFAR OCHOA', puesto:'AY ALBAÑIL', foto:'', encargado:''},
+  {id:'276402841', name:'SEVERO BAUTISTA MENDOZA', puesto:'FIERRERO', foto:'', encargado:''},
 ];
 
-let regs={}, volteoRegs=[], sesion=null, turno='entrada', current=null;
-let lastQR='', jsqrOk=false, selectedHrs=0;
-let vStream=null, vRafId=null, vLastQR='', vStep=1;
-let vOperador=null, vVolteo=null;
+// Usuarios: {user, pass, name, role} role = 'checker' | 'verifier'
+let users = [
+  {user:'checador1', pass:'Check01!', name:'Checador 1', role:'checker'},
+  {user:'checador2', pass:'Check02!', name:'Checador 2', role:'checker'},
+  {user:'verificador1', pass:'Verif01!', name:'Verificador 1', role:'verifier'},
+];
+
+// registros[id] = {name, num, date, entrada, salida, verificado, horasExtra}
+let regs = {};
+let sesion = null, turno = 'entrada', current = null, scanning = false, lastQR = '';
+let selectedHrs = 0, jsqrOk = false;
 
 // ══ LOGIN ══
-function doLogin(){
-  const u=document.getElementById('lu').value.trim().toLowerCase();
-  const p=document.getElementById('lp').value;
-  document.getElementById('lerr').style.display='none';
-  if(u===CFG.adminUser.toLowerCase()&&p===CFG.adminPass){sesion={role:'admin'};show('admin');aTab('users');return;}
-  const usr=users.find(x=>x.user.toLowerCase()===u&&x.pass===p);
-  if(usr){
-    sesion={role:usr.role,name:usr.name};
-    if(usr.role==='volteo') startVolteo();
-    else startCam();
-    return;
+async function loadWorkers(){
+  try{
+    setPill('Cargando trabajadores...','');
+    const res = await fetch(API_URL + '?t=' + Date.now());
+    const json = await res.json();
+    if(json.workers && json.workers.length > 0){
+      WORKERS = json.workers;
+      console.log('Trabajadores cargados:', WORKERS.length);
+      console.log('Ejemplo:', JSON.stringify(WORKERS[0]));
+      setPill('Apunta al QR de la credencial','');
+    } else {
+      console.warn('Sin trabajadores:', json);
+      setPill('Apunta al QR de la credencial','');
+    }
+  } catch(e){
+    console.error('Error cargando trabajadores:', e);
+    setPill('Error cargando datos - intenta de nuevo','err');
   }
-  document.getElementById('lerr').style.display='block';
-}
-function tryLogout(){
-  if(Object.keys(regs).length>0||volteoRegs.length>0){document.getElementById('must-dl').classList.add('show');}
-  else doLogout();
-}
-function closeMustDl(){document.getElementById('must-dl').classList.remove('show');doLogout();}
-function doLogout(){
-  sesion=null;stopCam();stopVolteo();
-  document.getElementById('lu').value='';document.getElementById('lp').value='';
-  show('login');
-}
-function show(s){
-  ['login','cam','admin','volteo'].forEach(x=>{
-    const el=document.getElementById('scr-'+x);
-    if(el) el.style.display=(x===s?(x==='login'?'flex':'flex'):'none');
-  });
 }
 
-// ══ CÁMARA CHECADOR ══
-const vid=document.getElementById('vid');
-let stream=null,rafId=null,cvs=document.createElement('canvas'),ctx2=cvs.getContext('2d',{willReadFrequently:true});
+function doLogin(){
+  const u = document.getElementById('lu').value.trim().toLowerCase();
+  const p = document.getElementById('lp').value;
+  document.getElementById('lerr').style.display = 'none';
+  if(u === CFG.adminUser.toLowerCase() && p === CFG.adminPass){
+    sesion = {role:'admin', name:'Administrador'}; show('admin'); aTab('users'); return;
+  }
+  const usr = users.find(x => x.user.toLowerCase()===u && x.pass===p);
+  if(usr){ sesion = {role:usr.role, name:usr.name}; startCam(); return; }
+  document.getElementById('lerr').style.display = 'block';
+}
+
+function tryLogout(){
+  // Si hay registros sin descargar, mostrar aviso
+  if(Object.keys(regs).length > 0){
+    document.getElementById('must-dl').classList.add('show');
+  } else { doLogout(); }
+}
+function closeMustDl(){ document.getElementById('must-dl').classList.remove('show'); doLogout(); }
+function doLogout(){ sesion=null; stopCam(); document.getElementById('lu').value=''; document.getElementById('lp').value=''; show('login'); }
+
+function show(s){
+  document.getElementById('scr-login').style.display = s==='login'?'flex':'none';
+  document.getElementById('scr-cam').style.display   = s==='cam'?'flex':'none';
+  document.getElementById('scr-admin').style.display = s==='admin'?'flex':'none';
+}
+
+// ══ CÁMARA ══
+const vid = document.getElementById('vid');
+let stream=null, rafId=null, cvs=document.createElement('canvas'), ctx2=cvs.getContext('2d',{willReadFrequently:true});
+
+// Cargar jsQR
 const sc=document.createElement('script');
 sc.src='https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js';
 sc.onload=()=>{jsqrOk=true;};
@@ -366,409 +641,243 @@ document.head.appendChild(sc);
 
 async function startCam(){
   show('cam');
-  const isV=sesion.role==='verifier';
-  document.getElementById('rdot').className='role-dot '+(isV?'rd-verifier':'rd-checker');
-  document.getElementById('role-label').textContent=isV?'VERIFICADOR — PUNTO B':'CHECADOR — PUNTO A';
-  document.getElementById('trow-turnos').style.display=isV?'none':'flex';
-  if(isV) turno='verificar';
-  buildHrs();
-  try{
-    const constraints={audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}};
-    stream=await navigator.mediaDevices.getUserMedia(constraints);
-    vid.srcObject=stream;
-    vid.setAttribute('playsinline','true');
-    vid.muted=true;
-    vid.onloadedmetadata=()=>{
-      vid.play().then(()=>{
-        requestAnimationFrame(tick);
-        setPill('Apunta al QR de la credencial','');
-      }).catch(err=>{
-        console.error('Play error:',err);
-        setPill('Error de cámara','err');
-      });
-    };
-  }catch(e){
-    console.error('Cam error:',e);
-    setPill('Sin cámara — usa búsqueda manual','err');
-  }
   loadWorkers();
+  // Configurar UI según rol
+  const isVerifier = sesion.role === 'verifier';
+  document.getElementById('rdot').className = 'role-dot ' + (isVerifier?'rd-verifier':'rd-checker');
+  document.getElementById('role-label').textContent = isVerifier ? 'VERIFICADOR — PUNTO B' : 'CHECADOR — PUNTO A';
+  // Verificador solo confirma presencia en obra (no registra salida)
+  document.getElementById('trow-entrada').style.display = isVerifier ? 'none' : 'flex';
+  if(isVerifier) turno = 'verificar';
+  buildHrsRow();
+  try{
+    stream = await navigator.mediaDevices.getUserMedia({audio:false, video:{facingMode:'environment',width:{ideal:1280},height:{ideal:720}}});
+    vid.srcObject = stream;
+    vid.onloadedmetadata = ()=>{ vid.play(); scanning=true; requestAnimationFrame(tick); };
+    setPill('Apunta al QR de la credencial');
+  }catch(e){ setPill('Sin cámara — ingresa número manual','err'); addManual(); }
 }
+
 function stopCam(){
-  if(rafId)cancelAnimationFrame(rafId);
-  if(stream)stream.getTracks().forEach(t=>t.stop());
-  stream=null;vid.srcObject=null;
+  scanning=false;
+  if(rafId) cancelAnimationFrame(rafId);
+  if(stream) stream.getTracks().forEach(t=>t.stop());
+  stream=null; vid.srcObject=null;
 }
+
 function tick(){
-  rafId=requestAnimationFrame(tick);
-  if(!jsqrOk||vid.readyState<2||vid.paused)return;
-  const w=vid.videoWidth,h=vid.videoHeight;
-  if(!w||!h)return;
-  cvs.width=w;cvs.height=h;
+  if(!scanning){return;}
+  rafId = requestAnimationFrame(tick);
+  if(!jsqrOk || vid.readyState<2 || vid.paused) return;
+  const w=vid.videoWidth, h=vid.videoHeight;
+  if(!w||!h) return;
+  cvs.width=w; cvs.height=h;
   ctx2.drawImage(vid,0,0,w,h);
   try{
-    const img=ctx2.getImageData(0,0,w,h);
-    const code=jsQR(img.data,w,h,{inversionAttempts:'attemptBoth'});
-    if(code&&code.data&&code.data!==lastQR){lastQR=code.data;handleQR(code.data);}
+    const img = ctx2.getImageData(0,0,w,h);
+    const code = jsQR(img.data,w,h,{inversionAttempts:'attemptBoth'});
+    if(code && code.data && code.data !== lastQR){ lastQR=code.data; handleQR(code.data); }
   }catch(e){}
 }
 
-// ══ CARGAR TRABAJADORES ══
-async function loadWorkers(){
-  setPill('Cargando trabajadores...','');
-  try{
-    const res = await fetch(API_URL + '?t=' + Date.now());
-    if(!res.ok) throw new Error('HTTP ' + res.status);
-    const json = await res.json();
-    console.log('Respuesta:', JSON.stringify(json).substring(0,100));
-    const lista = json.workers || json || [];
-    if(Array.isArray(lista) && lista.length > 0){
-      WORKERS = lista;
-      console.log('✅ Trabajadores:', WORKERS.length, 'Ejemplo:', JSON.stringify(WORKERS[0]));
-      const cnt = document.getElementById('refresh-count');
-      if(cnt) cnt.textContent = WORKERS.length + ' cargados';
-      setPill('✅ ' + WORKERS.length + ' trabajadores listos','ok');
-      setTimeout(()=>setPill('Apunta al QR de la credencial',''),2000);
-    } else {
-      console.warn('Sin trabajadores en respuesta:', json);
-      setPill('Sin conexión — reintenta','warn');
-    }
-  } catch(e){
-    console.error('Error cargando trabajadores:', e);
-    setPill('Error: ' + e.message,'err');
-    setTimeout(()=>setPill('Apunta al QR de la credencial',''),3000);
-  }
-  // Siempre cargar registros del día aunque falle la carga de trabajadores
-  await cargarRegistrosDelDia();
-}
-
-async function cargarRegistrosDelDia(){
-  try{
-    const dia = getDia();
-    const res = await fetch(API_URL + '?action=getRegistros&dia=' + encodeURIComponent(dia) + '&t=' + Date.now());
-    if(!res.ok) return;
-    const json = await res.json();
-    if(json.registros && json.registros.length > 0){
-      json.registros.forEach(r => {
-        const num = String(r.num||'').trim();
-        if(!num) return;
-        if(!regs[num]) regs[num] = {name:'', num:num, date:getFecha()};
-        if(r.entrada && String(r.entrada).trim() !== '') regs[num].entrada = String(r.entrada).trim();
-        if(r.salida  && String(r.salida).trim()  !== '') regs[num].salida  = String(r.salida).trim();
-      });
-      console.log('✅ Registros del día cargados:', json.registros.length);
-    }
-  } catch(e){
-    console.log('Sin registros previos del día:', e);
-  }
-}
-
-// ══ QR CHECADOR ══
+// ══ QR ══
 function handleQR(data){
-  if(current)return;
-  const m=data.match(/consulta[&?/](\d{7,})[&?/](\d+)/i);
-  let num=m?m[1]:null;
-  if(!num){const ns=data.match(/\d{7,}/g);if(ns)num=ns[0];}
-  if(!num){setPill('QR no reconocido','err');setTimeout(()=>{lastQR='';setPill('Apunta al QR');},2000);return;}
-  const padded=num.padStart(10,'0'),stripped=num.replace(/^0+/,'');
-  const w=WORKERS.find(x=>x.id===num||x.id===padded||x.id.replace(/^0+/,'')=== stripped);
-  if(!w){
-    setPill('⚠ No registrado en base de datos','err');
+  if(current) return;
+  setPill('✓ QR detectado','ok');
+  console.log('QR raw:', data);
+
+  // Extraer todos los números de 7+ dígitos del QR
+  const allNums = (data.match(/\d{7,}/g)||[]);
+  let num = null;
+  
+  // Buscar el número que coincida con algún trabajador primero
+  for(const n of allNums){
+    const padded = n.padStart(10,'0');
+    const stripped = n.replace(/^0+/,'');
+    const found = WORKERS.find(x=>
+      x.id===n || x.id===padded ||
+      x.id.replace(/^0+/,'')=== stripped
+    );
+    if(found){ num=n; break; }
+  }
+  // Si no encontró match, usar el primer número largo
+  if(!num && allNums.length>0) num = allNums[0];
+  
+  if(!num){
+    setPill('QR no reconocido — no. '+data.substring(0,30),'err');
     setTimeout(()=>{lastQR='';setPill('Apunta al QR de la credencial');},3000);
     return;
   }
-  showCard({name:w.name,puesto:w.puesto||'',foto:w.foto||'',encargado:w.encargado||'',alerta:w.alerta||'',num:padded,rawNum:num});
-}
 
-// ══ BÚSQUEDA MANUAL CON PREFIJO ══
-
-
-
-
-
-async function refreshWorkers(){
-  const btn = document.getElementById('refresh-btn');
-  btn.textContent = '⏳ Cargando...';
-  btn.disabled = true;
-  try{
-    const res = await fetch(API_URL + '?t=' + Date.now());
-    if(!res.ok) throw new Error('HTTP ' + res.status);
-    const json = await res.json();
-    const lista = json.workers || json || [];
-    if(Array.isArray(lista) && lista.length > 0){
-      WORKERS = lista;
-      document.getElementById('refresh-count').textContent = WORKERS.length + ' cargados';
-      setPill('✅ ' + WORKERS.length + ' trabajadores','ok');
-      setTimeout(()=>setPill('Apunta al QR de la credencial',''),2000);
-    } else {
-      setPill('Sin datos — intenta de nuevo','err');
-    }
-  } catch(e){
-    setPill('Error: ' + e.message,'err');
-  }
-  btn.textContent = '🔄 Actualizar trabajadores';
-  btn.disabled = false;
-}
-
-function buscarManual(){
-  const sfx=document.getElementById('manual-sfx').value.trim();
-  if(!sfx)return;
-  const numCompleto=PREFIJO+sfx;
-  const padded=numCompleto.padStart(10,'0');
-  const stripped=numCompleto.replace(/^0+/,'');
-  // Buscar por sufijo, número completo, o número con padding
-  const w=WORKERS.find(x=>
-    x.id===numCompleto ||
-    x.id===padded ||
-    x.id.replace(/^0+/,'')=== stripped ||
-    x.id.endsWith(sfx) ||
-    x.id.slice(-4)===sfx.padStart(4,'0')
+  const padded = num.padStart(10,'0');
+  const stripped = num.replace(/^0+/,'');
+  const w = WORKERS.find(x=>
+    x.id===num || x.id===padded ||
+    x.id.replace(/^0+/,'')=== stripped
   );
-  if(w){
-    showCard({name:w.name,puesto:w.puesto||'',foto:w.foto||'',encargado:w.encargado||'',alerta:w.alerta||'',num:w.id,rawNum:numCompleto});
-    document.getElementById('manual-sfx').value='';
-  } else {
-    setPill('⚠ No registrado en base de datos','err');
-    setTimeout(()=>setPill('Apunta al QR de la credencial'),2000);
-  }
+  console.log('Num encontrado:', num, 'Worker:', w?.name, 'Foto:', w?.foto);
+  showCard({
+    name: w ? w.name : 'Empleado ' + padded,
+    puesto: w ? (w.puesto || '') : '',
+    foto: w ? (w.foto || '') : '',
+    encargado: w ? (w.encargado || '') : '',
+    num: padded,
+    rawNum: num
+  });
 }
 
-// ══ MOSTRAR CARD ══
 function showCard(d){
-  current=d;
-  const ini=d.name.trim().split(/\s+/).slice(0,2).map(n=>n[0]?.toUpperCase()||'').join('');
-  const foto=document.getElementById('wfoto'),iniEl=document.getElementById('wini');
-  iniEl.textContent=ini;iniEl.style.display='none';foto.style.display='block';
-  if(d.foto){
-    let ti=0;const tries=[d.foto];
-    foto.onerror=()=>{ti++;if(ti<tries.length){foto.src=tries[ti];}else{foto.style.display='none';iniEl.style.display='flex';}};
-    foto.src=d.foto;
-  } else {foto.style.display='none';iniEl.style.display='flex';}
-
-  document.getElementById('wname').textContent=d.name;
-  document.getElementById('wnum').textContent='No. '+d.num;
-  document.getElementById('wpuesto').textContent=d.puesto||'';
-  document.getElementById('wenc').textContent=d.encargado?'⚙ '+d.encargado:'';
-  const alertaEl=document.getElementById('walerta');
-  if(d.alerta && d.alerta.trim()!=''){
-    alertaEl.textContent='⚠ '+d.alerta;
-    alertaEl.style.display='block';
-  } else {
-    alertaEl.style.display='none';
+  current = d;
+  const ini = d.name.trim().split(/\s+/).slice(0,2).map(n=>n[0]?.toUpperCase()||'').join('');
+  const foto = document.getElementById('wfoto');
+  const iniEl = document.getElementById('wini');
+  iniEl.textContent = ini; iniEl.style.display='none'; foto.style.display='block';
+  // Intentar múltiples patrones de URL de foto
+  // Las fotos en rh-2025 tienen formato: numero-timestamp.jpg
+  // Timestamps conocidos:
+  const tsMap = {
+    '0276402238': '1768515884',
+    '0276403074': '1774306432',
+    '0276403073': '1774306402',
+    '0276403072': '1774306379',
+    '0276403019': '1773778450',
+    '0276403051': '1773779718',
+  };
+  const ts = tsMap[d.num] || tsMap[d.rawNum] || '';
+  // Use foto from worker catalog if available, otherwise try URL patterns
+  const tries = [];
+  if(d.foto) tries.push(d.foto);
+  if(ts){
+    tries.push('https://rh-2025.aifamx.com/storage/'+d.num+'-'+ts+'.jpg');
+    tries.push('https://wsrv.nl/?url=rh-2025.aifamx.com/storage/'+d.num+'-'+ts+'.jpg&w=400&h=500');
   }
+  tries.push('https://wsrv.nl/?url=rh-2025.aifamx.com/storage/'+d.num+'.jpg&w=400&h=500');
+  const uniqueTries = [...new Set(tries)].filter(Boolean);
+  let ti=0;
+  foto.onerror = ()=>{ ti++; if(ti<uniqueTries.length){foto.src=uniqueTries[ti];}else{foto.style.display='none';iniEl.style.display='flex';} };
+  foto.src = uniqueTries[0];
 
-  const r=regs[d.num];
-  let sub='',sc='#02C39A',blk=false;
-  if(sesion.role==='verifier'){
-    if(!r?.entrada){sub='✕ Sin entrada — no puede verificarse';sc='#f87171';blk=true;}
-    else if(r?.verificado){sub='⚠ Ya verificado ('+r.verificado+')';sc='#f59e0b';}
-    else sub='Confirmando presencia · Punto B';
+  document.getElementById('wname').textContent = d.name || 'Sin nombre';
+  document.getElementById('wnum').textContent = 'No. ' + d.num;
+  document.getElementById('wpuesto').textContent = d.puesto || '';
+  document.getElementById('wencargado').textContent = d.encargado ? 'Encargado: ' + d.encargado : '';
+
+  const r = regs[d.num];
+  let sub='', sc='#02C39A', blk=false;
+
+  if(sesion.role === 'verifier'){
+    if(!r?.entrada){ sub='✕ No pasó con checador en Punto A'; sc='#f87171'; blk=true; }
+    else if(r?.verificado){ sub='⚠ Ya fue verificado en Punto B'; sc='#f59e0b'; }
+    else { sub='Confirmando presencia en Punto B'; }
   } else {
     if(turno==='entrada'){
-      sub=r?.entrada?'⚠ Ya registró entrada ('+r.entrada+')':'Registrando entrada · Punto A';
-      sc=r?.entrada?'#f59e0b':'#02C39A';
+      sub = r?.entrada ? '⚠ Ya registró entrada ('+r.entrada+')' : 'Registrando entrada · Punto A';
+      sc = r?.entrada ? '#f59e0b':'#02C39A';
     } else {
-      if(!r?.entrada){sub='✕ Sin entrada — no puede registrar salida';sc='#f87171';blk=true;}
-      else if(r?.salida){sub='⚠ Ya registró salida ('+r.salida+')';sc='#f59e0b';}
+      if(!r?.entrada){ sub='✕ Sin entrada — no puede registrar salida'; sc='#f87171'; blk=true; }
+      else if(r?.salida){ sub='⚠ Ya registró salida ('+r.salida+')'; sc='#f59e0b'; }
       else sub='Registrando salida · Punto A';
     }
   }
-  document.getElementById('wsub').textContent=sub;
-  document.getElementById('wsub').style.color=sc;
-  const bok=document.getElementById('bok');
-  bok.disabled=blk;bok.style.opacity=blk?'.3':'1';
-  document.getElementById('extra-wrap').style.display=turno==='salida'&&sesion.role!=='verifier'&&!blk?'block':'none';
-  if(turno==='salida'&&!blk) resetHrs();
-  document.getElementById('wcard').style.display='block';
-  document.getElementById('itxt').textContent='';
-  setPill('¿Es correcto?','');
-}
 
-function getDia(){
-  const dias=['DOM','LUN','MAR','MIE','JUE','VIE','SAB'];
-  return dias[new Date().getDay()];
-}
-function getSemana(){
-  const d=new Date(),s=new Date(d.getFullYear(),0,1);
-  return 'SEM '+Math.ceil(((d-s)/86400000+s.getDay()+1)/7);
+  document.getElementById('wsub').textContent = sub;
+  document.getElementById('wsub').style.color = sc;
+  const bok = document.getElementById('bok');
+  bok.disabled=blk; bok.style.opacity=blk?'.3':'1';
+
+  // Mostrar horas extra solo en salida
+  const showExtra = (turno==='salida' && sesion.role!=='verifier' && !blk);
+  document.getElementById('extra-wrap').style.display = showExtra ? 'block' : 'none';
+  if(showExtra) resetHrs();
+
+  document.getElementById('wcard').style.display = 'block';
+  document.getElementById('itxt').textContent = '';
 }
 
 function confirm_(){
-  if(!current)return;
-  const h=getHM(),f=getFecha(),id=current.num;
-  if(!regs[id])regs[id]={name:current.name,num:id,date:f,puesto:current.puesto||'',encargado:current.encargado||''};
-  if(sesion.role==='verifier') regs[id].verificado=h;
-  else if(turno==='entrada'){
-    regs[id].entrada=h;
-    guardarEnSheet(id,'entrada',h);
+  if(!current) return;
+  const h=getHM(), f=getFecha(), id=current.num;
+  if(!regs[id]) regs[id]={name:current.name, num:id, date:f};
+
+  if(sesion.role==='verifier'){
+    regs[id].verificado = h;
+  } else if(turno==='entrada'){
+    regs[id].entrada = h;
   } else {
-    regs[id].salida=h;
-    regs[id].horasExtra=selectedHrs;
-    guardarEnSheet(id,'salida',h);
+    regs[id].salida = h;
+    regs[id].horasExtra = selectedHrs;
   }
   setPill('✓ '+current.name+' — '+h,'ok');
   reset();
 }
 
-async function guardarEnSheet(num, tipo, hora){
-  try{
-    const params = new URLSearchParams({
-      action: 'save',
-      num: num,
-      tipo: tipo,
-      hora: hora,
-      dia: getDia(),
-      semana: getSemana()
-    });
-    await fetch(API_URL + '?' + params.toString());
-    console.log('✅ Guardado en Sheet:', num, tipo, hora);
-  } catch(e){
-    console.error('Error guardando en Sheet:', e);
-  }
-}
-function nope(){setPill('Cancelado','err');reset();}
+function nope(){ setPill('Cancelado','err'); reset(); }
+
 function reset(){
-  current=null;lastQR='';
+  current=null;
   document.getElementById('wcard').style.display='none';
   document.getElementById('extra-wrap').style.display='none';
-  document.getElementById('manual-sfx').value='';
   document.getElementById('itxt').textContent='Escaneando...';
-  setTimeout(()=>setPill('Apunta al QR de la credencial',''),1800);
+  setTimeout(()=>{ lastQR=''; setPill('Apunta al QR de la credencial'); },1800);
 }
+
 function setT(t){
   turno=t;
   document.getElementById('te').className='tbtn'+(t==='entrada'?' on':'');
   document.getElementById('ts').className='tbtn'+(t==='salida'?' on':'');
   reset();
 }
+
 function setPill(txt,type=''){
   const p=document.getElementById('pill');
-  p.textContent=txt;p.className='pill'+(type?' '+type:'');
+  p.textContent=txt; p.className='pill'+(type?' '+type:'');
 }
 
 // ══ HORAS EXTRA ══
-function buildHrs(){
+function buildHrsRow(){
   selectedHrs=0;
   const row=document.getElementById('hrs-row');
   row.innerHTML='';
   for(let i=0;i<=8;i++){
     const btn=document.createElement('button');
     btn.className='hr-btn'+(i===0?' on':'');
-    btn.textContent=i===0?'0h':i+'h';
-    btn.onclick=()=>{selectedHrs=i;document.querySelectorAll('.hr-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');};
+    btn.textContent=i===0?'0 hrs':i+'h';
+    btn.onclick=()=>selectHr(i);
+    btn.id='hr-'+i;
     row.appendChild(btn);
   }
 }
-function resetHrs(){selectedHrs=0;document.querySelectorAll('.hr-btn').forEach((b,i)=>b.className='hr-btn'+(i===0?' on':''));}
-
-// ══ MÓDULO VOLTEOS ══
-const vvid=document.getElementById('vvid');
-let vcvs=document.createElement('canvas'),vctx=vcvs.getContext('2d',{willReadFrequently:true});
-
-async function startVolteo(){
-  show('volteo');
-  resetVolteo();
-  try{
-    vStream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:'environment',width:{ideal:1280},height:{ideal:720}}});
-    vvid.srcObject=vStream;
-    vvid.onloadedmetadata=()=>{vvid.play();requestAnimationFrame(vtick);};
-  }catch(e){document.getElementById('vpill').textContent='Sin cámara';}
-  loadWorkers();
+function selectHr(n){
+  selectedHrs=n;
+  document.querySelectorAll('.hr-btn').forEach(b=>b.classList.remove('on'));
+  document.getElementById('hr-'+n).classList.add('on');
 }
-function stopVolteo(){
-  if(vRafId)cancelAnimationFrame(vRafId);
-  if(vStream)vStream.getTracks().forEach(t=>t.stop());
-  vStream=null;vvid.srcObject=null;
-}
-function vtick(){
-  vRafId=requestAnimationFrame(vtick);
-  if(!jsqrOk||vvid.readyState<2||vvid.paused)return;
-  const w=vvid.videoWidth,h=vvid.videoHeight;
-  if(!w||!h)return;
-  vcvs.width=w;vcvs.height=h;
-  vctx.drawImage(vvid,0,0,w,h);
-  try{
-    const img=vctx.getImageData(0,0,w,h);
-    const code=jsQR(img.data,w,h,{inversionAttempts:'attemptBoth'});
-    if(code&&code.data&&code.data!==vLastQR){vLastQR=code.data;handleVQR(code.data);}
-  }catch(e){}
-}
-
-function handleVQR(data){
-  if(vStep===1){
-    // Paso 1: QR del operador (formato rh-2025 o número)
-    const m=data.match(/consulta[&?/](\d{7,})[&?/](\d+)/i);
-    let num=m?m[1]:null;
-    if(!num){const ns=data.match(/\d{7,}/g);if(ns)num=ns[0];}
-    if(!num){document.getElementById('vpill').textContent='QR no reconocido';setTimeout(()=>{vLastQR='';document.getElementById('vpill').textContent='Escanea QR del operador';},2000);return;}
-    const padded=num.padStart(10,'0');
-    const w=WORKERS.find(x=>x.id===num||x.id===padded||x.id.replace(/^0+/,'')=== num.replace(/^0+/,''));
-    vOperador={num:padded,name:w?w.name:'Operador '+padded};
-    document.getElementById('vop-val').className='vstep-val';
-    document.getElementById('vop-val').textContent=vOperador.name+' — No. '+vOperador.num;
-    vStep=2;vLastQR='';
-    document.getElementById('vpill').textContent='✓ Operador OK — Escanea QR del volteo';
-  } else if(vStep===2){
-    // Paso 2: QR del volteo (formato V-01, V-02, etc.)
-    const mVol=data.match(/V-?\d+/i);
-    if(!mVol){document.getElementById('vpill').textContent='QR de volteo no válido — debe ser V-01, V-02...';setTimeout(()=>{vLastQR='';document.getElementById('vpill').textContent='Escanea QR del volteo';},2500);return;}
-    vVolteo=mVol[0].toUpperCase();
-    document.getElementById('vvol-val').className='vstep-val';
-    document.getElementById('vvol-val').textContent='🚛 '+vVolteo;
-    vStep=3;vLastQR='';
-    document.getElementById('vpill').textContent='✓ Listo — confirma la salida';
-    document.getElementById('vbtn-registrar').disabled=false;
-    document.getElementById('vbtn-registrar').style.opacity='1';
-  }
-}
-
-function registrarVolteo(){
-  if(!vOperador||!vVolteo)return;
-  const h=getHM(),f=getFecha();
-  volteoRegs.push({operador:vOperador.name,numOp:vOperador.num,volteo:vVolteo,hora:h,fecha:f});
-  document.getElementById('vpill').textContent='✓ '+vOperador.name+' — '+vVolteo+' — '+h;
-  setTimeout(()=>resetVolteo(),2000);
-}
-
-function resetVolteo(){
-  vOperador=null;vVolteo=null;vStep=1;vLastQR='';
-  document.getElementById('vop-val').className='vstep-empty';
-  document.getElementById('vop-val').textContent='Pendiente de escaneo...';
-  document.getElementById('vvol-val').className='vstep-empty';
-  document.getElementById('vvol-val').textContent='Pendiente de escaneo...';
-  document.getElementById('vbtn-registrar').disabled=true;
-  document.getElementById('vbtn-registrar').style.opacity='.3';
-  document.getElementById('vpill').textContent='Escanea QR del operador';
-}
+function resetHrs(){ selectHr(0); }
 
 // ══ ADMIN ══
 function aTab(t){
-  document.querySelectorAll('.adm-tab').forEach((el,i)=>el.className='adm-tab'+(['users','regs','volteos','pw'][i]===t?' on':''));
+  document.querySelectorAll('.adm-tab').forEach((el,i)=>el.className='adm-tab'+(['users','regs','pw'][i]===t?' on':''));
   const b=document.getElementById('adm-body');
-  if(t==='users')renderUsers(b);
-  if(t==='regs')renderRegs(b);
-  if(t==='volteos')renderVolteos(b);
-  if(t==='pw')renderPw(b);
+  if(t==='users') renderUsers(b);
+  if(t==='regs') renderRegs(b);
+  if(t==='pw') renderPw(b);
 }
 
 function renderUsers(b){
-  const checkers=users.filter(u=>u.role==='checker');
-  const verifiers=users.filter(u=>u.role==='verifier');
-  const volteos=users.filter(u=>u.role==='volteo');
-  const ucard=(u)=>`<div class="ucard">
-    <div class="uav ${u.role==='checker'?'uav-c':u.role==='volteo'?'uav-vol':'uav-v'}">${u.name[0]}</div>
-    <div class="uinfo"><strong>${u.name}</strong><span>${u.user} · ${u.role==='checker'?'Checador A':u.role==='verifier'?'Verificador B':'Checador Volteos'}</span></div>
+  const checkers = users.filter(u=>u.role==='checker');
+  const verifiers = users.filter(u=>u.role==='verifier');
+  const ucard=(u,i)=>`<div class="ucard">
+    <div class="uav ${u.role==='checker'?'uav-c':'uav-v'}">${u.name[0]}</div>
+    <div class="uinfo"><strong>${u.name}</strong><span>${u.user} · ${u.role==='checker'?'Checador Punto A':'Verificador Punto B'}</span></div>
     <button class="udel" onclick="delUser('${u.user}')">Eliminar</button>
   </div>`;
   b.innerHTML=`
     <div class="sec-title">CHECADORES — PUNTO A (${checkers.length})</div>
     ${checkers.map(ucard).join('')||'<div class="empty">Sin checadores</div>'}
     <button class="badd badd-c" onclick="showForm('checker')">+ Agregar checador</button>
-    <div class="sec-title" style="margin-top:14px">VERIFICADORES — PUNTO B (${verifiers.length})</div>
+    <div class="sec-title" style="margin-top:16px">VERIFICADORES — PUNTO B (${verifiers.length})</div>
     ${verifiers.map(ucard).join('')||'<div class="empty">Sin verificadores</div>'}
     <button class="badd badd-v" onclick="showForm('verifier')">+ Agregar verificador</button>
-    <div class="sec-title" style="margin-top:14px">CHECADORES VOLTEOS (${volteos.length})</div>
-    ${volteos.map(ucard).join('')||'<div class="empty">Sin checadores de volteos</div>'}
-    <button class="badd badd-vol" onclick="showForm('volteo')">+ Agregar checador volteos</button>
     <div class="aform" id="aform">
       <input id="fn" placeholder="Nombre completo">
       <input id="fu" placeholder="Usuario" autocapitalize="none" spellcheck="false">
@@ -777,65 +886,74 @@ function renderUsers(b){
       <button class="bsave" onclick="addUser()">Guardar</button>
     </div>`;
 }
-function showForm(role){const f=document.getElementById('aform');document.getElementById('frole').value=role;f.style.display='block';f.scrollIntoView({behavior:'smooth'});}
-function addUser(){
-  const n=document.getElementById('fn').value.trim(),u=document.getElementById('fu').value.trim().toLowerCase(),p=document.getElementById('fp').value.trim(),r=document.getElementById('frole').value;
-  if(!n||!u||!p){alert('Completa todos los campos');return;}
-  if(users.find(x=>x.user===u)){alert('Usuario ya existe');return;}
-  users.push({user:u,pass:p,name:n,role:r});aTab('users');
+
+function showForm(role){
+  const f=document.getElementById('aform');
+  document.getElementById('frole').value=role;
+  f.style.display='block';
+  f.scrollIntoView({behavior:'smooth'});
 }
-function delUser(u){if(!confirm('¿Eliminar a '+users.find(x=>x.user===u)?.name+'?'))return;users=users.filter(x=>x.user!==u);aTab('users');}
+
+function addUser(){
+  const n=document.getElementById('fn').value.trim();
+  const u=document.getElementById('fu').value.trim().toLowerCase();
+  const p=document.getElementById('fp').value.trim();
+  const r=document.getElementById('frole').value;
+  if(!n||!u||!p){alert('Completa todos los campos');return;}
+  if(users.find(x=>x.user===u)){alert('Ese usuario ya existe');return;}
+  users.push({user:u,pass:p,name:n,role:r});
+  aTab('users');
+}
+
+function delUser(u){
+  const usr=users.find(x=>x.user===u);
+  if(!confirm('¿Eliminar a '+usr?.name+'?')) return;
+  users=users.filter(x=>x.user!==u);
+  aTab('users');
+}
 
 function renderRegs(b){
   const v=Object.values(regs);
-  const e=v.filter(r=>r.entrada).length,ve=v.filter(r=>r.verificado).length,s=v.filter(r=>r.salida).length,x=v.filter(r=>r.horasExtra>0).length;
+  const ea=v.filter(r=>r.entrada).length;
+  const ve=v.filter(r=>r.verificado).length;
+  const sa=v.filter(r=>r.salida).length;
+  const ex=v.filter(r=>r.horasExtra>0).length;
   b.innerHTML=`<div class="strow">
-    <div class="stbox"><div class="stn">${e}</div><div class="stl">Entradas</div></div>
+    <div class="stbox"><div class="stn">${ea}</div><div class="stl">Entradas</div></div>
     <div class="stbox"><div class="stn">${ve}</div><div class="stl">Verif.</div></div>
-    <div class="stbox"><div class="stn">${s}</div><div class="stl">Salidas</div></div>
-    <div class="stbox"><div class="stn">${x}</div><div class="stl">H.Extra</div></div>
-  </div><div style="background:#1a1a1a;border:1px solid #222;border-radius:10px;padding:12px">
+    <div class="stbox"><div class="stn">${sa}</div><div class="stl">Salidas</div></div>
+    <div class="stbox"><div class="stn">${ex}</div><div class="stl">H.Extra</div></div>
+  </div>`+
+  `<div style="background:#1a1a1a;border:1px solid #222;border-radius:10px;padding:12px">
   ${v.length?v.map(r=>{
     const ini=r.name.trim().split(/\s+/).slice(0,2).map(n=>n[0]||'').join('').toUpperCase();
     const bs=[];
-    if(r.entrada)bs.push(`<span class="b ba">Ent ${r.entrada}</span>`);
-    if(r.verificado)bs.push(`<span class="b bv">Ver ${r.verificado}</span>`);
-    if(r.salida)bs.push(`<span class="b bsal">Sal ${r.salida}</span>`);
-    if(r.horasExtra>0)bs.push(`<span class="b bx">${r.horasExtra}h</span>`);
+    if(r.entrada) bs.push(`<span class="b ba">A ${r.entrada}</span>`);
+    if(r.verificado) bs.push(`<span class="b bv">B ${r.verificado}</span>`);
+    if(r.salida) bs.push(`<span class="b ba" style="background:#1e3a5f;color:#93c5fd">Sal ${r.salida}</span>`);
+    if(r.horasExtra>0) bs.push(`<span class="b bx">${r.horasExtra}h extra</span>`);
     return`<div class="ritem"><div class="rav">${ini}</div><div class="rinfo"><strong>${r.name}</strong><small>No. ${r.num}</small></div><div class="rbadges">${bs.join('<br>')}</div></div>`;
-  }).join(''):'<div class="empty">Sin registros</div>'}</div>
-  <button class="bdl" onclick="exportar()">Descargar .xlsx</button>`;
-}
-
-function renderVolteos(b){
-  b.innerHTML=`<div class="sec-title">VOLTEOS REGISTRADOS HOY (${volteoRegs.length})</div>
-  <div style="background:#1a1a1a;border:1px solid #222;border-radius:10px;padding:12px">
-  ${volteoRegs.length?volteoRegs.map(v=>`
-    <div class="ritem">
-      <div class="rav rav-v">🚛</div>
-      <div class="rinfo"><strong>${v.operador}</strong><small>No. ${v.numOp}</small></div>
-      <div class="rbadges"><span class="b bvol">${v.volteo}</span><br><span style="font-size:10px;color:#555">${v.hora}</span></div>
-    </div>`).join(''):'<div class="empty">Sin registros de volteos</div>'}
-  </div>
-  <button class="bdl" onclick="exportarVolteos()">Descargar volteos .xlsx</button>`;
+  }).join(''):'<div class="empty">Sin registros aún</div>'}
+  </div><button class="bdl" onclick="exportar()">Descargar .xlsx</button>`;
 }
 
 function renderPw(b){
   b.innerHTML=`<div style="background:#1a1a1a;border:1px solid #222;border-radius:10px;padding:16px">
     <h3 style="color:#fff;font-size:14px;margin-bottom:13px">Cambiar contraseña admin</h3>
     <input type="password" id="pa" placeholder="Actual" style="width:100%;padding:10px;background:#0f0f0f;border:1px solid #2a2a2a;border-radius:7px;color:#fff;font-size:13px;margin-bottom:8px;outline:none">
-    <input type="password" id="pn" placeholder="Nueva" style="width:100%;padding:10px;background:#0f0f0f;border:1px solid #2a2a2a;border-radius:7px;color:#fff;font-size:13px;margin-bottom:8px;outline:none">
-    <input type="password" id="pc" placeholder="Confirmar" style="width:100%;padding:10px;background:#0f0f0f;border:1px solid #2a2a2a;border-radius:7px;color:#fff;font-size:13px;margin-bottom:12px;outline:none">
+    <input type="password" id="pn" placeholder="Nueva (mín. 6 caracteres)" style="width:100%;padding:10px;background:#0f0f0f;border:1px solid #2a2a2a;border-radius:7px;color:#fff;font-size:13px;margin-bottom:8px;outline:none">
+    <input type="password" id="pc" placeholder="Confirmar nueva" style="width:100%;padding:10px;background:#0f0f0f;border:1px solid #2a2a2a;border-radius:7px;color:#fff;font-size:13px;margin-bottom:12px;outline:none">
     <div id="pmsg" style="font-size:12px;margin-bottom:9px;display:none"></div>
-    <button class="bsave" onclick="chPw()">Actualizar</button></div>`;
+    <button class="bsave" onclick="chPw()">Actualizar contraseña</button>
+  </div>`;
 }
 function chPw(){
   const a=document.getElementById('pa').value,n=document.getElementById('pn').value,c=document.getElementById('pc').value;
   const m=document.getElementById('pmsg');m.style.display='block';
-  if(a!==CFG.adminPass){m.style.color='#f87171';m.textContent='Contraseña incorrecta';return;}
+  if(a!==CFG.adminPass){m.style.color='#f87171';m.textContent='Contraseña actual incorrecta';return;}
   if(n.length<6){m.style.color='#f87171';m.textContent='Mínimo 6 caracteres';return;}
-  if(n!==c){m.style.color='#f87171';m.textContent='No coinciden';return;}
-  CFG.adminPass=n;m.style.color='#86efac';m.textContent='¡Actualizada!';
+  if(n!==c){m.style.color='#f87171';m.textContent='Las contraseñas no coinciden';return;}
+  CFG.adminPass=n;m.style.color='#86efac';m.textContent='¡Contraseña actualizada!';
 }
 
 // ══ MODAL ══
@@ -849,70 +967,66 @@ function openModal(){
   document.getElementById('mlista').innerHTML=v.length?v.map(r=>{
     const ini=r.name.trim().split(/\s+/).slice(0,2).map(n=>n[0]||'').join('').toUpperCase();
     const bs=[];
-    if(r.entrada)bs.push(`<span class="b ba">Ent ${r.entrada}</span>`);
-    if(r.verificado)bs.push(`<span class="b bv">Ver ${r.verificado}</span>`);
-    if(r.salida)bs.push(`<span class="b bsal">Sal ${r.salida}</span>`);
-    if(r.horasExtra>0)bs.push(`<span class="b bx">${r.horasExtra}h</span>`);
+    if(r.entrada) bs.push(`<span class="b ba">A ${r.entrada}</span>`);
+    if(r.verificado) bs.push(`<span class="b bv">B ${r.verificado}</span>`);
+    if(r.salida) bs.push(`<span class="b ba" style="background:#1e3a5f;color:#93c5fd">Sal ${r.salida}</span>`);
+    if(r.horasExtra>0) bs.push(`<span class="b bx">${r.horasExtra}h extra</span>`);
     return`<div class="ritem"><div class="rav">${ini}</div><div class="rinfo"><strong>${r.name}</strong><small>No. ${r.num}</small></div><div class="rbadges">${bs.join('<br>')}</div></div>`;
   }).join(''):'<div class="empty">Sin registros</div>';
   document.getElementById('modal').classList.add('show');
 }
-function closeModal(){document.getElementById('modal').classList.remove('show');}
+function closeModal(){ document.getElementById('modal').classList.remove('show'); }
 
 // ══ EXPORT ══
-function getDiaSemana(){
-  const dias=['DOM','LUN','MAR','MIE','JUE','VIE','SAB'];
-  return dias[new Date().getDay()];
-}
-function getNumSemana(){
-  const d=new Date();
-  const start=new Date(d.getFullYear(),0,1);
-  return Math.ceil(((d-start)/86400000+start.getDay()+1)/7);
-}
-
 function exportar(){
-  const f=getFecha(), dia=getDiaSemana(), sem=getNumSemana();
-  // Columnas por semana: SAB|H.E|DOM|H.E|LUN|H.E|MAR|H.E|MIE|H.E|JUE|H.E|VIE|H.E
-  const dias=['SAB','DOM','LUN','MAR','MIE','JUE','VIE'];
-  const headers=['No. Empleado','Nombre'];
-  dias.forEach(d=>{headers.push(d);headers.push('H.E '+d);});
-  headers.push('Semana');
-
-  const rows=[headers];
-  Object.values(regs).forEach(r=>{
-    const row=[r.num,r.name];
-    dias.forEach(d=>{
-      if(d===dia){
-        row.push(r.entrada||'');
-        row.push(r.salida||'');
-      } else {
-        row.push('');row.push('');
-      }
-    });
-    row.push('SEM '+sem);
-    rows.push(row);
+  const f=getFecha();
+  const rows=[['No. Empleado','Nombre','Fecha','Entrada (Punto A)','Verificado (Punto B)','Salida','Horas Extra','Asistencia A','Asistencia B']];
+  WORKERS.forEach(w=>{
+    const r=regs[w.id];
+    rows.push([w.id,w.name,f,r?.entrada||'',r?.verificado||'',r?.salida||'',r?.horasExtra||0,r?.entrada?'✓':'✗',r?.verificado?'✓':'✗']);
   });
-
+  Object.values(regs).forEach(r=>{
+    if(!WORKERS.find(w=>w.id===r.num))
+      rows.push([r.num,r.name,r.date||f,r.entrada||'',r.verificado||'',r.salida||'',r.horasExtra||0,r.entrada?'✓':'✗',r.verificado?'✓':'✗']);
+  });
   const wb=XLSX.utils.book_new();
   const ws=XLSX.utils.aoa_to_sheet(rows);
-  ws['!cols']=[14,32,...Array(14).fill({wch:10}),10].map(w=>typeof w==='number'?{wch:w}:w);
-  XLSX.utils.book_append_sheet(wb,ws,'SEM '+sem);
-  XLSX.writeFile(wb,'Asistencia_SEM'+sem+'_'+dia+'_'+f.replace(/\//g,'-')+'.xlsx');
+  ws['!cols']=[14,32,12,16,16,14,12,13,13].map(w=>({wch:w}));
+  XLSX.utils.book_append_sheet(wb,ws,'Asistencia');
+  XLSX.writeFile(wb,'Asistencia_'+f.replace(/\//g,'-')+'.xlsx');
 }
 
-function exportarVolteos(){
-  const f=getFecha(),sem=getNumSemana();
-  const rows=[['Operador','No. Empleado','Volteo','Hora','Fecha']];
-  volteoRegs.forEach(v=>rows.push([v.operador,v.numOp,v.volteo,v.hora,v.fecha]));
-  const wb=XLSX.utils.book_new();
-  const ws=XLSX.utils.aoa_to_sheet(rows);
-  ws['!cols']=[32,14,10,10,12].map(w=>({wch:w}));
-  XLSX.utils.book_append_sheet(wb,ws,'Volteos SEM '+sem);
-  XLSX.writeFile(wb,'Volteos_SEM'+sem+'_'+f.replace(/\//g,'-')+'.xlsx');
+function addManual(){
+  const i=document.createElement('input');
+  i.type='text';i.placeholder='Número de empleado manual...';
+  i.style.cssText='width:100%;padding:10px;background:#1a1a1a;border:1px solid #333;border-radius:8px;color:#fff;font-size:13px;margin-bottom:9px;outline:none';
+  i.addEventListener('keydown',e=>{if(e.key==='Enter'&&i.value.trim()){handleQR(i.value.trim());i.value='';}});
+  document.getElementById('bot').insertBefore(i,document.getElementById('bot').firstChild);
 }
 
-function getHM(){return new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});}
-function getFecha(){return new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'2-digit',year:'numeric'});}
+
+function buscarManual(){
+  const inp = document.getElementById('manual-num');
+  const val = inp.value.trim();
+  if(!val){ return; }
+  // Try exact match, padded, stripped
+  const stripped = val.replace(/^0+/,'');
+  const w = WORKERS.find(x=>
+    x.id === val ||
+    x.id === val.padStart(10,'0') ||
+    x.id.replace(/^0+/,'') === stripped
+  );
+  if(w){
+    showCard({name:w.name, puesto:w.puesto||'', foto:w.foto||'', encargado:w.encargado||'', num:w.id, rawNum:val});
+    inp.value = '';
+  } else {
+    setPill('No encontrado: '+val,'err');
+    setTimeout(()=>setPill('Apunta al QR de la credencial'),2000);
+  }
+}
+
+function getHM(){ return new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'}); }
+function getFecha(){ return new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'2-digit',year:'numeric'}); }
 </script>
 </body>
 </html>
