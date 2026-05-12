@@ -177,7 +177,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   <div class="logo">📋</div>
   <div class="ltitle">Pase de Lista</div>
   <div class="lsub">Proyectos Ferroviarios · SEDENA · Frente 4</div>
-  <div class="lver">v02.05.2026 — build 52</div>
+  <div class="lver">v02.05.2026 — build 53</div>
   <div class="lcard">
     <div class="lf"><label>USUARIO</label><input id="lu" type="text" placeholder="Usuario" autocapitalize="none" autocorrect="off" spellcheck="false"></div>
     <div class="lf"><label>CONTRASEÑA</label><input id="lp" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
@@ -217,16 +217,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
       </button>
       <span id="refresh-count" style="font-size:11px;color:#444;align-self:center;white-space:nowrap"></span>
     </div>
-    <div class="manual-row" id="nombre-row" style="display:none">
-      <input class="manual-inp" id="manual-nombre" type="text" placeholder="Nombre del trabajador..." style="width:100%" oninput="debounceNombre()" onkeydown="if(event.key==='Enter')buscarNombre()">
-      <button class="manual-btn" onclick="buscarNombre()">Buscar</button>
-    </div>
-    <div id="nombre-resultados" style="display:none;background:#1a1a1a;border:1px solid #333;border-radius:8px;margin-bottom:9px;max-height:150px;overflow-y:auto"></div>
-    <div style="display:flex;gap:7px;margin-bottom:9px">
-      <button onclick="toggleNombreSearch()" id="btn-nombre" style="flex:1;padding:8px;background:#1a1a2a;border:1px solid #252535;color:#d8b4fe;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer">
-        🔍 Buscar por nombre
-      </button>
-    </div>
+
     <div id="extra-wrap">
       <div class="extra-label">Horas extra</div>
       <div class="hrs-row" id="hrs-row"></div>
@@ -452,74 +443,6 @@ function handleQR(data){
 }
 
 // ══ BÚSQUEDA MANUAL CON PREFIJO ══
-function toggleNombreSearch(){
-  const row = document.getElementById('nombre-row');
-  const res = document.getElementById('nombre-resultados');
-  const btn = document.getElementById('btn-nombre');
-  const visible = row.style.display !== 'none';
-  row.style.display = visible ? 'none' : 'flex';
-  res.style.display = 'none';
-  btn.textContent = visible ? '🔍 Buscar por nombre' : '✕ Cerrar búsqueda';
-  if(!visible) setTimeout(()=>document.getElementById('manual-nombre').focus(), 100);
-}
-
-let _nombreTimer = null;
-function debounceNombre(){
-  clearTimeout(_nombreTimer);
-  _nombreTimer = setTimeout(buscarNombre, 350);
-}
-
-function buscarNombre(){
-  const query = document.getElementById('manual-nombre').value.trim().toLowerCase();
-  if(!query || query.length < 2) return;
-  
-  const resultados = WORKERS.filter(w => 
-    w.name.toLowerCase().includes(query)
-  ).slice(0, 8);
-  
-  const res = document.getElementById('nombre-resultados');
-  
-  if(resultados.length === 0){
-    res.style.display = 'block';
-    res.innerHTML = '<div style="padding:12px;color:#555;font-size:13px;text-align:center">No encontrado — ¿nuevo ingreso sin número?</div>' +
-      '<div style="padding:0 10px 10px"><button onclick="registrarSinNumero()" style="width:100%;padding:10px;background:#2a1a3a;border:1px solid #352545;color:#d8b4fe;border-radius:8px;font-size:13px;cursor:pointer">+ Registrar como nuevo ingreso</button></div>';
-    return;
-  }
-  
-  res.style.display = 'block';
-  res.innerHTML = resultados.map(w => `
-    <div onclick="seleccionarWorker('${w.id}')" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #222;cursor:pointer;active:background:#252525">
-      <div style="width:32px;height:32px;border-radius:50%;background:#1a3a2a;color:#02C39A;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">
-        ${w.name.trim().split(/\s+/).slice(0,2).map(n=>n[0]?.toUpperCase()||'').join('')}
-      </div>
-      <div style="flex:1;min-width:0">
-        <div style="color:#fff;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${w.name}</div>
-        <div style="color:#555;font-size:11px">No. ${w.id} · ${w.puesto||'Sin categoría'}</div>
-      </div>
-    </div>`).join('');
-}
-
-function seleccionarWorker(id){
-  const w = WORKERS.find(x => x.id === id);
-  if(!w) return;
-  document.getElementById('nombre-resultados').style.display = 'none';
-  document.getElementById('nombre-row').style.display = 'none';
-  document.getElementById('btn-nombre').textContent = '🔍 Buscar por nombre';
-  document.getElementById('manual-nombre').value = '';
-  showCard({name:w.name, puesto:w.puesto||'', foto:w.foto||'', encargado:w.encargado||'', alerta:w.alerta||'', num:w.id, rawNum:w.id});
-}
-
-function registrarSinNumero(){
-  const nombre = document.getElementById('manual-nombre').value.trim();
-  if(!nombre) return;
-  // Generar ID temporal con prefijo NI (Nuevo Ingreso)
-  const tempId = 'NI-' + Date.now().toString().slice(-6);
-  document.getElementById('nombre-resultados').style.display = 'none';
-  document.getElementById('nombre-row').style.display = 'none';
-  document.getElementById('btn-nombre').textContent = '🔍 Buscar por nombre';
-  document.getElementById('manual-nombre').value = '';
-  showCard({name:nombre, puesto:'NUEVO INGRESO', foto:'', encargado:'', alerta:'', num:tempId, rawNum:tempId});
-}
 
 async function refreshWorkers(){
   const btn = document.getElementById('refresh-btn');
@@ -569,6 +492,18 @@ function buscarManual(){
 }
 
 // ══ MOSTRAR CARD ══
+// Detecta si un valor de celda indica que ya fue registrado
+// La BD puede guardar hora "HH:MM", número serial de Excel, o texto no vacío
+function tieneValor(v){
+  if(v===null||v===undefined||v==='')return false;
+  const s=String(v).trim();
+  if(s==='')return false;
+  // Número (serial de fecha/hora de Excel o cualquier número)
+  if(!isNaN(s)&&s!=='0'&&Number(s)!==0)return true;
+  // Texto con contenido (hora "08:30", string, etc.)
+  return s.length>0;
+}
+
 function showCard(d){
   current=d;
   const ini=d.name.trim().split(/\s+/).slice(0,2).map(n=>n[0]?.toUpperCase()||'').join('');
@@ -592,22 +527,51 @@ function showCard(d){
     alertaEl.style.display='none';
   }
 
+  // Consultar estado desde registro local Y desde el trabajador en BD
   const r=regs[d.num];
+  // El worker en WORKERS puede traer campos de BD: entrada, salida
+  const wDB=WORKERS.find(x=>x.id===d.num||x.id===d.rawNum||x.id.replace(/^0+/,'')=== String(d.rawNum||d.num).replace(/^0+/,''));
+  
+  // tieneEntrada = registrada localmente O ya venía con valor en BD
+  const entradaLocal=r?.entrada;
+  const entradaBD=wDB?.entrada;
+  const salidaLocal=r?.salida;
+  const salidaBD=wDB?.salida;
+  
+  const tieneEntrada = entradaLocal || tieneValor(entradaBD);
+  const tieneSalida  = salidaLocal  || tieneValor(salidaBD);
+
   let sub='',sc='#02C39A',blk=false;
+
   if(sesion.role==='verifier'){
-    if(!r?.entrada){sub='✕ Sin entrada — no puede verificarse';sc='#f87171';blk=true;}
+    if(!tieneEntrada){sub='✕ Sin entrada — no puede verificarse';sc='#f87171';blk=true;}
     else if(r?.verificado){sub='⚠ Ya verificado ('+r.verificado+')';sc='#f59e0b';}
     else sub='Confirmando presencia · Punto B';
   } else {
     if(turno==='entrada'){
-      sub=r?.entrada?'⚠ Ya registró entrada ('+r.entrada+')':'Registrando entrada · Punto A';
-      sc=r?.entrada?'#f59e0b':'#02C39A';
-    } else {
-      if(!r?.entrada){sub='✕ Sin entrada — no puede registrar salida';sc='#f87171';blk=true;}
-      else if(r?.salida){sub='⚠ Ya registró salida ('+r.salida+')';sc='#f59e0b';}
-      else sub='Registrando salida · Punto A';
+      if(tieneEntrada){
+        const horaRef=entradaLocal||( tieneValor(entradaBD)?'registrada en BD':'');
+        sub='🔒 Ya tiene entrada ('+horaRef+') — no se puede duplicar';
+        sc='#f87171';blk=true;
+      } else {
+        sub='Registrando entrada · Punto A';
+        sc='#02C39A';
+      }
+    } else { // salida
+      if(!tieneEntrada){
+        sub='✕ Sin entrada — no puede registrar salida';
+        sc='#f87171';blk=true;
+      } else if(tieneSalida){
+        const horaRef=salidaLocal||(tieneValor(salidaBD)?'registrada en BD':'');
+        sub='⚠ Ya registró salida ('+horaRef+')';
+        sc='#f59e0b';blk=true;
+      } else {
+        sub='Registrando salida · Punto A';
+        sc='#02C39A';
+      }
     }
   }
+
   document.getElementById('wsub').textContent=sub;
   document.getElementById('wsub').style.color=sc;
   const bok=document.getElementById('bok');
