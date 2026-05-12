@@ -177,7 +177,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   <div class="logo">📋</div>
   <div class="ltitle">Pase de Lista</div>
   <div class="lsub">Proyectos Ferroviarios · SEDENA · Frente 4</div>
-  <div class="lver">v02.05.2026 — build 53</div>
+  <div class="lver">v02.05.2026 — build 55</div>
   <div class="lcard">
     <div class="lf"><label>USUARIO</label><input id="lu" type="text" placeholder="Usuario" autocapitalize="none" autocorrect="off" spellcheck="false"></div>
     <div class="lf"><label>CONTRASEÑA</label><input id="lp" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
@@ -314,6 +314,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 // ══ CONFIG ══
 const CFG = { adminUser:'admin', adminPass:'Admin2025!' };
 const API_URL = 'https://white-feather-9a0b.oscar-ct6698.workers.dev';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzoCgg0hZiKP3MBP69Jz3X2rq4TqJ9yZ01qxQR6jnX-hLJK6Vj2U5WdsNVCbwKzvBpX5Q/exec';
 const PREFIJO = '027640'; // Prefijo común de todos los trabajadores
 
 let WORKERS = [];
@@ -403,30 +404,66 @@ function tick(){
   }catch(e){}
 }
 
-// ══ CARGAR TRABAJADORES ══
+// ══ CARGAR TRABAJADORES + REGISTROS DEL DÍA ══
 async function loadWorkers(){
   setPill('Cargando trabajadores...','');
   try{
+    // 1) Catálogo de trabajadores (Cloudflare Worker)
     const res = await fetch(API_URL + '?t=' + Date.now());
     if(!res.ok) throw new Error('HTTP ' + res.status);
     const json = await res.json();
-    console.log('Respuesta:', JSON.stringify(json).substring(0,100));
     const lista = json.workers || json || [];
-    if(Array.isArray(lista) && lista.length > 0){
-      WORKERS = lista;
-      console.log('✅ Trabajadores:', WORKERS.length, 'Ejemplo:', JSON.stringify(WORKERS[0]));
-      const cnt = document.getElementById('refresh-count');
-      if(cnt) cnt.textContent = WORKERS.length + ' cargados';
-      setPill('✅ ' + WORKERS.length + ' trabajadores listos','ok');
-      setTimeout(()=>setPill('Apunta al QR de la credencial',''),2000);
-    } else {
-      console.warn('Sin trabajadores en respuesta:', json);
+    if(!Array.isArray(lista) || lista.length === 0){
       setPill('Sin conexión — reintenta','warn');
+      return;
     }
+    WORKERS = lista;
+
+    // 2) Registros del día (Apps Script) — fusionar entrada/salida en cada worker
+    await fusionarRegistros();
+
+    const cnt = document.getElementById('refresh-count');
+    if(cnt) cnt.textContent = WORKERS.length + ' cargados';
+    setPill('✅ ' + WORKERS.length + ' trabajadores listos','ok');
+    setTimeout(()=>setPill('Apunta al QR de la credencial',''),2000);
   } catch(e){
     console.error('Error cargando trabajadores:', e);
     setPill('Error: ' + e.message,'err');
     setTimeout(()=>setPill('Apunta al QR de la credencial',''),3000);
+  }
+}
+
+// Llama getRegistros al Apps Script y pega entrada/salida en cada worker de WORKERS
+async function fusionarRegistros(){
+  try{
+    const dia = getDia(); // ej. "LUN"
+    const url = APPS_SCRIPT_URL + '?action=getRegistros&dia=' + dia + '&t=' + Date.now();
+    const res = await fetch(url);
+    if(!res.ok) return;
+    const json = await res.json();
+    const registros = json.registros || [];
+    console.log('📋 Registros hoy (' + dia + '):', registros.length);
+
+    // Crear mapa num → {entrada, salida} para búsqueda rápida
+    // El Apps Script devuelve num sin padding igual que lo guarda
+    const mapa = {};
+    registros.forEach(r => {
+      const k = String(r.num||'').trim().replace(/\.0$/,'');
+      if(k) mapa[k] = {entrada: r.entrada||'', salida: r.salida||''};
+    });
+
+    // Fusionar en WORKERS — comparar sin padding y con padding
+    WORKERS.forEach(w => {
+      const stripped = String(w.id).replace(/^0+/,'');
+      const match = mapa[w.id] || mapa[stripped] || mapa[w.id.replace(/^0+/,'')];
+      if(match){
+        if(match.entrada) w.entrada = match.entrada;
+        if(match.salida)  w.salida  = match.salida;
+      }
+    });
+    console.log('✅ Fusión completa');
+  } catch(e){
+    console.warn('No se pudieron cargar registros del día:', e.message);
   }
 }
 
@@ -449,12 +486,15 @@ async function refreshWorkers(){
   btn.textContent = '⏳ Cargando...';
   btn.disabled = true;
   try{
+    // 1) Catálogo
     const res = await fetch(API_URL + '?t=' + Date.now());
     if(!res.ok) throw new Error('HTTP ' + res.status);
     const json = await res.json();
     const lista = json.workers || json || [];
     if(Array.isArray(lista) && lista.length > 0){
       WORKERS = lista;
+      // 2) Registros del día
+      await fusionarRegistros();
       document.getElementById('refresh-count').textContent = WORKERS.length + ' cargados';
       setPill('✅ ' + WORKERS.length + ' trabajadores','ok');
       setTimeout(()=>setPill('Apunta al QR de la credencial',''),2000);
