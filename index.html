@@ -177,7 +177,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   <div class="logo">📋</div>
   <div class="ltitle">Pase de Lista</div>
   <div class="lsub">Proyectos Ferroviarios · SEDENA · Frente 4</div>
-  <div class="lver">v11.05.2026 — build 57</div>
+  <div class="lver">v11.05.2026 — build 58</div>
   <div class="lcard">
     <div class="lf"><label>USUARIO</label><input id="lu" type="text" placeholder="Usuario" autocapitalize="none" autocorrect="off" spellcheck="false"></div>
     <div class="lf"><label>CONTRASEÑA</label><input id="lp" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
@@ -374,7 +374,7 @@ async function startCam(){
   buildHrs();
   loadWorkers();
   try{
-    stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:'environment',width:{ideal:640},height:{ideal:480}}});
+    stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:'environment',width:{ideal:1280},height:{ideal:720}}});
     vid.srcObject=stream;
     vid.onloadedmetadata=()=>{vid.play();scanning=true;requestAnimationFrame(tick);};
   }catch(e){setPill('Sin cámara — usa búsqueda manual','err');}
@@ -385,25 +385,16 @@ function stopCam(){
   if(stream)stream.getTracks().forEach(t=>t.stop());
   stream=null;vid.srcObject=null;
 }
-let _lastTickTime = 0;
-const TICK_INTERVAL = 100; // 10fps = cada 100ms
-
 function tick(){
   rafId=requestAnimationFrame(tick);
   if(!scanning||!jsqrOk||vid.readyState<2||vid.paused)return;
-  // Throttle a 10fps
-  const now = Date.now();
-  if(now - _lastTickTime < TICK_INTERVAL) return;
-  _lastTickTime = now;
   const w=vid.videoWidth,h=vid.videoHeight;
   if(!w||!h)return;
-  // 3. Canvas al 50% del tamaño original
-  const sw = Math.floor(w/2), sh = Math.floor(h/2);
-  cvs.width=sw;cvs.height=sh;
-  ctx2.drawImage(vid,0,0,sw,sh);
+  cvs.width=w;cvs.height=h;
+  ctx2.drawImage(vid,0,0,w,h);
   try{
-    const img=ctx2.getImageData(0,0,sw,sh);
-    const code=jsQR(img.data,sw,sh,{inversionAttempts:'attemptBoth'});
+    const img=ctx2.getImageData(0,0,w,h);
+    const code=jsQR(img.data,w,h,{inversionAttempts:'attemptBoth'});
     if(code&&code.data&&code.data!==lastQR){lastQR=code.data;handleQR(code.data);}
   }catch(e){}
 }
@@ -664,7 +655,7 @@ async function startVolteo(){
   show('volteo');
   resetVolteo();
   try{
-    vStream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:'environment',width:{ideal:640},height:{ideal:480}}});
+    vStream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:'environment',width:{ideal:1280},height:{ideal:720}}});
     vvid.srcObject=vStream;
     vvid.onloadedmetadata=()=>{vvid.play();requestAnimationFrame(vtick);};
   }catch(e){document.getElementById('vpill').textContent='Sin cámara';}
@@ -675,21 +666,16 @@ function stopVolteo(){
   if(vStream)vStream.getTracks().forEach(t=>t.stop());
   vStream=null;vvid.srcObject=null;
 }
-let _lastVTickTime = 0;
 function vtick(){
   vRafId=requestAnimationFrame(vtick);
   if(!jsqrOk||vvid.readyState<2||vvid.paused)return;
-  const now = Date.now();
-  if(now - _lastVTickTime < TICK_INTERVAL) return;
-  _lastVTickTime = now;
   const w=vvid.videoWidth,h=vvid.videoHeight;
   if(!w||!h)return;
-  const sw=Math.floor(w/2),sh=Math.floor(h/2);
-  vcvs.width=sw;vcvs.height=sh;
-  vctx.drawImage(vvid,0,0,sw,sh);
+  vcvs.width=w;vcvs.height=h;
+  vctx.drawImage(vvid,0,0,w,h);
   try{
-    const img=vctx.getImageData(0,0,sw,sh);
-    const code=jsQR(img.data,sw,sh,{inversionAttempts:'attemptBoth'});
+    const img=vctx.getImageData(0,0,w,h);
+    const code=jsQR(img.data,w,h,{inversionAttempts:'attemptBoth'});
     if(code&&code.data&&code.data!==vLastQR){vLastQR=code.data;handleVQR(code.data);}
   }catch(e){}
 }
