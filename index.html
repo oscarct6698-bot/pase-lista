@@ -178,7 +178,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   <div class="logo">📋</div>
   <div class="ltitle">Pase de Lista</div>
   <div class="lsub">Proyectos Ferroviarios · SEDENA · Frente 4</div>
-  <div class="lver">v02.05.2026 — build 60</div>
+  <div class="lver">v02.05.2026 — build 61</div>
   <div class="lcard">
     <div class="lf"><label>USUARIO</label><input id="lu" type="text" placeholder="Usuario" autocapitalize="none" autocorrect="off" spellcheck="false"></div>
     <div class="lf"><label>CONTRASEÑA</label><input id="lp" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
@@ -201,7 +201,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
     <div class="pill" id="pill">Apunta al QR de la credencial</div>
     <!-- FOTO DEL TRABAJADOR — cubre la cámara al escanear -->
     <div id="foto-overlay" style="display:none;position:absolute;inset:0;background:#000;z-index:10;flex-direction:column;align-items:center;justify-content:center">
-      <img id="wfoto" style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block">
+      <img id="wfoto" style="width:100%;height:100%;object-fit:contain;object-position:center top;display:block;background:#000">
       <div id="wini" style="display:none;width:100%;height:100%;background:#1a3a2a;align-items:center;justify-content:center;font-size:100px;font-weight:700;color:#02C39A;position:absolute;inset:0"></div>
     </div>
   </div>
