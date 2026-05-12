@@ -177,7 +177,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   <div class="logo">📋</div>
   <div class="ltitle">Pase de Lista</div>
   <div class="lsub">Proyectos Ferroviarios · SEDENA · Frente 4</div>
-  <div class="lver">v02.05.2026 — build 56</div>
+  <div class="lver">v11.05.2026 — build 57</div>
   <div class="lcard">
     <div class="lf"><label>USUARIO</label><input id="lu" type="text" placeholder="Usuario" autocapitalize="none" autocorrect="off" spellcheck="false"></div>
     <div class="lf"><label>CONTRASEÑA</label><input id="lp" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
@@ -216,11 +216,6 @@ video{width:100%;height:100%;object-fit:cover;display:block}
         🔄 Actualizar trabajadores
       </button>
       <span id="refresh-count" style="font-size:11px;color:#444;align-self:center;white-space:nowrap"></span>
-    </div>
-
-    <div id="extra-wrap">
-      <div class="extra-label">Horas extra</div>
-      <div class="hrs-row" id="hrs-row"></div>
     </div>
     <div id="wcard">
       <img id="wfoto" class="wcard-foto" src="">
@@ -314,7 +309,6 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 // ══ CONFIG ══
 const CFG = { adminUser:'admin', adminPass:'Admin2025!' };
 const API_URL = 'https://white-feather-9a0b.oscar-ct6698.workers.dev';
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzoCgg0hZiKP3MBP69Jz3X2rq4TqJ9yZ01qxQR6jnX-hLJK6Vj2U5WdsNVCbwKzvBpX5Q/exec';
 const PREFIJO = '027640'; // Prefijo común de todos los trabajadores
 
 let WORKERS = [];
@@ -326,7 +320,7 @@ let users = [
 ];
 
 let regs={}, volteoRegs=[], sesion=null, turno='entrada', current=null;
-let lastQR='', jsqrOk=false, selectedHrs=0;
+let lastQR='', jsqrOk=false, scanning=false, selectedHrs=0;
 let vStream=null, vRafId=null, vLastQR='', vStep=1;
 let vOperador=null, vVolteo=null;
 
@@ -380,109 +374,87 @@ async function startCam(){
   buildHrs();
   loadWorkers();
   try{
-    stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:'environment',width:{ideal:1280},height:{ideal:720}}});
+    stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:'environment',width:{ideal:640},height:{ideal:480}}});
     vid.srcObject=stream;
-    vid.onloadedmetadata=()=>{vid.play();requestAnimationFrame(tick);};
+    vid.onloadedmetadata=()=>{vid.play();scanning=true;requestAnimationFrame(tick);};
   }catch(e){setPill('Sin cámara — usa búsqueda manual','err');}
 }
 function stopCam(){
+  scanning=false;
   if(rafId)cancelAnimationFrame(rafId);
   if(stream)stream.getTracks().forEach(t=>t.stop());
   stream=null;vid.srcObject=null;
 }
+let _lastTickTime = 0;
+const TICK_INTERVAL = 100; // 10fps = cada 100ms
+
 function tick(){
   rafId=requestAnimationFrame(tick);
-  if(!jsqrOk||vid.readyState<2||vid.paused)return;
+  if(!scanning||!jsqrOk||vid.readyState<2||vid.paused)return;
+  // Throttle a 10fps
+  const now = Date.now();
+  if(now - _lastTickTime < TICK_INTERVAL) return;
+  _lastTickTime = now;
   const w=vid.videoWidth,h=vid.videoHeight;
   if(!w||!h)return;
-  cvs.width=w;cvs.height=h;
-  ctx2.drawImage(vid,0,0,w,h);
+  // 3. Canvas al 50% del tamaño original
+  const sw = Math.floor(w/2), sh = Math.floor(h/2);
+  cvs.width=sw;cvs.height=sh;
+  ctx2.drawImage(vid,0,0,sw,sh);
   try{
-    const img=ctx2.getImageData(0,0,w,h);
-    const code=jsQR(img.data,w,h,{inversionAttempts:'attemptBoth'});
+    const img=ctx2.getImageData(0,0,sw,sh);
+    const code=jsQR(img.data,sw,sh,{inversionAttempts:'attemptBoth'});
     if(code&&code.data&&code.data!==lastQR){lastQR=code.data;handleQR(code.data);}
   }catch(e){}
 }
 
-// ══ CARGAR TRABAJADORES + REGISTROS DEL DÍA ══
+// ══ CARGAR TRABAJADORES ══
 async function loadWorkers(){
   setPill('Cargando trabajadores...','');
   try{
-    // 1) Catálogo de trabajadores (Cloudflare Worker)
     const res = await fetch(API_URL + '?t=' + Date.now());
     if(!res.ok) throw new Error('HTTP ' + res.status);
     const json = await res.json();
+    console.log('Respuesta:', JSON.stringify(json).substring(0,100));
     const lista = json.workers || json || [];
-    if(!Array.isArray(lista) || lista.length === 0){
+    if(Array.isArray(lista) && lista.length > 0){
+      WORKERS = lista;
+      console.log('✅ Trabajadores:', WORKERS.length, 'Ejemplo:', JSON.stringify(WORKERS[0]));
+      const cnt = document.getElementById('refresh-count');
+      if(cnt) cnt.textContent = WORKERS.length + ' cargados';
+      setPill('✅ ' + WORKERS.length + ' trabajadores listos','ok');
+      setTimeout(()=>setPill('Apunta al QR de la credencial',''),2000);
+    } else {
+      console.warn('Sin trabajadores en respuesta:', json);
       setPill('Sin conexión — reintenta','warn');
-      return;
     }
-    WORKERS = lista;
-
-    // 2) Registros del día (Apps Script) — fusionar entrada/salida en cada worker
-    await fusionarRegistros();
-
-    const cnt = document.getElementById('refresh-count');
-    if(cnt) cnt.textContent = WORKERS.length + ' cargados';
-    setPill('✅ ' + WORKERS.length + ' trabajadores listos','ok');
-    setTimeout(()=>setPill('Apunta al QR de la credencial',''),2000);
   } catch(e){
     console.error('Error cargando trabajadores:', e);
     setPill('Error: ' + e.message,'err');
     setTimeout(()=>setPill('Apunta al QR de la credencial',''),3000);
   }
+  // Siempre cargar registros del día aunque falle la carga de trabajadores
+  await cargarRegistrosDelDia();
 }
 
-// Llama getRegistros al Apps Script, fusiona entrada/salida en WORKERS y en regs
-async function fusionarRegistros(){
+async function cargarRegistrosDelDia(){
   try{
     const dia = getDia();
-    const url = APPS_SCRIPT_URL + '?action=getRegistros&dia=' + dia + '&t=' + Date.now();
-    const res = await fetch(url);
+    const res = await fetch(API_URL + '?action=getRegistros&dia=' + encodeURIComponent(dia) + '&t=' + Date.now());
     if(!res.ok) return;
     const json = await res.json();
-    const registros = json.registros || [];
-    console.log('Registros hoy (' + dia + '):', registros.length);
-
-    // Mapa num -> {entrada, salida}
-    const mapa = {};
-    registros.forEach(r => {
-      const k = String(r.num||'').trim().replace(/\.0$/,'');
-      if(k) mapa[k] = {entrada: r.entrada||'', salida: r.salida||''};
-    });
-
-    // 1) Fusionar en WORKERS (para bloqueo de botones al escanear/buscar)
-    WORKERS.forEach(w => {
-      const match = mapa[w.id] || mapa[w.id.replace(/^0+/,'')];
-      if(match){
-        if(match.entrada) w.entrada = match.entrada;
-        if(match.salida)  w.salida  = match.salida;
-      }
-    });
-
-    // 2) Volcar en regs (para "Ver registros del dia" y contadores)
-    //    Nunca pisa lo que el checador ya registro localmente en esta sesion
-    registros.forEach(r => {
-      const num = String(r.num||'').trim().replace(/\.0$/,'');
-      if(!num) return;
-      const w = WORKERS.find(x => x.id === num || x.id.replace(/^0+/,'') === num.replace(/^0+/,''));
-      if(!regs[num]){
-        regs[num] = {
-          name:       w ? w.name      : 'Empleado ' + num,
-          num:        num,
-          date:       getFecha(),
-          puesto:     w ? w.puesto    : '',
-          encargado:  w ? w.encargado : '',
-          horasExtra: 0
-        };
-      }
-      if(r.entrada && !regs[num].entrada) regs[num].entrada = r.entrada;
-      if(r.salida  && !regs[num].salida)  regs[num].salida  = r.salida;
-    });
-
-    console.log('Fusion completa — regs:', Object.keys(regs).length);
+    if(json.registros && json.registros.length > 0){
+      json.registros.forEach(r => {
+        const num = String(r.num||'').trim();
+        if(!num) return;
+        if(!regs[num]) regs[num] = {name:'', num:num, date:getFecha()};
+        if(r.entrada && String(r.entrada).trim() !== '') regs[num].entrada = String(r.entrada).trim();
+        if(r.salida  && String(r.salida).trim()  !== '') regs[num].salida  = String(r.salida).trim();
+      });
+      console.log('✅ Registros del día cargados:', json.registros.length);
+    }
   } catch(e){
-    console.warn('No se pudieron cargar registros del dia:', e.message);
+    console.log('Sin registros previos del día:', e);
   }
 }
 
@@ -495,25 +467,31 @@ function handleQR(data){
   if(!num){setPill('QR no reconocido','err');setTimeout(()=>{lastQR='';setPill('Apunta al QR');},2000);return;}
   const padded=num.padStart(10,'0'),stripped=num.replace(/^0+/,'');
   const w=WORKERS.find(x=>x.id===num||x.id===padded||x.id.replace(/^0+/,'')=== stripped);
-  showCard({name:w?w.name:'Empleado '+padded,puesto:w?.puesto||'',foto:w?.foto||'',encargado:w?.encargado||'',alerta:w?.alerta||'',num:padded,rawNum:num});
+  if(!w){
+    setPill('⚠ No registrado en base de datos','err');
+    setTimeout(()=>{lastQR='';setPill('Apunta al QR de la credencial');},3000);
+    return;
+  }
+  showCard({name:w.name,puesto:w.puesto||'',foto:w.foto||'',encargado:w.encargado||'',alerta:w.alerta||'',num:padded,rawNum:num});
 }
 
 // ══ BÚSQUEDA MANUAL CON PREFIJO ══
+
+
+
+
 
 async function refreshWorkers(){
   const btn = document.getElementById('refresh-btn');
   btn.textContent = '⏳ Cargando...';
   btn.disabled = true;
   try{
-    // 1) Catálogo
     const res = await fetch(API_URL + '?t=' + Date.now());
     if(!res.ok) throw new Error('HTTP ' + res.status);
     const json = await res.json();
     const lista = json.workers || json || [];
     if(Array.isArray(lista) && lista.length > 0){
       WORKERS = lista;
-      // 2) Registros del día
-      await fusionarRegistros();
       document.getElementById('refresh-count').textContent = WORKERS.length + ' cargados';
       setPill('✅ ' + WORKERS.length + ' trabajadores','ok');
       setTimeout(()=>setPill('Apunta al QR de la credencial',''),2000);
@@ -545,24 +523,12 @@ function buscarManual(){
     showCard({name:w.name,puesto:w.puesto||'',foto:w.foto||'',encargado:w.encargado||'',alerta:w.alerta||'',num:w.id,rawNum:numCompleto});
     document.getElementById('manual-sfx').value='';
   } else {
-    setPill('No encontrado: '+numCompleto,'err');
+    setPill('⚠ No registrado en base de datos','err');
     setTimeout(()=>setPill('Apunta al QR de la credencial'),2000);
   }
 }
 
 // ══ MOSTRAR CARD ══
-// Detecta si un valor de celda indica que ya fue registrado
-// La BD puede guardar hora "HH:MM", número serial de Excel, o texto no vacío
-function tieneValor(v){
-  if(v===null||v===undefined||v==='')return false;
-  const s=String(v).trim();
-  if(s==='')return false;
-  // Número (serial de fecha/hora de Excel o cualquier número)
-  if(!isNaN(s)&&s!=='0'&&Number(s)!==0)return true;
-  // Texto con contenido (hora "08:30", string, etc.)
-  return s.length>0;
-}
-
 function showCard(d){
   current=d;
   const ini=d.name.trim().split(/\s+/).slice(0,2).map(n=>n[0]?.toUpperCase()||'').join('');
@@ -586,51 +552,22 @@ function showCard(d){
     alertaEl.style.display='none';
   }
 
-  // Consultar estado desde registro local Y desde el trabajador en BD
   const r=regs[d.num];
-  // El worker en WORKERS puede traer campos de BD: entrada, salida
-  const wDB=WORKERS.find(x=>x.id===d.num||x.id===d.rawNum||x.id.replace(/^0+/,'')=== String(d.rawNum||d.num).replace(/^0+/,''));
-  
-  // tieneEntrada = registrada localmente O ya venía con valor en BD
-  const entradaLocal=r?.entrada;
-  const entradaBD=wDB?.entrada;
-  const salidaLocal=r?.salida;
-  const salidaBD=wDB?.salida;
-  
-  const tieneEntrada = entradaLocal || tieneValor(entradaBD);
-  const tieneSalida  = salidaLocal  || tieneValor(salidaBD);
-
   let sub='',sc='#02C39A',blk=false;
-
   if(sesion.role==='verifier'){
-    if(!tieneEntrada){sub='✕ Sin entrada — no puede verificarse';sc='#f87171';blk=true;}
+    if(!r?.entrada){sub='✕ Sin entrada — no puede verificarse';sc='#f87171';blk=true;}
     else if(r?.verificado){sub='⚠ Ya verificado ('+r.verificado+')';sc='#f59e0b';}
     else sub='Confirmando presencia · Punto B';
   } else {
     if(turno==='entrada'){
-      if(tieneEntrada){
-        const horaRef=entradaLocal||( tieneValor(entradaBD)?'registrada en BD':'');
-        sub='🔒 Ya tiene entrada ('+horaRef+') — no se puede duplicar';
-        sc='#f87171';blk=true;
-      } else {
-        sub='Registrando entrada · Punto A';
-        sc='#02C39A';
-      }
-    } else { // salida
-      if(!tieneEntrada){
-        sub='✕ Sin entrada — no puede registrar salida';
-        sc='#f87171';blk=true;
-      } else if(tieneSalida){
-        const horaRef=salidaLocal||(tieneValor(salidaBD)?'registrada en BD':'');
-        sub='⚠ Ya registró salida ('+horaRef+')';
-        sc='#f59e0b';blk=true;
-      } else {
-        sub='Registrando salida · Punto A';
-        sc='#02C39A';
-      }
+      sub=r?.entrada?'⚠ Ya registró entrada ('+r.entrada+')':'Registrando entrada · Punto A';
+      sc=r?.entrada?'#f59e0b':'#02C39A';
+    } else {
+      if(!r?.entrada){sub='✕ Sin entrada — no puede registrar salida';sc='#f87171';blk=true;}
+      else if(r?.salida){sub='⚠ Ya registró salida ('+r.salida+')';sc='#f59e0b';}
+      else sub='Registrando salida · Punto A';
     }
   }
-
   document.getElementById('wsub').textContent=sub;
   document.getElementById('wsub').style.color=sc;
   const bok=document.getElementById('bok');
@@ -727,7 +664,7 @@ async function startVolteo(){
   show('volteo');
   resetVolteo();
   try{
-    vStream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:'environment',width:{ideal:1280},height:{ideal:720}}});
+    vStream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:'environment',width:{ideal:640},height:{ideal:480}}});
     vvid.srcObject=vStream;
     vvid.onloadedmetadata=()=>{vvid.play();requestAnimationFrame(vtick);};
   }catch(e){document.getElementById('vpill').textContent='Sin cámara';}
@@ -738,16 +675,21 @@ function stopVolteo(){
   if(vStream)vStream.getTracks().forEach(t=>t.stop());
   vStream=null;vvid.srcObject=null;
 }
+let _lastVTickTime = 0;
 function vtick(){
   vRafId=requestAnimationFrame(vtick);
   if(!jsqrOk||vvid.readyState<2||vvid.paused)return;
+  const now = Date.now();
+  if(now - _lastVTickTime < TICK_INTERVAL) return;
+  _lastVTickTime = now;
   const w=vvid.videoWidth,h=vvid.videoHeight;
   if(!w||!h)return;
-  vcvs.width=w;vcvs.height=h;
-  vctx.drawImage(vvid,0,0,w,h);
+  const sw=Math.floor(w/2),sh=Math.floor(h/2);
+  vcvs.width=sw;vcvs.height=sh;
+  vctx.drawImage(vvid,0,0,sw,sh);
   try{
-    const img=vctx.getImageData(0,0,w,h);
-    const code=jsQR(img.data,w,h,{inversionAttempts:'attemptBoth'});
+    const img=vctx.getImageData(0,0,sw,sh);
+    const code=jsQR(img.data,sw,sh,{inversionAttempts:'attemptBoth'});
     if(code&&code.data&&code.data!==vLastQR){vLastQR=code.data;handleVQR(code.data);}
   }catch(e){}
 }
