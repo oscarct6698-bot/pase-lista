@@ -178,7 +178,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   <div class="logo">📋</div>
   <div class="ltitle">Pase de Lista</div>
   <div class="lsub">Proyectos Ferroviarios · SEDENA · Frente 4</div>
-  <div class="lver">v02.05.2026 — build 59</div>
+  <div class="lver">v02.05.2026 — build 60</div>
   <div class="lcard">
     <div class="lf"><label>USUARIO</label><input id="lu" type="text" placeholder="Usuario" autocapitalize="none" autocorrect="off" spellcheck="false"></div>
     <div class="lf"><label>CONTRASEÑA</label><input id="lp" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
@@ -199,6 +199,11 @@ video{width:100%;height:100%;object-fit:cover;display:block}
       <button class="btn-xs" onclick="tryLogout()">Salir</button>
     </div>
     <div class="pill" id="pill">Apunta al QR de la credencial</div>
+    <!-- FOTO DEL TRABAJADOR — cubre la cámara al escanear -->
+    <div id="foto-overlay" style="display:none;position:absolute;inset:0;background:#000;z-index:10;flex-direction:column;align-items:center;justify-content:center">
+      <img id="wfoto" style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block">
+      <div id="wini" style="display:none;width:100%;height:100%;background:#1a3a2a;align-items:center;justify-content:center;font-size:100px;font-weight:700;color:#02C39A;position:absolute;inset:0"></div>
+    </div>
   </div>
   <div id="bot">
     <div class="trow" id="trow-turnos">
@@ -219,24 +224,23 @@ video{width:100%;height:100%;object-fit:cover;display:block}
       <span id="refresh-count" style="font-size:11px;color:#444;align-self:center;white-space:nowrap"></span>
     </div>
 
-    <div id="extra-wrap">
-      <div class="extra-label">Horas extra</div>
-      <div class="hrs-row" id="hrs-row"></div>
-    </div>
-    <div id="wcard">
-      <div class="wcard-inner">
-        <img id="wfoto" class="wcard-foto" src="">
-        <div id="wini" class="wcard-ini-big"></div>
-        <div class="wcard-body">
-          <div class="wcard-name" id="wname"></div>
-          <div class="wcard-sub" id="wsub"></div>
-          <div class="wcard-num" id="wnum"></div>
+    <!-- DATOS DEL TRABAJADOR (sin foto, va arriba) -->
+    <div id="wcard" style="display:none;background:#1a1a1a;border:1px solid #2d2d2d;border-radius:12px;overflow:hidden;margin-bottom:8px">
+      <div style="padding:10px 12px">
+        <div class="wcard-name" id="wname"></div>
+        <div class="wcard-sub" id="wsub"></div>
+        <div class="wcard-num" id="wnum"></div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
           <div class="wcard-puesto" id="wpuesto"></div>
           <div class="wcard-enc" id="wenc"></div>
-          <div class="wcard-alerta" id="walerta"></div>
         </div>
+        <div class="wcard-alerta" id="walerta"></div>
       </div>
-      <div class="brow" style="padding:0 10px 10px">
+      <div id="extra-wrap" style="display:none;background:#120e00;border-top:1px solid #c8a84b33;padding:8px 12px">
+        <div class="extra-label">Horas extra</div>
+        <div class="hrs-row" id="hrs-row"></div>
+      </div>
+      <div class="brow" style="padding:0 10px 10px;margin-top:4px">
         <button class="bcon bno" onclick="nope()">✕ Incorrecto</button>
         <button class="bcon bok" id="bok" onclick="confirm_()">✓ Correcto</button>
       </div>
@@ -585,12 +589,18 @@ function showCard(d){
   current=d;
   const ini=d.name.trim().split(/\s+/).slice(0,2).map(n=>n[0]?.toUpperCase()||'').join('');
   const foto=document.getElementById('wfoto'),iniEl=document.getElementById('wini');
-  iniEl.textContent=ini;iniEl.style.display='none';foto.style.display='block';
+  const fotoOverlay=document.getElementById('foto-overlay');
+
+  // Mostrar foto sobre la cámara
+  iniEl.textContent=ini;
+  iniEl.style.display='none';
+  foto.style.display='block';
   if(d.foto){
     let ti=0;const tries=[d.foto];
     foto.onerror=()=>{ti++;if(ti<tries.length){foto.src=tries[ti];}else{foto.style.display='none';iniEl.style.display='flex';}};
     foto.src=d.foto;
   } else {foto.style.display='none';iniEl.style.display='flex';}
+  fotoOverlay.style.display='flex';
 
   document.getElementById('wname').textContent=d.name;
   document.getElementById('wnum').textContent='No. '+d.num;
@@ -604,22 +614,16 @@ function showCard(d){
     alertaEl.style.display='none';
   }
 
-  // Consultar estado desde registro local Y desde el trabajador en BD
   const r=regs[d.num];
-  // El worker en WORKERS puede traer campos de BD: entrada, salida
   const wDB=WORKERS.find(x=>x.id===d.num||x.id===d.rawNum||x.id.replace(/^0+/,'')=== String(d.rawNum||d.num).replace(/^0+/,''));
-  
-  // tieneEntrada = registrada localmente O ya venía con valor en BD
   const entradaLocal=r?.entrada;
   const entradaBD=wDB?.entrada;
   const salidaLocal=r?.salida;
   const salidaBD=wDB?.salida;
-  
   const tieneEntrada = entradaLocal || tieneValor(entradaBD);
   const tieneSalida  = salidaLocal  || tieneValor(salidaBD);
 
   let sub='',sc='#02C39A',blk=false;
-
   if(sesion.role==='verifier'){
     if(!tieneEntrada){sub='✕ Sin entrada — no puede verificarse';sc='#f87171';blk=true;}
     else if(r?.verificado){sub='⚠ Ya verificado ('+r.verificado+')';sc='#f59e0b';}
@@ -627,14 +631,14 @@ function showCard(d){
   } else {
     if(turno==='entrada'){
       if(tieneEntrada){
-        const horaRef=entradaLocal||( tieneValor(entradaBD)?'registrada en BD':'');
+        const horaRef=entradaLocal||(tieneValor(entradaBD)?'registrada en BD':'');
         sub='🔒 Ya tiene entrada ('+horaRef+') — no se puede duplicar';
         sc='#f87171';blk=true;
       } else {
         sub='Registrando entrada · Punto A';
         sc='#02C39A';
       }
-    } else { // salida
+    } else {
       if(!tieneEntrada){
         sub='✕ Sin entrada — no puede registrar salida';
         sc='#f87171';blk=true;
@@ -707,6 +711,7 @@ function reset(){
   current=null;lastQR='';
   document.getElementById('wcard').style.display='none';
   document.getElementById('extra-wrap').style.display='none';
+  document.getElementById('foto-overlay').style.display='none';
   document.getElementById('manual-sfx').value='';
   document.getElementById('itxt').textContent='Escaneando...';
   setTimeout(()=>setPill('Apunta al QR de la credencial',''),1800);
