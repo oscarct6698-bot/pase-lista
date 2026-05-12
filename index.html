@@ -177,7 +177,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   <div class="logo">📋</div>
   <div class="ltitle">Pase de Lista</div>
   <div class="lsub">Proyectos Ferroviarios · SEDENA · Frente 4</div>
-  <div class="lver">v02.05.2026 — build 55</div>
+  <div class="lver">v02.05.2026 — build 56</div>
   <div class="lcard">
     <div class="lf"><label>USUARIO</label><input id="lu" type="text" placeholder="Usuario" autocapitalize="none" autocorrect="off" spellcheck="false"></div>
     <div class="lf"><label>CONTRASEÑA</label><input id="lp" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
@@ -433,37 +433,56 @@ async function loadWorkers(){
   }
 }
 
-// Llama getRegistros al Apps Script y pega entrada/salida en cada worker de WORKERS
+// Llama getRegistros al Apps Script, fusiona entrada/salida en WORKERS y en regs
 async function fusionarRegistros(){
   try{
-    const dia = getDia(); // ej. "LUN"
+    const dia = getDia();
     const url = APPS_SCRIPT_URL + '?action=getRegistros&dia=' + dia + '&t=' + Date.now();
     const res = await fetch(url);
     if(!res.ok) return;
     const json = await res.json();
     const registros = json.registros || [];
-    console.log('📋 Registros hoy (' + dia + '):', registros.length);
+    console.log('Registros hoy (' + dia + '):', registros.length);
 
-    // Crear mapa num → {entrada, salida} para búsqueda rápida
-    // El Apps Script devuelve num sin padding igual que lo guarda
+    // Mapa num -> {entrada, salida}
     const mapa = {};
     registros.forEach(r => {
       const k = String(r.num||'').trim().replace(/\.0$/,'');
       if(k) mapa[k] = {entrada: r.entrada||'', salida: r.salida||''};
     });
 
-    // Fusionar en WORKERS — comparar sin padding y con padding
+    // 1) Fusionar en WORKERS (para bloqueo de botones al escanear/buscar)
     WORKERS.forEach(w => {
-      const stripped = String(w.id).replace(/^0+/,'');
-      const match = mapa[w.id] || mapa[stripped] || mapa[w.id.replace(/^0+/,'')];
+      const match = mapa[w.id] || mapa[w.id.replace(/^0+/,'')];
       if(match){
         if(match.entrada) w.entrada = match.entrada;
         if(match.salida)  w.salida  = match.salida;
       }
     });
-    console.log('✅ Fusión completa');
+
+    // 2) Volcar en regs (para "Ver registros del dia" y contadores)
+    //    Nunca pisa lo que el checador ya registro localmente en esta sesion
+    registros.forEach(r => {
+      const num = String(r.num||'').trim().replace(/\.0$/,'');
+      if(!num) return;
+      const w = WORKERS.find(x => x.id === num || x.id.replace(/^0+/,'') === num.replace(/^0+/,''));
+      if(!regs[num]){
+        regs[num] = {
+          name:       w ? w.name      : 'Empleado ' + num,
+          num:        num,
+          date:       getFecha(),
+          puesto:     w ? w.puesto    : '',
+          encargado:  w ? w.encargado : '',
+          horasExtra: 0
+        };
+      }
+      if(r.entrada && !regs[num].entrada) regs[num].entrada = r.entrada;
+      if(r.salida  && !regs[num].salida)  regs[num].salida  = r.salida;
+    });
+
+    console.log('Fusion completa — regs:', Object.keys(regs).length);
   } catch(e){
-    console.warn('No se pudieron cargar registros del día:', e.message);
+    console.warn('No se pudieron cargar registros del dia:', e.message);
   }
 }
 
