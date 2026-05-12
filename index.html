@@ -50,7 +50,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 .pill.warn{border-color:#f59e0b;color:#f59e0b}
 
 /* BOTTOM */
-#bot{background:#111;padding:13px;flex-shrink:0}
+#bot{background:#111;padding:13px;flex-shrink:0;overflow-y:auto;max-height:60vh}
 .trow{display:flex;gap:7px;margin-bottom:9px}
 .tbtn{flex:1;padding:8px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #252525;background:#1a1a1a;color:#555;text-align:center}
 .tbtn.on{background:#c8a84b;color:#1a0f00;border-color:#c8a84b}
@@ -64,8 +64,8 @@ video{width:100%;height:100%;object-fit:cover;display:block}
 
 /* CARD TRABAJADOR */
 #wcard{display:none;background:#1a1a1a;border:1px solid #2d2d2d;border-radius:14px;overflow:hidden;margin-bottom:10px}
-.wcard-foto{width:100%;height:280px;object-fit:contain;object-position:center;display:block;background:#111}
-.wcard-ini-big{width:100%;height:280px;background:#1a3a2a;display:none;align-items:center;justify-content:center;font-size:80px;font-weight:700;color:#02C39A}
+.wcard-foto{width:100%;height:180px;object-fit:contain;object-position:center;display:block;background:#111}
+.wcard-ini-big{width:100%;height:180px;background:#1a3a2a;display:none;align-items:center;justify-content:center;font-size:80px;font-weight:700;color:#02C39A}
 .wcard-body{padding:13px}
 .wcard-name{font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;line-height:1.2}
 .wcard-sub{font-size:12px;margin-bottom:3px}
@@ -177,7 +177,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   <div class="logo">📋</div>
   <div class="ltitle">Pase de Lista</div>
   <div class="lsub">Proyectos Ferroviarios · SEDENA · Frente 4</div>
-  <div class="lver">v02.05.2026 — build 57</div>
+  <div class="lver">v02.05.2026 — build 58</div>
   <div class="lcard">
     <div class="lf"><label>USUARIO</label><input id="lu" type="text" placeholder="Usuario" autocapitalize="none" autocorrect="off" spellcheck="false"></div>
     <div class="lf"><label>CONTRASEÑA</label><input id="lp" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
