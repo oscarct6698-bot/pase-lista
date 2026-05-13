@@ -178,7 +178,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   <div class="logo">📋</div>
   <div class="ltitle">Pase de Lista</div>
   <div class="lsub">Proyectos Ferroviarios · SEDENA · Frente 4</div>
-  <div class="lver">v02.05.2026 — build 62</div>
+  <div class="lver">v02.05.2026 — build 63</div>
   <div class="lcard">
     <div class="lf"><label>USUARIO</label><input id="lu" type="text" placeholder="Usuario" autocapitalize="none" autocorrect="off" spellcheck="false"></div>
     <div class="lf"><label>CONTRASEÑA</label><input id="lp" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
@@ -378,8 +378,8 @@ sc.onload=()=>{jsqrOk=true;};
 document.head.appendChild(sc);
 
 // ── Límite de FPS para el escáner ──────────────────────────────────────────
-const SCAN_FPS = 10;
-const SCAN_INTERVAL = 1000 / SCAN_FPS; // 100 ms entre frames
+const SCAN_FPS = 20;
+const SCAN_INTERVAL = 1000 / SCAN_FPS; // 50 ms entre frames
 let lastScanTime = 0;
 
 async function startCam(){
@@ -517,7 +517,12 @@ function handleQR(data){
   if(!num){setPill('QR no reconocido','err');setTimeout(()=>{lastQR='';setPill('Apunta al QR');},2000);return;}
   const padded=num.padStart(10,'0'),stripped=num.replace(/^0+/,'');
   const w=WORKERS.find(x=>x.id===num||x.id===padded||x.id.replace(/^0+/,'')=== stripped);
-  showCard({name:w?w.name:'Empleado '+padded,puesto:w?.puesto||'',foto:w?.foto||'',encargado:w?.encargado||'',alerta:w?.alerta||'',num:padded,rawNum:num});
+  if(!w){
+    setPill('⛔ No registrado en base de datos','err');
+    setTimeout(()=>{lastQR='';setPill('Apunta al QR de la credencial','');},3000);
+    return;
+  }
+  showCard({name:w.name,puesto:w.puesto||'',foto:w.foto||'',encargado:w.encargado||'',alerta:w.alerta||'',num:w.id,rawNum:num});
 }
 
 // ══ BÚSQUEDA MANUAL CON PREFIJO ══
@@ -555,7 +560,6 @@ function buscarManual(){
   const numCompleto=PREFIJO+sfx;
   const padded=numCompleto.padStart(10,'0');
   const stripped=numCompleto.replace(/^0+/,'');
-  // Buscar por sufijo, número completo, o número con padding
   const w=WORKERS.find(x=>
     x.id===numCompleto ||
     x.id===padded ||
@@ -567,8 +571,8 @@ function buscarManual(){
     showCard({name:w.name,puesto:w.puesto||'',foto:w.foto||'',encargado:w.encargado||'',alerta:w.alerta||'',num:w.id,rawNum:numCompleto});
     document.getElementById('manual-sfx').value='';
   } else {
-    setPill('No encontrado: '+numCompleto,'err');
-    setTimeout(()=>setPill('Apunta al QR de la credencial'),2000);
+    setPill('⛔ No. '+numCompleto+' no está en base de datos','err');
+    setTimeout(()=>setPill('Apunta al QR de la credencial',''),3000);
   }
 }
 
