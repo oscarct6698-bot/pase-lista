@@ -178,7 +178,7 @@ video{width:100%;height:100%;object-fit:cover;display:block}
   <div class="logo">📋</div>
   <div class="ltitle">Pase de Lista</div>
   <div class="lsub">Proyectos Ferroviarios · SEDENA · Frente 4</div>
-  <div class="lver">v02.05.2026 — build 63</div>
+  <div class="lver">v02.05.2026 — build 65</div>
   <div class="lcard">
     <div class="lf"><label>USUARIO</label><input id="lu" type="text" placeholder="Usuario" autocapitalize="none" autocorrect="off" spellcheck="false"></div>
     <div class="lf"><label>CONTRASEÑA</label><input id="lp" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
@@ -326,10 +326,36 @@ const PREFIJO = '027640'; // Prefijo común de todos los trabajadores
 
 let WORKERS = [];
 let users = [
-  {user:'checador1',  pass:'Check01!',  name:'Checador 1',   role:'checker'},
-  {user:'checador2',  pass:'Check02!',  name:'Checador 2',   role:'checker'},
-  {user:'verificador1',pass:'Verif01!', name:'Verificador 1',role:'verifier'},
-  {user:'volteo1',    pass:'Volteo01!', name:'Checador Volteos',role:'volteo'},
+  {user:'checador1',   pass:'Check01!',   name:'Checador 1',          role:'checker'},
+  {user:'checador2',   pass:'Check02!',   name:'Checador 2',          role:'checker'},
+  {user:'checador3',   pass:'Check03!',   name:'Checador 3',          role:'checker'},
+  {user:'checador4',   pass:'Check04!',   name:'Checador 4',          role:'checker'},
+  {user:'checador5',   pass:'Check05!',   name:'Checador 5',          role:'checker'},
+  {user:'checador6',   pass:'Check06!',   name:'Checador 6',          role:'checker'},
+  {user:'checador7',   pass:'Check07!',   name:'Checador 7',          role:'checker'},
+  {user:'checador8',   pass:'Check08!',   name:'Checador 8',          role:'checker'},
+  {user:'checador9',   pass:'Check09!',   name:'Checador 9',          role:'checker'},
+  {user:'checador10',  pass:'Check10!',   name:'Checador 10',         role:'checker'},
+  {user:'verificador1', pass:'Verif01!',  name:'Verificador 1',       role:'verifier'},
+  {user:'verificador2', pass:'Verif02!',  name:'Verificador 2',       role:'verifier'},
+  {user:'verificador3', pass:'Verif03!',  name:'Verificador 3',       role:'verifier'},
+  {user:'verificador4', pass:'Verif04!',  name:'Verificador 4',       role:'verifier'},
+  {user:'verificador5', pass:'Verif05!',  name:'Verificador 5',       role:'verifier'},
+  {user:'verificador6', pass:'Verif06!',  name:'Verificador 6',       role:'verifier'},
+  {user:'verificador7', pass:'Verif07!',  name:'Verificador 7',       role:'verifier'},
+  {user:'verificador8', pass:'Verif08!',  name:'Verificador 8',       role:'verifier'},
+  {user:'verificador9', pass:'Verif09!',  name:'Verificador 9',       role:'verifier'},
+  {user:'verificador10',pass:'Verif10!',  name:'Verificador 10',      role:'verifier'},
+  {user:'volteo1',     pass:'Volteo01!',  name:'Checador Volteos 1',  role:'volteo'},
+  {user:'volteo2',     pass:'Volteo02!',  name:'Checador Volteos 2',  role:'volteo'},
+  {user:'volteo3',     pass:'Volteo03!',  name:'Checador Volteos 3',  role:'volteo'},
+  {user:'volteo4',     pass:'Volteo04!',  name:'Checador Volteos 4',  role:'volteo'},
+  {user:'volteo5',     pass:'Volteo05!',  name:'Checador Volteos 5',  role:'volteo'},
+  {user:'volteo6',     pass:'Volteo06!',  name:'Checador Volteos 6',  role:'volteo'},
+  {user:'volteo7',     pass:'Volteo07!',  name:'Checador Volteos 7',  role:'volteo'},
+  {user:'volteo8',     pass:'Volteo08!',  name:'Checador Volteos 8',  role:'volteo'},
+  {user:'volteo9',     pass:'Volteo09!',  name:'Checador Volteos 9',  role:'volteo'},
+  {user:'volteo10',    pass:'Volteo10!',  name:'Checador Volteos 10', role:'volteo'},
 ];
 
 let regs={}, volteoRegs=[], sesion=null, turno='entrada', current=null;
@@ -391,6 +417,10 @@ async function startCam(){
   if(isV) turno='verificar';
   buildHrs();
   loadWorkers();
+  // Auto-refresh silencioso cada 60 segundos
+  autoRefreshId = setInterval(async ()=>{
+    if(!current) await fusionarRegistros();
+  }, 60000);
   try{
     // 640x480 — menos datos, jsQR funciona igual de bien
     stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:'environment',width:{ideal:640},height:{ideal:480}}});
@@ -398,8 +428,10 @@ async function startCam(){
     vid.onloadedmetadata=()=>{vid.play();requestAnimationFrame(tick);};
   }catch(e){setPill('Sin cámara — usa búsqueda manual','err');}
 }
+let autoRefreshId = null;
 function stopCam(){
   if(rafId)cancelAnimationFrame(rafId);
+  if(autoRefreshId){clearInterval(autoRefreshId);autoRefreshId=null;}
   if(stream)stream.getTracks().forEach(t=>t.stop());
   stream=null;vid.srcObject=null;
 }
